@@ -27,7 +27,7 @@ width: 220px;
 height: 220px;
 border-radius: 10px;
 background-color: #393e46;
-border: 1px solid #32e0c4;
+border: 1px solid #ffffff;
 }
 
 QPushButton:Hover{
@@ -44,7 +44,7 @@ background-color:#32e0c4;
          <bool>true</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: #32e0c4;
+         <string notr="true">background-color:white;
 image: url(:/img/BITS png.png);
 width: 1047px;
 height: 188px;</string>

@@ -8,7 +8,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import icons
 
 
 class Ui_MainWindow(object):
@@ -26,7 +25,7 @@ class Ui_MainWindow(object):
 "height: 220px;\n"
 "border-radius: 10px;\n"
 "background-color: #393e46;\n"
-"border: 1px solid #32e0c4;\n"
+"border: 1px solid #ffffff;\n"
 "}\n"
 "\n"
 "QPushButton:Hover{\n"
@@ -40,7 +39,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setEnabled(True)
-        self.label.setStyleSheet("background-color: #32e0c4;\n"
+        self.label.setStyleSheet("background-color:white;\n"
 "image: url(:/img/BITS png.png);\n"
 "width: 1047px;\n"
 "height: 188px;")
@@ -302,7 +301,7 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Company Drives</span></p></body></html>"))
         self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Report</span></p></body></html>"))
         self.label_9.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Export</span></p></body></html>"))
-
+import hi_rc
 
 
 if __name__ == "__main__":
