@@ -17,6 +17,7 @@ class Ui_LoginPage(object):
         self.window = QtWidgets.QMainWindow()  # create an object of the window we want to connect
         self.ui = Ui_MainWindow()  # get all ui elements in the ui_object from the class of another file
         self.ui.setupUi(self.window)  # assign ui to object
+        LoginPage.hide() # hides the login window n opens home page
         self.window.show()
 
     def setupUi(self, LoginPage):
