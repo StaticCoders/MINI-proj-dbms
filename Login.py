@@ -22,7 +22,7 @@ class Ui_LoginPage(object):
 
     def setupUi(self, LoginPage):
         LoginPage.setObjectName("LoginPage")
-        LoginPage.resize(1103, 735)
+        LoginPage.resize(1920, 1080)
         LoginPage.setStyleSheet("background-color: qconicalgradient(cx:0.818, cy:0, angle:0, stop:0.568182 rgba(0, 160, 187, 255), stop:0.954545 rgba(255, 0, 75, 255));")
         LoginPage.setSizeGripEnabled(False)
         self.gridLayout = QtWidgets.QGridLayout(LoginPage)
