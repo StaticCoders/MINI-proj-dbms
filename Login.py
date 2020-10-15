@@ -9,8 +9,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from HomePage import Ui_MainWindow
+
 
 class Ui_LoginPage(object):
+    def openWindow(self):
+        self.window = QtWidgets.QMainWindow()  # create an object of the window we want to connect
+        self.ui = Ui_MainWindow()  # get all ui elements in the ui_object from the class of another file
+        self.ui.setupUi(self.window)  # assign ui to object
+        self.window.show()
+
     def setupUi(self, LoginPage):
         LoginPage.setObjectName("LoginPage")
         LoginPage.resize(1103, 735)
@@ -70,6 +78,9 @@ class Ui_LoginPage(object):
         self.pushButton = QtWidgets.QPushButton(self.frame)
         self.pushButton.setGeometry(QtCore.QRect(160, 350, 111, 41))
         self.pushButton.setObjectName("pushButton")
+
+        self.pushButton.clicked.connect(self.openWindow) # connect to the window when we click this button
+
         self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
 
         self.retranslateUi(LoginPage)
