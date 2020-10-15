@@ -8,6 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import icons
 
 
 class Ui_MainWindow(object):
@@ -301,7 +302,7 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Company Drives</span></p></body></html>"))
         self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Report</span></p></body></html>"))
         self.label_9.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Export</span></p></body></html>"))
-import hi_rc
+
 
 
 if __name__ == "__main__":

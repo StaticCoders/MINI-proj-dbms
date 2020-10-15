@@ -82,7 +82,7 @@ class Ui_LoginPage(object):
         self.lineEdit.setPlaceholderText(_translate("LoginPage", "Username"))
         self.lineEdit_2.setPlaceholderText(_translate("LoginPage", "Password"))
         self.pushButton.setText(_translate("LoginPage", "ENTER"))
-import hi_rc
+import icons
 
 
 if __name__ == "__main__":
