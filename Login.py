@@ -11,7 +11,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from HomePage import Ui_MainWindow
 
-
 class Ui_LoginPage(object):
     def openWindow(self):
         self.window = QtWidgets.QMainWindow()  # create an object of the window we want to connect
