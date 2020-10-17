@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="img">
+    <file>BITS png.png</file>
     <file>profileimg.png</file>
     <file>add.png</file>
     <file>batch.png</file>
