@@ -9,28 +9,34 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import icon
+from Registration import *
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
+        # MainWindow.setWindowState(QtCore.Qt.WindowMaximized)
         MainWindow.resize(1900, 1000)
+        # MainWindow.setWindowState(QtCore.Qt.WindowMaximized)
+        MainWindow.setWindowTitle("Home")
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet("QMainWindow\n"
-"{\n"
-"background-color: #222831;\n"
-"}\n"
-"QPushButton{\n"
-"color:#ffffff;\n"
-"width: 220px;\n"
-"height: 220px;\n"
-"border-radius: 10px;\n"
-"background-color: #393e46;\n"
-"border: 1px solid #ffffff;\n"
-"}\n"
-"\n"
-"QPushButton:Hover{\n"
-"background-color:#32e0c4;\n"
-"}")
+                                 "{\n"
+                                 "background-color: #000000;\n"
+                                 "}\n"
+                                 "QPushButton{\n"
+                                 "color:#eeeeee;\n"
+                                 "width: 220px;\n"
+                                 "height: 220px;\n"
+                                 "border-radius: 10px;\n"
+                                 "background-color: #52057b;\n"
+                                 "border: 3px solid #bc6ff1;\n"
+                                 "}\n"
+                                 "\n"
+                                 "QPushButton:Hover{\n"
+                                 "background-color:#892cdc;\n"
+                                 "border: 3px solid #52057b;\n"
+                                 "}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -39,10 +45,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setEnabled(True)
-        self.label.setStyleSheet("background-color:white;\n"
-"image: url(:/img/BITS png.png);\n"
-"width: 1047px;\n"
-"height: 188px;")
+        self.label.setStyleSheet("background-color:#eeeeee;\n"
+                                 "image: url(:/img/BITS png.png);\n"
+                                 "width: 1047px;\n"
+                                 "height: 188px;")
         self.label.setText("")
         self.label.setObjectName("label")
         self.verticalLayout_10.addWidget(self.label)
@@ -53,7 +59,7 @@ class Ui_MainWindow(object):
         self.label_10.setFont(font)
         self.label_10.setMouseTracking(True)
         self.label_10.setStyleSheet("color: rgb(50, 224, 196);\n"
-"color: rgb(238, 238, 238);")
+                                    "color: #bc6ff1;")
         self.label_10.setObjectName("label_10")
         self.verticalLayout_10.addWidget(self.label_10)
         self.gridLayout.addLayout(self.verticalLayout_10, 0, 0, 1, 1)
@@ -65,19 +71,19 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.registeration = QtWidgets.QPushButton(self.centralwidget)
+        self.registration = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.registeration.setFont(font)
-        self.registeration.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.registeration.setStyleSheet("")
-        self.registeration.setText("")
+        self.registration.setFont(font)
+        self.registration.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.registration.setStyleSheet("")
+        self.registration.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/img/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.registeration.setIcon(icon)
-        self.registeration.setIconSize(QtCore.QSize(60, 60))
-        self.registeration.setObjectName("registeration")
-        self.verticalLayout.addWidget(self.registeration)
+        self.registration.setIcon(icon)
+        self.registration.setIconSize(QtCore.QSize(60, 60))
+        self.registration.setObjectName("registration")
+        self.verticalLayout.addWidget(self.registration)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -284,31 +290,50 @@ class Ui_MainWindow(object):
         self.statusBar = QtWidgets.QStatusBar(MainWindow)
         self.statusBar.setObjectName("statusBar")
         MainWindow.setStatusBar(self.statusBar)
-
+        # self.registration.clicked.connect(self.registrationButton)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    # def registrationButton(self):
+    #     self.Registration = QtWidgets.QMainWindow()
+    #     self.ui = Ui_RegistrationWindow()
+    #     self.ui.setupUi(self.Registration)
+    #     self.Registration.setWindowState(QtCore.Qt.WindowMaximized)
+    #     self.Registration.setWindowTitle("Registration")
+    #     self.Registration.show()
+    #     MainWindow.hide()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_10.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">HOME</p></body></html>"))
-        self.registeration.setToolTip(_translate("MainWindow", "New Registeration"))
-        self.label_2.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Registeration</span></p></body></html>"))
-        self.label_3.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Batches</span></p></body></html>"))
-        self.label_4.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Payment</span></p></body></html>"))
-        self.label_5.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Update</span></p></body></html>"))
-        self.label_6.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Search</span></p></body></html>"))
-        self.label_7.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Company Drives</span></p></body></html>"))
-        self.label_8.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Report</span></p></body></html>"))
-        self.label_9.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt;\">Export</span></p></body></html>"))
-#import icons1
+        self.registration.setToolTip(_translate("MainWindow", "New Registration"))
+        self.label_2.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Registration</span></p></body></html>"))
+        self.label_3.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Batches</span></p></body></html>"))
+        self.label_4.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Payment</span></p></body></html>"))
+        self.label_5.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Update</span></p></body></html>"))
+        self.label_6.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Search</span></p></body></html>"))
+        self.label_7.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Company Drives</span></p></body></html>"))
+        self.label_8.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Report</span></p></body></html>"))
+        self.label_9.setText(_translate("MainWindow",
+                                        "<html><head/><body><p><span style=\" font-size:16pt;\">Export</span></p></body></html>"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+# import icons1
+
+#
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = Ui_MainWindow()
+#     ui.setupUi(MainWindow)
+#     MainWindow.show()
+#     sys.exit(app.exec_())
