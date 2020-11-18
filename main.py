@@ -12,9 +12,9 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="tanvi7102",
+    database="dbmsmini"
 )
 
 
