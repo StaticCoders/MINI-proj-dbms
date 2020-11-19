@@ -35,18 +35,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showMaximized()
 
     def startRegistration(self):
+        # Starts the Registration tab.
         self.registration = Ui_RegistrationWindow()
         self.registration.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Registration")
-        self.registration.closeButton.clicked.connect(self.startHome)
-        self.registration.registerButton.clicked.connect(self.register)
+        self.registration.closeButton.clicked.connect(self.startHome) 
+        self.registration.registerButton.clicked.connect(self.register)  # Start the new student register Tab
         self.hide()
-        self.showMaximized()
+        self.showMaximized()  # maxmizes the Window
 
     # FUNCTIONS IN REGISTERATION TAB
 
     def register(self):
+
+        # Get the text from all the text  Boxes
         fname = self.registration.fNameIp.text()
         mname = self.registration.mNameIp.text()
         lname = self.registration.lNameIp.text()
@@ -58,6 +61,8 @@ class MainWindow(QtWidgets.QMainWindow):
         i = 0
         result = ()
         mycursor = mydb.cursor()
+
+        # To check if any of the Text fields were Empty. If yes display a error message in the label hid.
         if fname == "" or mname == "" or lname == "" or phone == "" or address == "" or education == "":
             self.registration.warningLabel.show()
         else:
@@ -65,7 +70,7 @@ class MainWindow(QtWidgets.QMainWindow):
             sql = "INSERT INTO student_info (first_name,middle_name,last_name,date_of_admission,phone,address," \
                   "education,experience,referral) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
             val = (fname, mname, lname, tdate, phone, address, education, experience, referral)
-            mycursor.execute(sql, val)
+            mycursor.execute(sql, val) # insert all the values taken to the database
             if mycursor.rowcount == 1:
                 print("Data inserted successfully!")
             else:
@@ -73,12 +78,12 @@ class MainWindow(QtWidgets.QMainWindow):
             mydb.commit()
             getid = "select student_id from student_info order by student_id desc limit 1;"
             mycursor.execute(getid)
-            result = mycursor.fetchone()
-            courseChecked = []
+            result = mycursor.fetchone()     # Fetch the StudentID of latest Student entered.
+            courseChecked = []               # All the courses selected will be appended in this list
             while self.registration.model.item(i):
-                if self.registration.model.item(i).checkState():
+                if self.registration.model.item(i).checkState():     # if the course was checked
                     courseChecked.append(self.registration.model.item(i).text())
-                    self.registration.model.item(i).setCheckState(False)
+                    self.registration.model.item(i).setCheckState(False)  # Uncheck the course items 
                 i += 1
             i = 0
             for x in courseChecked:
@@ -93,6 +98,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 else:
                     print("Problem occurred while inserting data")
                 mydb.commit()
+
+                # Clear all the fields after taking the data
                 self.registration.fNameIp.clear()
                 self.registration.mNameIp.clear()
                 self.registration.lNameIp.clear()
@@ -109,7 +116,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.setText("Registration Successful")
         text = "StudentID: " + str(result[
                                        0]) + "\nName: " + fname + " " + mname + " " + lname + "\nPhone: " + phone + "\nAddress: " + address + "\nEducation: " + education + "\nExperience: " + experience + "\nReferred By: " + referral
-        msg.setInformativeText(text)
+        msg.setInformativeText(text) # A dialog box that displays the information of the student added
         x = msg.exec_()
         self.startHome()
 
