@@ -132,6 +132,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
 
+# Add Installment Tab
     def addInstallment(self):
         self.newinstallment = Ui_InstallmentWindow()
         self.newinstallment.setupUi(self)
