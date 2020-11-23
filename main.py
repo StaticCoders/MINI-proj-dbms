@@ -8,13 +8,16 @@
 from PyQt5.QtWidgets import QMessageBox
 from Registration import *
 from HomePage import *
+from chooseInPayment import *
+from AddInstallments import *
+
 import mysql.connector
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
     password="tanvi7102",
-    database="dbmsmini"
+    database="mpdev"
 )
 
 
@@ -31,6 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Home")
         self.homescreen.registration.clicked.connect(self.startRegistration)
+        self.homescreen.Payment.clicked.connect(self.startPayment)
         self.hide()
         self.showMaximized()
 
@@ -118,6 +122,28 @@ class MainWindow(QtWidgets.QMainWindow):
     # FUNCTIONS IN BATCHES TAB
     # FUNCTIONS IN UPDATE TAB
     # FUNCTIONS IN PAYMENT TAB
+    def startPayment(self):
+        self.payment = Ui_PaymentWindow()
+        self.payment.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("Payment")
+        self.payment.cancelButton.clicked.connect(self.startHome)
+        self.payment.installmentButton.clicked.connect(self.addInstallment)
+        self.hide()
+        self.showMaximized()
+
+    def addInstallment(self):
+        self.newinstallment = Ui_InstallmentWindow()
+        self.newinstallment.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("Add Installments")
+        self.newinstallment.cancelButton.clicked.connect(self.startPayment)
+        #add functions
+        self.hide()
+        self.showMaximized()
+
+
+
 
 
 if __name__ == "__main__":
