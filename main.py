@@ -6,15 +6,20 @@
 # FUNCTIONS IN PAYMENT TAB
 
 from PyQt5.QtWidgets import QMessageBox
+
 from Registration import *
 from HomePage import *
+# For Company Drives
+from AddCompanyDrive_Final import *     # To actually add a drive
+from add_company import *               # To add a company
+from CompanyDriveMain import *          # The main window to show the options
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    host="localhost",
+    user="root",
+    password="amigobong",
+    database="db01"
 )
 
 
@@ -31,6 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Home")
         self.homescreen.registration.clicked.connect(self.startRegistration)
+        self.homescreen.companydrives.clicked.connect(self.startCompanyDrives)
         self.hide()
         self.showMaximized()
 
@@ -48,6 +54,7 @@ class MainWindow(QtWidgets.QMainWindow):
     # FUNCTIONS IN REGISTERATION TAB
 
     def register(self):
+
 
         # Get the text from all the text  Boxes
         fname = self.registration.fNameIp.text()
@@ -119,6 +126,30 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.setInformativeText(text) # A dialog box that displays the information of the student added
         x = msg.exec_()
         self.startHome()
+
+    def startCompanyDrives(self):   # This is open the Window of Company Drive with the options
+        self.companyDrive = Ui_ComanyDriveMain()
+        self.companyDrive.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("Company Drives")
+        self.companyDrive.addDrive_Button.clicked.connect(self.addCompanyDrive)
+        self.companyDrive.addCompany_Button.clicked.connect(self.addCompany)
+        self.companyDrive.backHome_Button.clicked.connect(self.startHome)
+        self.hide()
+        self.showMaximized()
+
+    def addCompanyDrive(self):   # This will open the Add Drive Window
+        self.addcompanydrive  = Ui_AddDrive()
+        self.addcompanydrive.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.showMaximized()
+        self.addcompanydrive.cancel_Button.clicked.connect(self.startCompanyDrives) # if he clicks cancel while adding Drive go back to CompanyDrive  main
+
+    def addCompany(self):
+        self.addcompany  = Ui_AddCompany_Dailog()
+        self.x = QtWidgets.QDialog()
+        self.addcompany.setupUi(self.x)
+        self.x.show()
 
     # FUNCTIONS IN SEARCH TAB
 

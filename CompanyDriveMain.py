@@ -158,20 +158,20 @@ class Ui_ComanyDriveMain(object):
 
         ######## Added Code ########
 
-        self.addCompany_Button.clicked.connect(self.startAddCompany)      # Calls the Add Company Dailog Box
-        self.addDrive_Button.clicked.connect(self.startAddDrive)
-        self.backHome_Button.clicked.connect(lambda: exit())
-
-    def startAddDrive(self):
-        self.adddrive = Ui_AddDrive()
-        self.adddrive.setupUi(self)
-        self.setWindowState(QtCore.Qt.WindowMaximized)
-
-    def startAddCompany(self):
-        self.addCompanyobj = Ui_AddCompany_Dailog()
-        AddCompany_Dailog = QtWidgets.QDialog()
-        self.addCompanyobj.setupUi(AddCompany_Dailog)
-        AddCompany_Dailog.show()
+    #     self.addCompany_Button.clicked.connect(self.startAddCompany)      # Calls the Add Company Dailog Box
+    #     self.addDrive_Button.clicked.connect(self.startAddDrive)
+    #     self.backHome_Button.clicked.connect(lambda: exit())
+    #
+    # def startAddDrive(self):
+    #     self.adddrive = Ui_AddDrive()
+    #     self.adddrive.setupUi(self)
+    #     self.setWindowState(QtCore.Qt.WindowMaximized)
+    #
+    # def startAddCompany(self):
+    #     self.addCompanyobj = Ui_AddCompany_Dailog()
+    #     AddCompany_Dailog = QtWidgets.QDialog()
+    #     self.addCompanyobj.setupUi(AddCompany_Dailog)
+    #     AddCompany_Dailog.show()
 
         ######## End of Added Code ########
 

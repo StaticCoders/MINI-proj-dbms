@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 #####Added Code#####
+from CompanyDriveMain import *
 from PyQt5.QtCore import QDate  # used for the DateWidget
 # Completer for LineEdit and a MessageBox
 from PyQt5.QtWidgets import QCompleter, QMessageBox
@@ -243,7 +244,6 @@ class Ui_AddDrive(object):
         self.comanyName_lineEdit.editingFinished.connect(self.companyCheck)
         self.studentName_lineEdit.textChanged.connect(self.showNameSuggestions)
         self.addDrive_Button.clicked.connect(self.addDrive)
-        self.cancel_Button.clicked.connect(lambda: exit())
 
     def companyCheck(self):
         #Checks if the Company entered is added to the system or not
@@ -334,6 +334,7 @@ class Ui_AddDrive(object):
         self.nameSuggestion_list.clear()
         self.nameAdded_list.clear()
         return
+
 
     ###### End if Added Code #########
 
