@@ -10,6 +10,7 @@ from Registration import *
 from HomePage import *
 from chooseInPayment import *
 from AddInstallments import *
+from newTransaction import *
 
 import mysql.connector
 
@@ -129,6 +130,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Payment")
         self.payment.cancelButton.clicked.connect(self.startHome)
         self.payment.installmentButton.clicked.connect(self.addInstallment)
+        self.payment.transactionButton.clicked.connect(self.newTransaction)
         self.hide()
         self.showMaximized()
 
@@ -139,6 +141,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Add Installments")
         self.newinstallment.cancelButton.clicked.connect(self.startPayment)
+        #add functions
+        self.hide()
+        self.showMaximized()
+
+#New transaction tab
+    def newTransaction(self):
+        self.newtransaction = Ui_TransactionWindow()
+        self.newtransaction.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("New Transaction")
+        self.newtransaction.cancelButton.clicked.connect(self.startPayment)
         #add functions
         self.hide()
         self.showMaximized()
