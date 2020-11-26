@@ -83,7 +83,6 @@ class Ui_AddCompany_Dailog(object):
 
         self.warningLabel.hide()  #Hide the Warning Label
         self.addCompany_Button.clicked.connect(self.add_Company)
-        self.cancelButton.clicked.connect(lambda: exit())
 
     def add_Company(self):
         c_name = self.companyName_Label.text().strip() # Taking the Company Name from TextBox

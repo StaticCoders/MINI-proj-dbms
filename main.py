@@ -12,6 +12,7 @@ from HomePage import *
 # For Company Drives
 from AddCompanyDrive_Final import *     # To actually add a drive
 from add_company import *               # To add a company
+from viewDrive import *
 from CompanyDriveMain import *          # The main window to show the options
 import mysql.connector
 
@@ -134,6 +135,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Company Drives")
         self.companyDrive.addDrive_Button.clicked.connect(self.addCompanyDrive)
         self.companyDrive.addCompany_Button.clicked.connect(self.addCompany)
+        self.companyDrive.viewDrive_Button.clicked.connect(self.viewDriveCall)
         self.companyDrive.backHome_Button.clicked.connect(self.startHome)
         self.hide()
         self.showMaximized()
@@ -149,7 +151,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addcompany  = Ui_AddCompany_Dailog()
         self.x = QtWidgets.QDialog()
         self.addcompany.setupUi(self.x)
+        self.addcompany.cancelButton.clicked.connect(self.startCompanyDrives)
         self.x.show()
+    def viewDriveCall(self):
+        self.viewdrive = Ui_ViewDrive()
+        self.viewdrive.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.showMaximized()
+        self.viewdrive.back_Button.clicked.connect(self.startCompanyDrives)
 
     # FUNCTIONS IN SEARCH TAB
 

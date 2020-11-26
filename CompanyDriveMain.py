@@ -10,8 +10,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 ######### Added Code #######
-from add_company import *  # Adding the Add company Dialog Box.
-from AddCompanyDrive_Final import *
+#from add_company import *  # Adding the Add company Dialog Box.
+#from AddCompanyDrive_Final import *
+#from viewDrive import *
 ######### End of Added Code ######
 
 class Ui_ComanyDriveMain(object):

@@ -237,8 +237,7 @@ class Ui_AddDrive(object):
         else:
             lst = []
         completer = QCompleter(lst, self.comanyName_lineEdit)
-        self.comanyName_lineEdit.setCompleter(
-            completer)  # The Completer Set here
+        self.comanyName_lineEdit.setCompleter(completer)  # The Completer Set here
         self.companyWarning_label.hide()
         # editingFinished means when he deselects the box of hits enter key
         self.comanyName_lineEdit.editingFinished.connect(self.companyCheck)
