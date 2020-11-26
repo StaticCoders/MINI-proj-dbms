@@ -9,7 +9,18 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QCompleter
+from PyQt5.QtCore import QDate
 from main import *
+from chooseInPayment import *
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="127.0.0.1",
+    user="local",
+    password="",
+    database="mpdev"
+)
 
 
 class Ui_InstallmentWindow(object):
@@ -17,72 +28,84 @@ class Ui_InstallmentWindow(object):
         InstallmentWindow.setObjectName("InstallmentWindow")
         InstallmentWindow.resize(1278, 808)
         InstallmentWindow.setStyleSheet("QMainWindow{\n"
-"background-color: #212121;\n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"background-color: #212121;\n"
-"Color: #eeeeee;\n"
-"border-radius: 20px;\n"
-"}\n"
-"\n"
-"QPushButton#addButton{\n"
-"border: 2px solid #0d7377;\n"
-"}\n"
-"\n"
-"QPushButton#addButton:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"background-color: #0d7377;\n"
-"}\n"
-"\n"
-"QPushButton#submitButton{\n"
-"border: 2px solid #0d7377;\n"
-"border-radius: 25px;\n"
-"}\n"
-"\n"
-"QPushButton#submitButton:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"background-color: #0d7377;\n"
-"}\n"
-"\n"
-"QPushButton#cancelButton{\n"
-"color: #eeeeee;\n"
-"background-color: #212121;\n"
-"border: 2px solid #9a0002;\n"
-"border-radius: 25px;\n"
-"}\n"
-"\n"
-"QPushButton#cancelButton:hover{\n"
-"border: 3px solid rgb(255, 0, 0);\n"
-"background-color: #9a0002;\n"
-"}\n"
-"\n"
-"QLineEdit{\n"
-"padding-left: 6px;\n"
-"padding-right: 6px;\n"
-"border: 2px solid #0d7377;\n"
-"border-radius: 5px;\n"
-"}\n"
-"\n"
-"QLineEdit:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"}\n"
-"\n"
-"QSpinBox{\n"
-"border: 2px solid #0d7377;\n"
-"}\n"
-"\n"
-"QSpinBox:hover{\n"
-"border: 2px solid #32e0c4;\n"
-"}\n"
-"\n"
-"QLabel{\n"
-"color: #eeeeee;\n"
-"}\n"
-"\n"
-"QLabel#installmentsLabel{\n"
-"color: #32e0c4;\n"
-"}")
+                                        "background-color: #212121;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton{\n"
+                                        "background-color: #212121;\n"
+                                        "Color: #eeeeee;\n"
+                                        "border-radius: 20px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#addButton{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#addButton:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "background-color: #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#submitButton{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "border-radius: 25px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#submitButton:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "background-color: #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#deleteAllButton:hover{\n"
+                                        "border: 3px solid rgb(255, 0, 0);\n"
+                                        "background-color: #9a0002;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#deleteAllButton{\n"
+                                        "color: #eeeeee;\n"
+                                        "background-color: #212121;\n"
+                                        "border: 2px solid #9a0002;\n"
+                                        "border-radius: 20px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#cancelButton{\n"
+                                        "color: #eeeeee;\n"
+                                        "background-color: #212121;\n"
+                                        "border: 2px solid #9a0002;\n"
+                                        "border-radius: 25px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#cancelButton:hover{\n"
+                                        "border: 3px solid rgb(255, 0, 0);\n"
+                                        "background-color: #9a0002;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLineEdit{\n"
+                                        "padding-left: 6px;\n"
+                                        "padding-right: 6px;\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "border-radius: 5px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLineEdit:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QSpinBox{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QSpinBox:hover{\n"
+                                        "border: 2px solid #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLabel{\n"
+                                        "color: #eeeeee;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLabel#installmentsLabel{\n"
+                                        "color: #32e0c4;\n"
+                                        "}")
         self.centralwidget = QtWidgets.QWidget(InstallmentWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -165,7 +188,7 @@ class Ui_InstallmentWindow(object):
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
-        self.noOfInstallment = QtWidgets.QSpinBox(self.centralwidget)
+        self.noOfInstallment = QtWidgets.QSpinBox(self.centralwidget)  # spin box obj name-> noOfInstallment
         self.noOfInstallment.setMinimumSize(QtCore.QSize(60, 40))
         self.noOfInstallment.setMaximumSize(QtCore.QSize(60, 40))
         font = QtGui.QFont()
@@ -194,10 +217,10 @@ class Ui_InstallmentWindow(object):
         font.setPointSize(10)
         self.label_9.setFont(font)
         self.label_9.setStyleSheet("color: rgb(50, 224, 196);\n"
-"color: rgb(22, 208, 214);\n"
-"color: rgb(13, 115, 119);\n"
-"color: rgb(50, 224, 196);\n"
-"color: rgb(19, 183, 188);")
+                                   "color: rgb(22, 208, 214);\n"
+                                   "color: rgb(13, 115, 119);\n"
+                                   "color: rgb(50, 224, 196);\n"
+                                   "color: rgb(19, 183, 188);")
         self.label_9.setAlignment(QtCore.Qt.AlignCenter)
         self.label_9.setObjectName("label_9")
         self.verticalLayout_4.addWidget(self.label_9)
@@ -214,7 +237,8 @@ class Ui_InstallmentWindow(object):
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_2.addWidget(self.label_4)
-        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox = QtWidgets.QComboBox(
+            self.centralwidget)  # combo box obj name-> comboBox (set on basis of spinbox)
         self.comboBox.setMinimumSize(QtCore.QSize(60, 40))
         self.comboBox.setMaximumSize(QtCore.QSize(60, 40))
         self.comboBox.setObjectName("comboBox")
@@ -238,7 +262,7 @@ class Ui_InstallmentWindow(object):
         font.setPointSize(12)
         self.lineEdit_3.setFont(font)
         self.lineEdit_3.setText("")
-        self.lineEdit_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lineEdit_3.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.lineEdit_3.setClearButtonEnabled(True)
         self.lineEdit_3.setObjectName("lineEdit_3")
         self.verticalLayout_3.addWidget(self.lineEdit_3)
@@ -251,7 +275,8 @@ class Ui_InstallmentWindow(object):
         self.label_8.setFont(font)
         self.label_8.setObjectName("label_8")
         self.verticalLayout_3.addWidget(self.label_8)
-        self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
+        self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)  # date -> dateEdit
+        self.dateEdit.setDisplayFormat("yyyy-MM-dd")
         self.dateEdit.setMinimumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
@@ -259,6 +284,7 @@ class Ui_InstallmentWindow(object):
         self.dateEdit.setFont(font)
         self.dateEdit.setCalendarPopup(True)
         self.dateEdit.setObjectName("dateEdit")
+        self.dateEdit.setDate(QDate.currentDate())  # set current date
         self.verticalLayout_3.addWidget(self.dateEdit)
         self.verticalLayout_4.addLayout(self.verticalLayout_3)
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -312,13 +338,23 @@ class Ui_InstallmentWindow(object):
         self.installmentList.setMinimumSize(QtCore.QSize(280, 280))
         self.installmentList.setMaximumSize(QtCore.QSize(280, 280))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(14)
         self.installmentList.setFont(font)
         self.installmentList.setDragEnabled(True)
         self.installmentList.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.installmentList.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.installmentList.setObjectName("installmentList")
         self.verticalLayout_5.addWidget(self.installmentList)
+        self.deleteAllButton = QtWidgets.QPushButton(self.centralwidget)
+        self.deleteAllButton.setMinimumSize(QtCore.QSize(280, 40))
+        self.deleteAllButton.setMaximumSize(QtCore.QSize(280, 40))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(11)
+        self.deleteAllButton.setFont(font)
+        self.deleteAllButton.setObjectName("deleteAllButton")
+        self.verticalLayout_5.addWidget(self.deleteAllButton)
+        self.deleteAllButton.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_5.addItem(spacerItem13)
         self.horizontalLayout_4.addLayout(self.verticalLayout_5)
@@ -361,14 +397,137 @@ class Ui_InstallmentWindow(object):
         self.statusbar = QtWidgets.QStatusBar(InstallmentWindow)
         self.statusbar.setObjectName("statusbar")
         InstallmentWindow.setStatusBar(self.statusbar)
-
+        cursor = mydb.cursor()
+        sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info"
+        cursor.execute(sql_name_query)
+        lst = cursor.fetchall()
+        if len(lst) != 0:
+            lst = [' '.join(x) for x in lst]
+        else:
+            lst = []
+        completer = QCompleter(lst, self.lineEdit)
+        self.lineEdit.setCompleter(completer)
+        # completer is set above
         self.retranslateUi(InstallmentWindow)
+        self.installmentCount = 0
+        self.paymentCount = 0
+        self.noOfInstallment.valueChanged.connect(self.comboBoxItems)  # calling combo box with set value in spin box
+        self.addButton.clicked.connect(self.addInstallment)  # adding an installment
+        self.submitButton.clicked.connect(self.submit)
+        self.deleteAllButton.clicked.connect(self.deleteAll)
+        self.installmentsArray = []
+        self.paymentCount = 0
+        self.installmentsCount = 0
+        self.payment_id = 0
         QtCore.QMetaObject.connectSlotsByName(InstallmentWindow)
+
+    def comboBoxItems(self):  # setting installment numbers in comboBox
+        # take name & amt check its not null and check if its 1st payment and enter in payment table and
+        self.comboBox.clear()
+        currentVal = self.noOfInstallment.value()
+        if currentVal < self.installmentsCount:
+            self.noOfInstallment.setValue(self.installmentsCount)
+        for x in range(currentVal):
+            self.comboBox.addItem(str(x + 1))
+        self.finalComboVal = currentVal
+        if self.installmentsCount != 0:
+            for x in range(0, self.installmentsCount):
+                self.comboBox.removeItem(0)
+
+    def addInstallment(self):
+        currentIndex = self.comboBox.currentIndex()
+        stud_name = self.lineEdit.text()  # name
+        total_amt = self.lineEdit_2.text()  # total amt
+        curInstallmentNo = int(self.comboBox.currentText())
+        curInstallmentDate = self.dateEdit.date().toPyDate()
+        curInstallmentAmount = int(self.lineEdit_3.text())
+        installmentTuple = (curInstallmentNo, curInstallmentAmount, curInstallmentDate)
+        self.installmentsArray.append(installmentTuple)
+        self.installmentsCount += 1
+
+
+        show_installment = str(curInstallmentNo) + ":  " + str(curInstallmentDate) + "   " + str(curInstallmentAmount)
+        self.installmentList.addItem(show_installment)
+        self.comboBox.removeItem(currentIndex)
+        self.comboBox.setCurrentIndex(currentIndex)
+        self.dateEdit.setDate(QDate.currentDate())
+        self.lineEdit_3.setText("")
+
+
+
+    def submit(self):
+
+        cursor = mydb.cursor(buffered=True)
+        stud_name = self.lineEdit.text()
+        name = tuple(stud_name.split(" "))
+        sql = "SELECT student_id FROM student_info WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
+        # cursor = mydb.cursor()
+        cursor.execute(sql, name)
+        student_id = cursor.fetchone()
+        val = (student_id[0], self.installmentsCount, int(self.lineEdit_2.text()))
+        for x, y, z in self.installmentsArray:
+            if self.paymentCount == 0:
+                sql = "INSERT INTO payment_table (student_id, no_of_installments, total_amt) VALUES(%s,%s,%s)"
+                cursor.execute(sql, val)
+                mydb.commit()
+                sql = "SELECT payment_id FROM payment_table ORDER BY payment_id DESC"
+                cursor.execute(sql)
+                pay_id = cursor.fetchone()
+                self.payment_id = pay_id[0]
+                temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
+                sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
+                cursor.execute(sql, temp)
+                mydb.commit()
+                self.paymentCount += 1
+                if x==self.finalComboVal:
+                    self.comboBox.clear()
+                    self.lineEdit.clear()
+                    self.lineEdit_2.clear()
+                    self.installmentList.clear()
+                    self.noOfInstallment.clear()
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Information)
+                    msg.setText("All Installments Submitted for "+stud_name)
+                    msg.setWindowTitle("Successful")
+                    msg.exec_()
+            else:
+                temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
+                sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
+                cursor.execute(sql, temp)
+                mydb.commit()
+                if x==self.finalComboVal:
+                    self.comboBox.clear()
+                    self.lineEdit.clear()
+                    self.lineEdit_2.clear()
+                    self.installmentList.clear()
+                    self.noOfInstallment.clear()
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Information)
+                    msg.setText("All Installments Submitted for "+stud_name)
+                    msg.setWindowTitle("Successful")
+                    msg.exec_()
+
+
+
+    def deleteAll(self):
+        self.installmentsArray.clear()
+        self.comboBox.clear()
+        self.lineEdit_3.clear()
+        self.installmentList.clear()
+        self.noOfInstallment.clear()
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("All Installments Deleted ")
+        msg.setWindowTitle("Deleted")
+        msg.exec_()
+
 
     def retranslateUi(self, InstallmentWindow):
         _translate = QtCore.QCoreApplication.translate
+
         InstallmentWindow.setWindowTitle(_translate("InstallmentWindow", "MainWindow"))
         self.installmentsLabel.setText(_translate("InstallmentWindow", "INSTALLMENTS"))
+
         self.label.setText(_translate("InstallmentWindow", "Student\'s Name:"))
         self.label_2.setText(_translate("InstallmentWindow", "Total Amount:"))
         self.label_3.setText(_translate("InstallmentWindow", "Number of Installments:"))
@@ -379,4 +538,33 @@ class Ui_InstallmentWindow(object):
         self.addButton.setText(_translate("InstallmentWindow", "Add"))
         self.addedInstallmentsLabel.setText(_translate("InstallmentWindow", "Installments Added"))
         self.submitButton.setText(_translate("InstallmentWindow", "Submit"))
-        self.cancelButton.setText(_translate("InstallmentWindow", "Cancel"))
+        self.cancelButton.setText(_translate("InstallmentWindow", "Back"))
+        self.deleteAllButton.setText(_translate("InstallmentWindow", "Delete All"))
+
+    # INPUT VALIDATOR
+    # ----String----#
+        self.myregex = QtCore.QRegExp("[A-Za-z]+")
+        self.myregex3 = QtCore.QRegExp("[A-Za-z ]+")
+        self.myregex2 = QtCore.QRegExp("[0-9A-Za-z, -]+")
+        self.myregexph = QtCore.QRegExp("[0-9]+")
+
+    # validate name
+        self.lineEdit.textChanged.connect(self.validate_name)
+    # validate amount
+        self.lineEdit_2.textChanged.connect(self.validate_amt_2)
+        self.lineEdit_3.textChanged.connect(self.validate_amt_3)
+
+
+    def validate_name(self):
+        my_validator = QtGui.QRegExpValidator(self.myregex3, self.lineEdit)
+        self.lineEdit.setValidator(my_validator)
+
+
+    def validate_amt_2(self):
+        my_validator = QtGui.QRegExpValidator(self.myregexph, self.lineEdit_2)
+        self.lineEdit_2.setValidator(my_validator)
+
+
+    def validate_amt_3(self):
+        my_validator = QtGui.QRegExpValidator(self.myregexph, self.lineEdit_3)
+        self.lineEdit_3.setValidator(my_validator)

@@ -16,8 +16,8 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="root",
-    password="tanvi7102",
+    user="local",
+    password="",
     database="mpdev"
 )
 
@@ -119,7 +119,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.startHome()
 
     # FUNCTIONS IN SEARCH TAB
-
     # FUNCTIONS IN BATCHES TAB
     # FUNCTIONS IN UPDATE TAB
     # FUNCTIONS IN PAYMENT TAB
@@ -134,28 +133,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
 
-# Add Installment Tab
+    # Add Installment Tab
     def addInstallment(self):
         self.newinstallment = Ui_InstallmentWindow()
         self.newinstallment.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Add Installments")
+        # self.newinstallment.addButton.clicked.connect(self.addingInstallment)
+        # self.newinstallment.submitButton.clicked.connect(self.submitInstallment)
         self.newinstallment.cancelButton.clicked.connect(self.startPayment)
-        #add functions
         self.hide()
         self.showMaximized()
 
-#New transaction tab
+
+
+    # New transaction tab
     def newTransaction(self):
         self.newtransaction = Ui_TransactionWindow()
         self.newtransaction.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("New Transaction")
         self.newtransaction.cancelButton.clicked.connect(self.startPayment)
-        #add functions
+        # add functions
         self.hide()
         self.showMaximized()
-
 
 
 
