@@ -8,6 +8,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QGraphicsDropShadowEffect
+
 import icon
 from Registration import *
 
@@ -22,20 +24,20 @@ class Ui_MainWindow(object):
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet("QMainWindow\n"
                                  "{\n"
-                                 "background-color: #000000;\n"
+                                 "background-color: #212121;\n"
                                  "}\n"
                                  "QPushButton{\n"
                                  "color:#eeeeee;\n"
                                  "width: 220px;\n"
                                  "height: 220px;\n"
-                                 "border-radius: 10px;\n"
-                                 "background-color: #52057b;\n"
-                                 "border: 3px solid #bc6ff1;\n"
+                                 "border-radius: 80px;\n"
+                                 "background-color: #0d7377;\n"
+                                 "border: 3px solid #32e0c4;\n"
                                  "}\n"
                                  "\n"
                                  "QPushButton:Hover{\n"
-                                 "background-color:#892cdc;\n"
-                                 "border: 3px solid #52057b;\n"
+                                 "background-color:#32e0c4;\n"
+                                 "border: 3px solid #0d7377;\n"
                                  "}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -59,7 +61,7 @@ class Ui_MainWindow(object):
         self.label_10.setFont(font)
         self.label_10.setMouseTracking(True)
         self.label_10.setStyleSheet("color: rgb(50, 224, 196);\n"
-                                    "color: #bc6ff1;")
+                                    "color: #32e0c4;")
         self.label_10.setObjectName("label_10")
         self.verticalLayout_10.addWidget(self.label_10)
         self.gridLayout.addLayout(self.verticalLayout_10, 0, 0, 1, 1)
@@ -81,17 +83,17 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/img/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.registration.setIcon(icon)
-        self.registration.setIconSize(QtCore.QSize(60, 60))
+        self.registration.setIconSize(QtCore.QSize(80, 80))
         self.registration.setObjectName("registration")
         self.verticalLayout.addWidget(self.registration)
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.registrationLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.label_2.setFont(font)
-        self.label_2.setStyleSheet("color: rgb(238, 238, 238);")
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout.addWidget(self.label_2)
+        self.registrationLabel.setFont(font)
+        self.registrationLabel.setStyleSheet("color: rgb(238, 238, 238);")
+        self.registrationLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.registrationLabel.setObjectName("registrationLabel")
+        self.verticalLayout.addWidget(self.registrationLabel)
         self.horizontalLayout.addLayout(self.verticalLayout)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
@@ -107,17 +109,17 @@ class Ui_MainWindow(object):
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/img/batch.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Batches.setIcon(icon1)
-        self.Batches.setIconSize(QtCore.QSize(60, 60))
+        self.Batches.setIconSize(QtCore.QSize(80, 80))
         self.Batches.setObjectName("Batches")
         self.verticalLayout_2.addWidget(self.Batches)
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.batchesLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.label_3.setFont(font)
-        self.label_3.setStyleSheet("color: rgb(238, 238, 238);")
-        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout_2.addWidget(self.label_3)
+        self.batchesLabel.setFont(font)
+        self.batchesLabel.setStyleSheet("color: rgb(238, 238, 238);")
+        self.batchesLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.batchesLabel.setObjectName("batchesLabel")
+        self.verticalLayout_2.addWidget(self.batchesLabel)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
@@ -133,7 +135,7 @@ class Ui_MainWindow(object):
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/img/payment.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Payment.setIcon(icon2)
-        self.Payment.setIconSize(QtCore.QSize(60, 60))
+        self.Payment.setIconSize(QtCore.QSize(80, 80))
         self.Payment.setObjectName("Payment")
         self.verticalLayout_3.addWidget(self.Payment)
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
@@ -159,7 +161,7 @@ class Ui_MainWindow(object):
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/img/update.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Update.setIcon(icon3)
-        self.Update.setIconSize(QtCore.QSize(60, 60))
+        self.Update.setIconSize(QtCore.QSize(80, 80))
         self.Update.setObjectName("Update")
         self.verticalLayout_4.addWidget(self.Update)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
@@ -192,7 +194,7 @@ class Ui_MainWindow(object):
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/img/search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_8.setIcon(icon4)
-        self.pushButton_8.setIconSize(QtCore.QSize(60, 60))
+        self.pushButton_8.setIconSize(QtCore.QSize(80, 80))
         self.pushButton_8.setObjectName("pushButton_8")
         self.verticalLayout_5.addWidget(self.pushButton_8)
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
@@ -218,7 +220,7 @@ class Ui_MainWindow(object):
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/img/job.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.companydrives.setIcon(icon5)
-        self.companydrives.setIconSize(QtCore.QSize(60, 60))
+        self.companydrives.setIconSize(QtCore.QSize(80, 80))
         self.companydrives.setObjectName("companydrives")
         self.verticalLayout_6.addWidget(self.companydrives)
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
@@ -244,7 +246,7 @@ class Ui_MainWindow(object):
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/img/report.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_5.setIcon(icon6)
-        self.pushButton_5.setIconSize(QtCore.QSize(60, 60))
+        self.pushButton_5.setIconSize(QtCore.QSize(80, 80))
         self.pushButton_5.setObjectName("pushButton_5")
         self.verticalLayout_7.addWidget(self.pushButton_5)
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
@@ -270,7 +272,7 @@ class Ui_MainWindow(object):
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/img/export.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_6.setIcon(icon7)
-        self.pushButton_6.setIconSize(QtCore.QSize(60, 60))
+        self.pushButton_6.setIconSize(QtCore.QSize(80, 80))
         self.pushButton_6.setObjectName("pushButton_6")
         self.verticalLayout_8.addWidget(self.pushButton_6)
         self.label_9 = QtWidgets.QLabel(self.centralwidget)
@@ -308,9 +310,9 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_10.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">HOME</p></body></html>"))
         self.registration.setToolTip(_translate("MainWindow", "New Registration"))
-        self.label_2.setText(_translate("MainWindow",
+        self.registrationLabel.setText(_translate("MainWindow",
                                         "<html><head/><body><p><span style=\" font-size:16pt;\">Registration</span></p></body></html>"))
-        self.label_3.setText(_translate("MainWindow",
+        self.batchesLabel.setText(_translate("MainWindow",
                                         "<html><head/><body><p><span style=\" font-size:16pt;\">Batches</span></p></body></html>"))
         self.label_4.setText(_translate("MainWindow",
                                         "<html><head/><body><p><span style=\" font-size:16pt;\">Payment</span></p></body></html>"))
@@ -326,14 +328,3 @@ class Ui_MainWindow(object):
                                         "<html><head/><body><p><span style=\" font-size:16pt;\">Export</span></p></body></html>"))
 
 
-# import icons1
-
-#
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())

@@ -8,6 +8,13 @@
 from PyQt5.QtWidgets import QMessageBox
 from Registration import *
 from HomePage import *
+from chooseInBatches import *
+from chooseInPayment import *
+from chooseInRegistration import *
+from AddInstallments import *
+from addNewBatch import *
+from batchAllotment import *
+from Registration import *
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -28,90 +35,70 @@ class MainWindow(QtWidgets.QMainWindow):
     def startHome(self):
         self.homescreen = Ui_MainWindow()
         self.homescreen.setupUi(self)
-        # self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Home")
         self.homescreen.registration.clicked.connect(self.startRegistration)
+        self.homescreen.Batches.clicked.connect(self.startBatches)
+        self.homescreen.Payment.clicked.connect(self.startPayment)
         self.hide()
         self.showMaximized()
 
     def startRegistration(self):
         self.registration = Ui_RegistrationWindow()
         self.registration.setupUi(self)
-        self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Registration")
-        self.registration.closeButton.clicked.connect(self.startHome)
-        self.registration.registerButton.clicked.connect(self.register)
+        self.registration.newRegistrationButton.clicked.connect(self.startNewRegistration)
+        self.registration.cancelButton.clicked.connect(self.startHome)
+        self.hide()
+        self.showMaximized()
+
+    def startNewRegistration(self):
+        self.newregistration = Ui_NewRegistrationWindow()
+        self.newregistration.setupUi(self)
+        self.setWindowTitle("New Registration")
+        self.newregistration.cancelButton.clicked.connect(self.startRegistration)
+        self.hide()
+        self.showMaximized()
+
+    def startBatches(self):
+        self.batches = Ui_BatchesWindow()
+        self.batches.setupUi(self)
+        self.setWindowTitle("Batches")
+        self.hide()
+        self.showMaximized()
+        self.batches.addBatchButton.clicked.connect(self.batches.addBatch)
+        self.batches.allotBatchButton.clicked.connect(self.startBatchAllotment)
+        self.batches.cancelButton.clicked.connect(self.startHome)
+
+    def startBatchAllotment(self):
+        self.batchAllotment = Ui_BatchAllotmentWindow()
+        self.batchAllotment.setupUi(self)
+        self.hide()
+        self.showMaximized()
+        self.batchAllotment.cancelButton.clicked.connect(self.startHome)
+
+
+    def startPayment(self):
+        self.payment = Ui_PaymentWindow()
+        self.payment.setupUi(self)
+        self.setWindowTitle("Payment")
+        self.payment.cancelButton.clicked.connect(self.startHome)
+        self.payment.installmentButton.clicked.connect(self.startInstallments)
+        self.hide()
+        self.showMaximized()
+
+    def startInstallments(self):
+        self.installment = Ui_InstallmentWindow()
+        self.installment.setupUi(self)
+        self.setWindowTitle("Installments")
         self.hide()
         self.showMaximized()
 
     # FUNCTIONS IN REGISTERATION TAB
 
-    def register(self):
-        fname = self.registration.fNameIp.text()
-        mname = self.registration.mNameIp.text()
-        lname = self.registration.lNameIp.text()
-        phone = self.registration.phoneIp.text()
-        address = self.registration.addressIp.toPlainText()
-        education = self.registration.educationIp.text()
-        experience = self.registration.experienceIp.text()
-        referral = self.registration.referralIp.text()
-        i = 0
-        result = ()
-        mycursor = mydb.cursor()
-        if fname == "" or mname == "" or lname == "" or phone == "" or address == "" or education == "":
-            self.registration.warningLabel.show()
-        else:
-            tdate = date.today()
-            sql = "INSERT INTO student_info (first_name,middle_name,last_name,date_of_admission,phone,address," \
-                  "education,experience,referral) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
-            val = (fname, mname, lname, tdate, phone, address, education, experience, referral)
-            mycursor.execute(sql, val)
-            if mycursor.rowcount == 1:
-                print("Data inserted successfully!")
-            else:
-                print("Problem occurred while inserting data")
-            mydb.commit()
-            getid = "select student_id from student_info order by student_id desc limit 1;"
-            mycursor.execute(getid)
-            result = mycursor.fetchone()
-            courseChecked = []
-            while self.registration.model.item(i):
-                if self.registration.model.item(i).checkState():
-                    courseChecked.append(self.registration.model.item(i).text())
-                    self.registration.model.item(i).setCheckState(False)
-                i += 1
-            i = 0
-            for x in courseChecked:
-                sql = "SELECT course_id FROM courses WHERE course_name = \"" + x + "\""
-                mycursor.execute(sql)
-                courseid = mycursor.fetchone()
-                sql = "INSERT INTO student_batch_course(student_id, course_id) VALUES(%s,%s)"
-                val = (result[0], courseid[0])
-                mycursor.execute(sql, val)
-                if mycursor.rowcount == 1:
-                    print("Data inserted successfully!")
-                else:
-                    print("Problem occurred while inserting data")
-                mydb.commit()
-                self.registration.fNameIp.clear()
-                self.registration.mNameIp.clear()
-                self.registration.lNameIp.clear()
-                self.registration.phoneIp.clear()
-                self.registration.addressIp.clear()
-                self.registration.educationIp.clear()
-                self.registration.experienceIp.clear()
-                self.registration.referralIp.clear()
-
-        msg = QtWidgets.QMessageBox()
-        msg.setWindowTitle("Successful")
-        msg.resize(800, 800)
-        msg.setStyleSheet("QMessageBox{background-color: rgb(0,0,0);, color: white;}")
-        msg.setText("Registration Successful")
-        text = "StudentID: " + str(result[
-                                       0]) + "\nName: " + fname + " " + mname + " " + lname + "\nPhone: " + phone + "\nAddress: " + address + "\nEducation: " + education + "\nExperience: " + experience + "\nReferred By: " + referral
-        msg.setInformativeText(text)
-        x = msg.exec_()
-        self.startHome()
+    # def register(self):
+    #     registered = self.registration.registerStudent()
+    #     if registered:
+    #         self.startHome()
 
     # FUNCTIONS IN SEARCH TAB
 

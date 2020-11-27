@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'RegistrationMain.ui'
+# Form implementation generated from reading ui file 'Registeration.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -11,113 +11,136 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from datetime import date
-from HomePage import *
-from main import *
+
+from PyQt5.QtWidgets import QCompleter
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
     user="local",
     password="",
-    database="mpdev"
+    database="bitsfinal"
 )
 
-
-class Ui_RegistrationWindow(object):
-    def setupUi(self, RegistrationWindow):
-        RegistrationWindow.setObjectName("RegistrationWindow")
-        # RegistrationWindow.setWindowState(QtCore.Qt.WindowMaximized)
-        RegistrationWindow.resize(1416, 834)
-        # RegistrationWindow.setWindowState(QtCore.Qt.WindowMaximized)
-        RegistrationWindow.setWindowTitle("Registration")
-        # Registration.setWindowIcon(QtGui.QIcon('BITS.ico'))
-        RegistrationWindow.setMinimumSize(QtCore.QSize(1111, 0))
-        RegistrationWindow.setStyleSheet("QMainWindow{\n"
-                                          "background-color: rgb(0, 0, 0);\n"
+class Ui_NewRegistrationWindow(object):
+    def setupUi(self, RegisterationWindow):
+        RegisterationWindow.setObjectName("RegisterationWindow")
+        RegisterationWindow.resize(1416, 834)
+        RegisterationWindow.setMinimumSize(QtCore.QSize(1111, 0))
+        RegisterationWindow.setStyleSheet("QMainWindow{\n"
+                                          "background-color: #212121;\n"
                                           "}\n"
+                                          "\n"
                                           "QLabel#copyrightLabel{\n"
                                           "text-align:center;\n"
                                           "}\n"
+                                          "\n"
+                                          "QLabel#registrationLabel{\n"
+                                          "color: rgb(50, 224, 196);\n"
+                                          "}\n"
                                           "QLabel{\n"
-                                          "font: 75 12pt \"Microsoft YaHei\";\n"
-                                          "font: 75 12pt \"Microsoft JhengHei UI\";\n"
-                                          "color: rgb(255, 255, 255);\n"
                                           "color: rgb(238, 238, 238);\n"
                                           "}\n"
                                           "\n"
                                           "QLineEdit{\n"
-                                          "background-color: rgb(238, 238, 238);\n"
                                           "padding: 5px;\n"
-                                          "border:2px solid grey;\n"
+                                          "border:2px solid #0d7377;\n"
                                           "border-radius: 4px;\n"
                                           "}\n"
                                           "QLineEdit:hover{\n"
-                                          "border:3px solid #892cdc;\n"
+                                          "border:3px solid #32e0c4;\n"
                                           "}\n"
+                                          "\n"
                                           "QLineEdit:focus{\n"
-                                          "border:3px solid #892cdc;\n"
+                                          "border:3px solid #32e0c4;\n"
                                           "}\n"
-                                          "\n"
-                                          "\n"
                                           "\n"
                                           "QTextEdit{\n"
-                                          "background-color: rgb(238, 238, 238);\n"
-                                          "border:2px solid grey;\n"
+                                          "border:2px solid #0d7377;\n"
                                           "border-radius: 4px;\n"
                                           "}\n"
                                           "\n"
                                           "QTextEdit:focus{\n"
-                                          "border:3px solid #892cdc;\n"
+                                          "border:3px solid #32e0c4;\n"
                                           "}\n"
                                           "\n"
                                           "QTextEdit:hover{\n"
-                                          "border:3px solid #892cdc;\n"
+                                          "border:3px solid #32e0c4;\n"
+                                          "}\n"
+                                          "\n"
+                                          "QListView{\n"
+                                          "border: 2px solid #0d7377;\n"
+                                          "border-radius: 5px\n"
+                                          "}\n"
+                                          "QListView:hover{\n"
+                                          "border:3px solid #32e0c4;\n"
+                                          "}\n"
+                                          "\n"
+                                          "QPushButton{\n"
+                                          "background-color: #212121;\n"
+                                          "Color: #eeeeee;\n"
+                                          "border-radius: 25px;\n"
+                                          "}\n"
+                                          "\n"
+                                          "QPushButton#registerButton{\n"
+                                          "border: 2px solid #0d7377;\n"
+                                          "}\n"
+                                          "\n"
+                                          "QPushButton#registerButton:hover{\n"
+                                          "border: 3px solid #32e0c4;\n"
+                                          "background-color: #0d7377;\n"
+                                          "}\n"
+                                          "\n"
+                                          "QPushButton#cancelButton{\n"
+                                          "border: 2px solid #9a0002;\n"
+                                          "}\n"
+                                          "\n"
+                                          "QPushButton#cancelButton:hover{\n"
+                                          "border: 3px solid rgb(255, 0, 0);\n"
+                                          "background-color: #9a0002;\n"
                                           "}\n"
                                           "")
-        self.centralwidget = QtWidgets.QWidget(RegistrationWindow)
+        self.centralwidget = QtWidgets.QWidget(RegisterationWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 0, 0, 1, 1)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem)
-        self.registerLabel = QtWidgets.QLabel(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("Microsoft Tai Le 12")
-        font.setPointSize(40)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(9)
-        self.registerLabel.setFont(font)
-        self.registerLabel.setStyleSheet("color: rgb(188, 111, 241);\n"
-                                         "font: 75 40pt \"Microsoft Tai Le\" bold;\n"
-                                         "text-align: center;\n"
-                                         "color: rgb(137, 44, 220);\n"
-                                         "color: rgb(50, 224, 196);\n"
-                                         "color: rgb(188, 111, 241);")
-        self.registerLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.registerLabel.setObjectName("registerLabel")
-        self.verticalLayout_4.addWidget(self.registerLabel)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 80, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem1)
+        self.registrationLabel = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(34)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.registrationLabel.setFont(font)
+        self.registrationLabel.setStyleSheet("")
+        self.registrationLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.registrationLabel.setObjectName("registrationLabel")
+        self.verticalLayout_4.addWidget(self.registrationLabel)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 80, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        self.verticalLayout_4.addItem(spacerItem2)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.fnameLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
+        font.setWeight(50)
+        self.fnameLabel.setFont(font)
+        self.fnameLabel.setObjectName("fnameLabel")
+        self.verticalLayout.addWidget(self.fnameLabel)
         self.fNameIp = QtWidgets.QLineEdit(self.centralwidget)
         self.fNameIp.setMinimumSize(QtCore.QSize(300, 40))
         self.fNameIp.setMaximumSize(QtCore.QSize(300, 40))
@@ -125,274 +148,269 @@ class Ui_RegistrationWindow(object):
         font.setPointSize(12)
         self.fNameIp.setFont(font)
         self.fNameIp.setStyleSheet("")
+        self.fNameIp.setClearButtonEnabled(True)
         self.fNameIp.setObjectName("fNameIp")
         self.verticalLayout.addWidget(self.fNameIp)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem2)
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem3)
+        self.mnameLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout.addWidget(self.label_2)
+        font.setWeight(50)
+        self.mnameLabel.setFont(font)
+        self.mnameLabel.setObjectName("mnameLabel")
+        self.verticalLayout.addWidget(self.mnameLabel)
         self.mNameIp = QtWidgets.QLineEdit(self.centralwidget)
         self.mNameIp.setMinimumSize(QtCore.QSize(300, 40))
         self.mNameIp.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.mNameIp.setFont(font)
+        self.mNameIp.setClearButtonEnabled(True)
         self.mNameIp.setObjectName("mNameIp")
         self.verticalLayout.addWidget(self.mNameIp)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem3)
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem4)
+        self.lnameLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label_3.setFont(font)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout.addWidget(self.label_3)
+        font.setWeight(50)
+        self.lnameLabel.setFont(font)
+        self.lnameLabel.setObjectName("lnameLabel")
+        self.verticalLayout.addWidget(self.lnameLabel)
         self.lNameIp = QtWidgets.QLineEdit(self.centralwidget)
         self.lNameIp.setMinimumSize(QtCore.QSize(300, 40))
         self.lNameIp.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.lNameIp.setFont(font)
+        self.lNameIp.setClearButtonEnabled(True)
         self.lNameIp.setObjectName("lNameIp")
         self.verticalLayout.addWidget(self.lNameIp)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem4)
-        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem5)
+        self.addressLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label_5.setFont(font)
-        self.label_5.setObjectName("label_5")
-        self.verticalLayout.addWidget(self.label_5)
+        font.setWeight(50)
+        self.addressLabel.setFont(font)
+        self.addressLabel.setObjectName("addressLabel")
+        self.verticalLayout.addWidget(self.addressLabel)
         self.addressIp = QtWidgets.QTextEdit(self.centralwidget)
         self.addressIp.setMinimumSize(QtCore.QSize(300, 87))
         self.addressIp.setMaximumSize(QtCore.QSize(300, 87))
-        self.warningLabel = QtWidgets.QLabel(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(9)
-        self.warningLabel.setFont(font)
-        self.warningLabel.setObjectName("warningLabel")
         font = QtGui.QFont()
         font.setPointSize(12)
         self.addressIp.setFont(font)
         self.addressIp.setObjectName("addressIp")
         self.verticalLayout.addWidget(self.addressIp)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem5)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem6)
         self.horizontalLayout.addLayout(self.verticalLayout)
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem6)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem7)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.phoneLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label_4.setFont(font)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout_2.addWidget(self.label_4)
+        font.setWeight(50)
+        self.phoneLabel.setFont(font)
+        self.phoneLabel.setObjectName("phoneLabel")
+        self.verticalLayout_2.addWidget(self.phoneLabel)
         self.phoneIp = QtWidgets.QLineEdit(self.centralwidget)
         self.phoneIp.setMinimumSize(QtCore.QSize(300, 40))
         self.phoneIp.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.phoneIp.setFont(font)
+        self.phoneIp.setClearButtonEnabled(True)
         self.phoneIp.setObjectName("phoneIp")
         self.verticalLayout_2.addWidget(self.phoneIp)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_2.addItem(spacerItem7)
-        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem8)
+        self.educationLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label_6.setFont(font)
-        self.label_6.setObjectName("label_6")
-        self.verticalLayout_2.addWidget(self.label_6)
+        font.setWeight(50)
+        self.educationLabel.setFont(font)
+        self.educationLabel.setObjectName("educationLabel")
+        self.verticalLayout_2.addWidget(self.educationLabel)
         self.educationIp = QtWidgets.QLineEdit(self.centralwidget)
         self.educationIp.setMinimumSize(QtCore.QSize(300, 40))
         self.educationIp.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.educationIp.setFont(font)
+        self.educationIp.setClearButtonEnabled(True)
         self.educationIp.setObjectName("educationIp")
         self.verticalLayout_2.addWidget(self.educationIp)
-        spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_2.addItem(spacerItem8)
-        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        spacerItem9 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem9)
+        self.experienceLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label_7.setFont(font)
-        self.label_7.setObjectName("label_7")
-        self.verticalLayout_2.addWidget(self.label_7)
+        font.setWeight(50)
+        self.experienceLabel.setFont(font)
+        self.experienceLabel.setObjectName("experienceLabel")
+        self.verticalLayout_2.addWidget(self.experienceLabel)
         self.experienceIp = QtWidgets.QLineEdit(self.centralwidget)
         self.experienceIp.setMinimumSize(QtCore.QSize(300, 40))
         self.experienceIp.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.experienceIp.setFont(font)
+        self.experienceIp.setClearButtonEnabled(True)
         self.experienceIp.setObjectName("experienceIp")
         self.verticalLayout_2.addWidget(self.experienceIp)
-        spacerItem9 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_2.addItem(spacerItem9)
-        self.label_8 = QtWidgets.QLabel(self.centralwidget)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem10)
+        self.referralLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
-        self.label_8.setFont(font)
-        self.label_8.setObjectName("label_8")
-        self.verticalLayout_2.addWidget(self.label_8)
+        font.setWeight(50)
+        self.referralLabel.setFont(font)
+        self.referralLabel.setObjectName("referralLabel")
+        self.verticalLayout_2.addWidget(self.referralLabel)
         self.referralIp = QtWidgets.QLineEdit(self.centralwidget)
         self.referralIp.setMinimumSize(QtCore.QSize(300, 40))
         self.referralIp.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.referralIp.setFont(font)
+        self.referralIp.setClearButtonEnabled(True)
         self.referralIp.setObjectName("referralIp")
         self.verticalLayout_2.addWidget(self.referralIp)
-        spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem10)
+        spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem11)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.horizontalLayout_2.addLayout(self.horizontalLayout)
-        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem11)
+        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem12)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.emailLabel = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.emailLabel.setFont(font)
+        self.emailLabel.setObjectName("emailLabel")
+        self.verticalLayout_3.addWidget(self.emailLabel)
+        self.emailInput = QtWidgets.QLineEdit(self.centralwidget)
+        self.emailInput.setMinimumSize(QtCore.QSize(300, 40))
+        self.emailInput.setMaximumSize(QtCore.QSize(300, 40))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.emailInput.setFont(font)
+        self.emailInput.setClearButtonEnabled(True)
+        self.emailInput.setObjectName("emailInput")
+        self.verticalLayout_3.addWidget(self.emailInput)
+        spacerItem13 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_3.addItem(spacerItem13)
         self.label_10 = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei UI")
+        font.setFamily("Segoe UI")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(9)
+        font.setWeight(50)
         self.label_10.setFont(font)
         self.label_10.setObjectName("label_10")
         self.verticalLayout_3.addWidget(self.label_10)
         self.coursesListView = QtWidgets.QListView(self.centralwidget)
-        self.coursesListView.setMinimumSize(QtCore.QSize(311, 188))
-        self.coursesListView.setMaximumSize(QtCore.QSize(311, 188))
-        self.coursesListView.setStyleSheet("\n"
-                                           "QListView{\n"
-                                           "padding:3px;\n"
-                                           "background-color: rgb(238, 238, 238);\n"
-                                           "border: 2px solid grey;\n"
-                                           "border-radius: 5px\n"
-                                           "}\n"
-                                           "QListView:hover{\n"
-                                           "border:3px solid #892cdc;\n"
-                                           "}")
+        self.coursesListView.setMinimumSize(QtCore.QSize(311, 191))
+        self.coursesListView.setMaximumSize(QtCore.QSize(311, 191))
+        self.coursesListView.setStyleSheet("")
         self.coursesListView.setObjectName("coursesListView")
         self.verticalLayout_3.addWidget(self.coursesListView)
-        spacerItem12 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem12)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem14)
         self.horizontalLayout_2.addLayout(self.verticalLayout_3)
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
         self.verticalLayout_5.addLayout(self.verticalLayout_4)
-        spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_5.addItem(spacerItem13)
+        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem15)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        spacerItem14 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem14)
-        self.registerButton = QtWidgets.QPushButton(self.centralwidget)
-        self.registerButton.setMinimumSize(QtCore.QSize(181, 51))
-        self.registerButton.setMaximumSize(QtCore.QSize(181, 51))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.registerButton.setFont(font)
-        self.registerButton.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.registerButton.setStyleSheet("QPushButton{\n"
-                                          "color: rgb(255, 255, 255);\n"
-                                          "border: 2px solid #bc6ff1;\n"
-                                          "border-radius: 25px;\n"
-                                          "}\n"
-                                          "\n"
-                                          "QPushButton:hover{\n"
-                                          "color: rgb(255, 255, 255);\n"
-                                          "border: 4px solid #bc6ff1;\n"
-                                          "}")
-        self.registerButton.setObjectName("registerButton")
-        self.horizontalLayout_3.addWidget(self.registerButton)
-        spacerItem15 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem15)
-        self.closeButton = QtWidgets.QPushButton(self.centralwidget)
-        self.closeButton.setMinimumSize(QtCore.QSize(181, 51))
-        self.closeButton.setMaximumSize(QtCore.QSize(181, 51))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.closeButton.setFont(font)
-        self.closeButton.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.closeButton.setStyleSheet("QPushButton{\n"
-                                       "color: rgb(255, 255, 255);\n"
-                                       "border: 2px solid red;\n"
-                                       "border-radius: 25px;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover{\n"
-                                       "color: rgb(255, 255, 255);\n"
-                                       "border: 4px solid red;\n"
-                                       "}")
-        self.closeButton.setObjectName("closeButton")
-        self.horizontalLayout_3.addWidget(self.closeButton)
         spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem16)
+        self.registerButton = QtWidgets.QPushButton(self.centralwidget)
+        self.registerButton.setMinimumSize(QtCore.QSize(181, 50))
+        self.registerButton.setMaximumSize(QtCore.QSize(181, 50))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.registerButton.setFont(font)
+        self.registerButton.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.registerButton.setStyleSheet("")
+        self.registerButton.setObjectName("registerButton")
+        self.horizontalLayout_3.addWidget(self.registerButton)
+        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem17)
+        self.cancelButton = QtWidgets.QPushButton(self.centralwidget)
+        self.cancelButton.setMinimumSize(QtCore.QSize(181, 51))
+        self.cancelButton.setMaximumSize(QtCore.QSize(181, 51))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.cancelButton.setFont(font)
+        self.cancelButton.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.cancelButton.setStyleSheet("QPushButton{\n"
+                                        "color: rgb(255, 255, 255);\n"
+                                        "border: 2px solid red;\n"
+                                        "border-radius: 25px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton:hover{\n"
+                                        "color: rgb(255, 255, 255);\n"
+                                        "border: 4px solid red;\n"
+                                        "}")
+        self.cancelButton.setObjectName("cancelButton")
+        self.horizontalLayout_3.addWidget(self.cancelButton)
+        spacerItem18 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem18)
         self.verticalLayout_5.addLayout(self.horizontalLayout_3)
         self.gridLayout.addLayout(self.verticalLayout_5, 0, 1, 1, 3)
-        spacerItem17 = QtWidgets.QSpacerItem(17, 22, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
-        self.gridLayout.addItem(spacerItem17, 2, 3, 1, 1)
-        spacerItem18 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem18, 0, 0, 1, 1)
-        spacerItem19 = QtWidgets.QSpacerItem(170, 17, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem19, 0, 4, 1, 1)
+        spacerItem19 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem19, 1, 2, 1, 1)
         spacerItem20 = QtWidgets.QSpacerItem(17, 22, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem20, 2, 1, 1, 1)
-        self.copyrightLabel = QtWidgets.QLabel(self.centralwidget)
-        self.copyrightLabel.setStyleSheet("text-align:center;")
-        self.copyrightLabel.setObjectName("copyrightLabel")
-        self.gridLayout.addWidget(self.copyrightLabel, 2, 2, 1, 1)
-        spacerItem21 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem21, 1, 2, 1, 1)
-        RegistrationWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(RegistrationWindow)
+        spacerItem21 = QtWidgets.QSpacerItem(17, 22, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        self.gridLayout.addItem(spacerItem21, 2, 3, 1, 1)
+        spacerItem22 = QtWidgets.QSpacerItem(170, 17, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem22, 0, 4, 1, 1)
+        RegisterationWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(RegisterationWindow)
         self.statusbar.setObjectName("statusbar")
-        RegistrationWindow.setStatusBar(self.statusbar)
+        RegisterationWindow.setStatusBar(self.statusbar)
+        self.warningLabel = QtWidgets.QLabel(self.centralwidget)
+        self.warningLabel.setFont(font)
+        self.warningLabel.setObjectName("warningLabel")
         self.verticalLayout_4.addWidget(self.warningLabel)
         self.warningLabel.setStyleSheet("QLabel#warningLabel{color: red;}")
         self.warningLabel.hide()
-
-        self.retranslateUi(RegistrationWindow)
-        QtCore.QMetaObject.connectSlotsByName(RegistrationWindow)
 
         # INPUT VALIDATOR
         # ----String----#
@@ -414,18 +432,26 @@ class Ui_RegistrationWindow(object):
         self.phoneIp.setValidator(self.onlyInt)
 
         # BUTTON CALLS
-        # self.closeButton.clicked.connect(self.CloseWindow)
-        # self.registerButton.clicked.connect(self.registerStudent)
+        self.registerButton.clicked.connect(self.registerStudent)
 
         # Adding Courses to ListView
         self.model = QtGui.QStandardItemModel(self.coursesListView)
         self.coursesListView.setModel(self.model)
         courses = []
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT course_name FROM courses")
+        mycursor = mydb.cursor(buffered=True)
+        mycursor.execute("SELECT course_name FROM courses_table")
         result = mycursor.fetchall()
         for x in result:
             courses.append(x[0])
+
+        mycursor.execute("SELECT first_name,middle_name,last_name FROM student_info_table")
+        studentList = mycursor.fetchall()
+        if len(studentList) != 0:
+            lst = [' '.join(x) for x in studentList]
+        else:
+            lst = []
+        completer = QCompleter(lst, self.referralIp)
+        self.referralIp.setCompleter(completer)
         mycursor.close()
 
         for x in courses:
@@ -433,8 +459,11 @@ class Ui_RegistrationWindow(object):
             item.setCheckable(True)
             self.model.appendRow(item)
 
+        self.retranslateUi(RegisterationWindow)
+        QtCore.QMetaObject.connectSlotsByName(RegisterationWindow)
 
     # USER DEFINED FUNCTIONS
+
     def validate_inputf(self):
         my_validator = QtGui.QRegExpValidator(self.myregex, self.fNameIp)
         self.fNameIp.setValidator(my_validator)
@@ -464,77 +493,76 @@ class Ui_RegistrationWindow(object):
         self.phoneIp.setValidator(my_validator)
 
 
-    # def registerStudent(self):
-    #     fname = self.fNameIp.text()
-    #     mname = self.mNameIp.text()
-    #     lname = self.lNameIp.text()
-    #     phone = self.phoneIp.text()
-    #     address = self.addressIp.toPlainText()
-    #     education = self.educationIp.text()
-    #     experience = self.experienceIp.text()
-    #     referral = self.referralIp.text()
-    #     i = 0
-    #     mycursor = mydb.cursor()
-    #     if fname == "" or mname == "" or lname == "" or phone == "" or address == "" or education == "":
-    #         self.warningLabel.show()
-    #     else:
-    #         tdate = date.today()
-    #         sql = "INSERT INTO student_info (first_name,middle_name,last_name,date_of_admission,phone,address," \
-    #               "education,experience,referral) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
-    #         val = (fname, mname, lname, tdate, phone, address, education, experience, referral)
-    #         mycursor.execute(sql, val)
-    #         if mycursor.rowcount == 1:
-    #             print("Data inserted successfully!")
-    #         else:
-    #             print("Problem occurred while inserting data")
-    #         mydb.commit()
-    #         getid = "select student_id from student_info order by student_id desc limit 1;"
-    #         mycursor.execute(getid)
-    #         result = mycursor.fetchone()
-    #         courseChecked = []
-    #         while self.model.item(i):
-    #             if self.model.item(i).checkState():
-    #                 courseChecked.append(self.model.item(i).text())
-    #             i += 1
-    #         i = 0
-    #         for x in courseChecked:
-    #             sql = "SELECT course_id FROM courses WHERE course_name = \"" + x + "\""
-    #             mycursor.execute(sql)
-    #             courseid = mycursor.fetchone()
-    #             sql = "INSERT INTO student_batch_course(student_id, course_id) VALUES(%s,%s)"
-    #             val = (result[0], courseid[0])
-    #             mycursor.execute(sql, val)
-    #             if mycursor.rowcount == 1:
-    #                 print("Data inserted successfully!")
-    #             else:
-    #                 print("Problem occurred while inserting data")
-    #             mydb.commit()
-    #             self.fNameIp.clear()
-    #             self.mNameIp.clear()
-    #             self.lNameIp.clear()
-    #             self.phoneIp.clear()
-    #             self.addressIp.clear()
-    #             self.educationIp.clear()
-    #             self.experienceIp.clear()
-    #             self.referralIp.clear()
+    def registerStudent(self):
+        fname = self.fNameIp.text()
+        mname = self.mNameIp.text()
+        lname = self.lNameIp.text()
+        phone = self.phoneIp.text()
+        address = self.addressIp.toPlainText()
+        education = self.educationIp.text()
+        experience = self.experienceIp.text()
+        referral = self.referralIp.text()
+        email = self.emailInput.text()
+        i = 0
+        mycursor = mydb.cursor(buffered=True)
+        if fname == "" or mname == "" or lname == "" or phone == "" or address == "" or education == "":
+            self.warningLabel.show()
+        else:
+            tdate = date.today()
+            sql = "INSERT INTO student_info_table(first_name,middle_name,last_name,phone,email,date_of_admission,address,education,experience,referrals) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            val = (fname, mname, lname, phone, email, tdate, address, education, experience, referral)
+            print(val)
+            mycursor.execute(sql, val)
+            if mycursor.rowcount == 1:
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Information)
+                msg.setText("Registration Successful!")
+                msg.setWindowTitle("Successful!!")
+                msg.exec_()
+
+            mydb.commit()
+            getid = "select student_id from student_info_table order by student_id desc limit 1;"
+            mycursor.execute(getid)
+            result = mycursor.fetchone()
+            courseChecked = []
+            while self.model.item(i):
+                if self.model.item(i).checkState():
+                    courseChecked.append(self.model.item(i).text())
+                i += 1
+            i = 0
+            for x in courseChecked:
+                sql = "SELECT course_id FROM courses_table WHERE course_name = \"" + x + "\""
+                mycursor.execute(sql)
+                courseid = mycursor.fetchone()
+                sql = "INSERT INTO student_course_batch(student_id, course_id) VALUES(%s,%s)"
+                val = (result[0], courseid[0])
+                mycursor.execute(sql, val)
+                mydb.commit()
 
 
-
-    def retranslateUi(self, RegistrationWindow):
+    def retranslateUi(self, RegisterationWindow):
         _translate = QtCore.QCoreApplication.translate
-        RegistrationWindow.setWindowTitle(_translate("RegistrationWindow", "MainWindow"))
-        self.registerLabel.setText(_translate("RegistrationWindow", "<strong>REGISTRATION</strong>"))
-        self.label.setText(_translate("RegistrationWindow", "First Name:"))
-        self.label_2.setText(_translate("RegistrationWindow", "Middle Name:"))
-        self.label_3.setText(_translate("RegistrationWindow", "Last Name:"))
-        self.label_5.setText(_translate("RegistrationWindow", "Address:"))
-        self.warningLabel.setText(_translate("RegistrationWindow", "All the inputs are Mandatory*"))
-        self.label_4.setText(_translate("RegistrationWindow", "Phone:"))
-        self.label_6.setText(_translate("RegistrationWindow", "Education:"))
-        self.label_7.setText(_translate("RegistrationWindow", "Experience:"))
-        self.label_8.setText(_translate("RegistrationWindow", "Referral:"))
-        self.label_10.setText(_translate("RegistrationWindow", "Courses:"))
-        self.registerButton.setText(_translate("RegistrationWindow", "Register"))
-        self.closeButton.setText(_translate("RegistrationWindow", "Close"))
-        self.copyrightLabel.setText(_translate("RegistrationWindow", "Copyright© 2020 All rights reserved"))
+        RegisterationWindow.setWindowTitle(_translate("RegisterationWindow", "MainWindow"))
+        self.registrationLabel.setText(_translate("RegisterationWindow", "<strong>NEW REGISTRATION</strong>"))
+        self.fnameLabel.setText(_translate("RegisterationWindow", "First Name:"))
+        self.mnameLabel.setText(_translate("RegisterationWindow", "Middle Name:"))
+        self.lnameLabel.setText(_translate("RegisterationWindow", "Last Name:"))
+        self.addressLabel.setText(_translate("RegisterationWindow", "Address:"))
+        self.phoneLabel.setText(_translate("RegisterationWindow", "Phone:"))
+        self.educationLabel.setText(_translate("RegisterationWindow", "Education:"))
+        self.experienceLabel.setText(_translate("RegisterationWindow", "Experience(Optional):"))
+        self.referralLabel.setText(_translate("RegisterationWindow", "Referral(Optional):"))
+        self.emailLabel.setText(_translate("RegisterationWindow", "Email:"))
+        self.label_10.setText(_translate("RegisterationWindow", "Courses:"))
+        self.registerButton.setText(_translate("RegisterationWindow", "Register"))
+        self.cancelButton.setText(_translate("RegisterationWindow", "Cancel"))
+        self.warningLabel.setText(_translate("RegistrationWindow", "Fill all the necessary Fields*"))
 
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_NewRegistrationWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.showMaximized()
+    sys.exit(app.exec_())
