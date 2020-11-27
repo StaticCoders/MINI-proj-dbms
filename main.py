@@ -151,8 +151,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addcompany  = Ui_AddCompany_Dailog()
         self.x = QtWidgets.QDialog()
         self.addcompany.setupUi(self.x)
-        self.addcompany.cancelButton.clicked.connect(self.startCompanyDrives)
+        self.addcompany.cancelButton.clicked.connect(self.x.hide)
         self.x.show()
+
     def viewDriveCall(self):
         self.viewdrive = Ui_ViewDrive()
         self.viewdrive.setupUi(self)
