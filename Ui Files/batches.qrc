@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>addStudent.ico</file>
+    <file>addbatch2.ico</file>
+  </qresource>
+</RCC>

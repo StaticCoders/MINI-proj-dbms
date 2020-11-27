@@ -74,7 +74,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.batchAllotment.setupUi(self)
         self.hide()
         self.showMaximized()
-        self.batchAllotment.cancelButton.clicked.connect(self.startHome)
+        self.batchAllotment.cancelButton.clicked.connect(self.startBatches)
 
 
     def startPayment(self):
