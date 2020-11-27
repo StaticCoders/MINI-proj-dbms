@@ -1,28 +1,10 @@
-# SECTIONS IN THIS FILE
-# FUNCTIONS IN REGISTRATION TAB
-# FUNCTIONS IN SEARCH TAB
-# FUNCTIONS IN BATCHES TAB
-# FUNCTIONS IN UPDATE TAB
-# FUNCTIONS IN PAYMENT TAB
 
 from PyQt5.QtWidgets import QMessageBox
-from Registration import *
 from HomePage import *
 from chooseInBatches import *
-from chooseInPayment import *
 from chooseInRegistration import *
-from AddInstallments import *
-from addNewBatch import *
 from batchAllotment import *
 from Registration import *
-import mysql.connector
-
-mydb = mysql.connector.connect(
-    host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
-)
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -30,7 +12,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__(parent)
         self.startHome()
 
-    # ALL THE MAIN TABS
+    # HOME
 
     def startHome(self):
         self.homescreen = Ui_MainWindow()
@@ -41,6 +23,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.homescreen.Payment.clicked.connect(self.startPayment)
         self.hide()
         self.showMaximized()
+
+    # REGISTRATION
 
     def startRegistration(self):
         self.registration = Ui_RegistrationWindow()
@@ -59,6 +43,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
 
+    # BATCHES
+
     def startBatches(self):
         self.batches = Ui_BatchesWindow()
         self.batches.setupUi(self)
@@ -75,37 +61,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
         self.batchAllotment.cancelButton.clicked.connect(self.startBatches)
-
-
-    def startPayment(self):
-        self.payment = Ui_PaymentWindow()
-        self.payment.setupUi(self)
-        self.setWindowTitle("Payment")
-        self.payment.cancelButton.clicked.connect(self.startHome)
-        self.payment.installmentButton.clicked.connect(self.startInstallments)
-        self.hide()
-        self.showMaximized()
-
-    def startInstallments(self):
-        self.installment = Ui_InstallmentWindow()
-        self.installment.setupUi(self)
-        self.setWindowTitle("Installments")
-        self.hide()
-        self.showMaximized()
-
-    # FUNCTIONS IN REGISTERATION TAB
-
-    # def register(self):
-    #     registered = self.registration.registerStudent()
-    #     if registered:
-    #         self.startHome()
-
-    # FUNCTIONS IN SEARCH TAB
-
-    # FUNCTIONS IN BATCHES TAB
-    # FUNCTIONS IN UPDATE TAB
-    # FUNCTIONS IN PAYMENT TAB
-
 
 if __name__ == "__main__":
     import sys
