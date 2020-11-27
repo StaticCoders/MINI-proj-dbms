@@ -185,6 +185,8 @@ class Ui_NewCourseEnrollmentWindow(object):
         else:
             lst = []
         completer = QCompleter(lst, self.nameInput)
+        completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        completer.setFilterMode(QtCore.Qt.MatchContains)
         self.nameInput.setCompleter(completer)
         mycursor.execute("SELECT course_name FROM courses_table")
         result = mycursor.fetchall()
@@ -239,6 +241,7 @@ class Ui_NewCourseEnrollmentWindow(object):
                 else:
                     courses = []
                     c = 0
+                    k = 0
                     for x in range(self.courseList.count()):
                         if self.courseList.item(x).checkState():
                             courses.append(self.courseList.item(x).text())
@@ -246,15 +249,31 @@ class Ui_NewCourseEnrollmentWindow(object):
                         sql = "SELECT course_id FROM courses_table WHERE course_name = '" + i + "'"
                         mycursor.execute(sql)
                         getCID = mycursor.fetchone()
-                        sql = "INSERT INTO student_course_batch (student_id, course_id) VALUES(%s,%s)"
-                        val = (getSID[0], getCID[0])
+                        sql = "SELECT student_id,course_id FROM student_course_batch WHERE course_id = (%s) AND student_id = (%s)"
+                        val = (getCID[0], getSID[0])
                         mycursor.execute(sql, val)
+                        if mycursor.rowcount != 0:
+                            msg = QtWidgets.QMessageBox()
+                            msg.setIcon(QtWidgets.QMessageBox.Information)
+                            msg.setText("The student has already opted for the course "+i)
+                            msg.setWindowTitle("Information")
+                            k += 1
+                            msg.exec_()
+                        else:
+                            sql = "INSERT INTO student_course_batch (student_id, course_id) VALUES(%s,%s)"
+                            val = (getSID[0], getCID[0])
+                            mycursor.execute(sql, val)
+                            mydb.commit()
                         c += 1
-                        mydb.commit()
-                    if len(courses) == c:
+                    print(k)
+                    print(len(courses))
+                    if len(courses) == c and k < len(courses):
                         msg = QtWidgets.QMessageBox()
                         msg.setIcon(QtWidgets.QMessageBox.Information)
-                        msg.setText("Successfully Enrolled for New course")
+                        if len(courses) == c and k == 1:
+                            msg.setText("Successfully Enrolled for New course")
+                        else:
+                            msg.setText("Successfully Enrolled for New courses")
                         msg.setWindowTitle("Success")
                         msg.exec_()
                         self.nameInput.clear()
@@ -264,7 +283,8 @@ class Ui_NewCourseEnrollmentWindow(object):
                     else:
                         msg = QtWidgets.QMessageBox()
                         msg.setIcon(QtWidgets.QMessageBox.Warning)
-                        msg.setText("Problem Occurred while enrolling the student")
+                        msg.setText("Enrollment Not Completed")
+                        msg.setInformativeText("Please select courses which are not opted by the student earlier")
                         msg.setWindowTitle("Warning")
                         msg.exec_()
 

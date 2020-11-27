@@ -393,11 +393,9 @@ class Ui_BatchAllotmentWindow(object):
 
         for x in items:
             name = tuple(x.text().split(" "))
-            print(name)
             sql = "SELECT batch_id FROM batches_table WHERE batch_name = '" + curBatch + "'"
             mycursor.execute(sql)
             getBatchId = mycursor.fetchone()
-            print(getBatchId)
             sql = "SELECT course_id FROM courses_table WHERE course_name = '" + curCourse + "'"
             mycursor.execute(sql)
             courseid = mycursor.fetchone()
@@ -405,17 +403,25 @@ class Ui_BatchAllotmentWindow(object):
                   "last_name = (%s) "
             mycursor.execute(sql, name)
             getStudentId = mycursor.fetchone()
-            print(getStudentId)
+            query = "CREATE TABLE IF NOT EXISTS bitsfinal." + curBatch + "(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id));"
+            mycursor.execute(query)
             if x in globalcert:
                 sql = "UPDATE student_course_batch SET batch_id = (%s), global_cert = 'Yes' WHERE student_id = (%s) " \
                       "AND course_id = (%s)"
                 val = (getBatchId[0], getStudentId[0], courseid[0])
+                mycursor.execute(sql, val)
+                sql = "INSERT INTO " + curBatch + " (student_id,course_id, global_cert) VALUES(%s,%s,%s)"
+                val = (getStudentId[0], courseid[0], 'Yes')
                 mycursor.execute(sql, val)
             else:
                 sql = "UPDATE student_course_batch SET batch_id = (%s), global_cert = 'No' WHERE student_id = (%s) " \
                       "AND course_id = (%s)"
                 val = (getBatchId[0], getStudentId[0], courseid[0])
                 mycursor.execute(sql, val)
+                sql = "INSERT INTO "+curBatch+" (student_id,course_id, global_cert) VALUES(%s,%s,%s)"
+                val = (getStudentId[0], courseid[0], 'No')
+                mycursor.execute(sql, val)
+            mydb.commit()
 
         if mycursor.rowcount == len(items):
             msg = QtWidgets.QMessageBox()
@@ -432,7 +438,6 @@ class Ui_BatchAllotmentWindow(object):
 
     def loadBatches(self):
         self.batchComboBox.clear()
-        print(self.courseComboBox.currentIndex())
         if self.courseComboBox.currentIndex() != -1:
             mycursor = mydb.cursor()
             curCourse = self.courseComboBox.currentText()
