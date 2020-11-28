@@ -489,8 +489,17 @@ class Ui_InstallmentWindow(object):
                 msg.setText("Instalment total sum is greater than the Total Amount")
                 msg.setWindowTitle("Warning")
                 msg.exec_()
-            # else:  # less
-            #     self.sum = 0
+            else:  # less
+                installmentTuple = (curInstallmentNo, curInstallmentAmount, curInstallmentDate)
+                self.installmentsArray.append(installmentTuple)
+                self.installmentsCount += 1
+                show_installment = str(curInstallmentNo) + ":  " + str(curInstallmentDate) + "   " + str(curInstallmentAmount)
+                self.installmentList.addItem(show_installment)
+                self.comboBox.removeItem(currentIndex)
+                self.comboBox.setCurrentIndex(currentIndex)
+                self.dateEdit.setDate(QDate.currentDate())
+                self.lineEdit_3.setText("")
+                self.sum = 0
             #     # print(self.sum)
             #     msg = QtWidgets.QMessageBox()
             #     msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -518,19 +527,18 @@ class Ui_InstallmentWindow(object):
         for x, y, z in self.installmentsArray:
             if self.paymentCount == 0:
                 sql = "INSERT INTO payment_table (student_id, no_of_installments, total_amt) VALUES(%s,%s,%s)"
-            cursor.execute(sql, val)
-            mydb.commit()
-            sql = "SELECT payment_id FROM payment_table ORDER BY payment_id DESC"
-            cursor.execute(sql)
-            pay_id = cursor.fetchone()
-            self.payment_id = pay_id[0]
-            temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
-            sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
-            cursor.execute(sql, temp)
-            mydb.commit()
-            self.paymentCount += 1
-            if x == self.finalComboVal:
-                if self.flag == 0:
+                cursor.execute(sql, val)
+                mydb.commit()
+                sql = "SELECT payment_id FROM payment_table ORDER BY payment_id DESC"
+                cursor.execute(sql)
+                pay_id = cursor.fetchone()
+                self.payment_id = pay_id[0]
+                temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
+                sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
+                cursor.execute(sql, temp)
+                mydb.commit()
+                self.paymentCount += 1
+                if x == self.finalComboVal:
                     self.comboBox.clear()
                     self.lineEdit.clear()
                     self.lineEdit_2.clear()
@@ -544,14 +552,12 @@ class Ui_InstallmentWindow(object):
                     msg.setText("All Installments Submitted for " + stud_name)
                     msg.setWindowTitle("Successful")
                     msg.exec_()
-
-        else:
-            temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
-            sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
-            cursor.execute(sql, temp)
-            mydb.commit()
-            if x == self.finalComboVal:
-                if self.flag == 0:
+            else:
+                temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
+                sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
+                cursor.execute(sql, temp)
+                mydb.commit()
+                if x == self.finalComboVal:
                     self.comboBox.clear()
                     self.lineEdit.clear()
                     self.lineEdit_2.clear()
