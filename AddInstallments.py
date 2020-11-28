@@ -438,58 +438,66 @@ class Ui_InstallmentWindow(object):
             for x in range(0, self.installmentsCount):
                 self.comboBox.removeItem(0)
 
+
     def addInstallment(self):
         currentIndex = self.comboBox.currentIndex()
         stud_name = self.lineEdit.text()  # name
         total_amt = self.lineEdit_2.text()  # total amt
+        self.lineEdit.setEnabled(False)
+        self.lineEdit_2.setEnabled(False)
         curInstallmentNo = int(self.comboBox.currentText())
         InstallmentAmt = self.lineEdit_3.text()
-        if stud_name!="" and total_amt!="" and curInstallmentNo!=0 and InstallmentAmt!="":
+        if stud_name != "" and total_amt != "" and curInstallmentNo != 0 and InstallmentAmt != "":
             curInstallmentAmount = int(self.lineEdit_3.text())
             curInstallmentDate = self.dateEdit.date().toPyDate()
-            self.dateEdit.setMinimumDate(curInstallmentDate)  #setting the minimum date as the date recently choosed
-            if self.finalComboVal>curInstallmentNo:
+            self.dateEdit.setMinimumDate(curInstallmentDate)  # setting the minimum date as the date recently choosed
+            for x in self.installmentsArray:
+                self.sum += int(x[1])
+            self.sum += curInstallmentAmount
+            # if self.finalComboVal>curInstallmentNo:
+            # installmentTuple = (curInstallmentNo, curInstallmentAmount, curInstallmentDate)
+            # self.installmentsArray.append(installmentTuple)
+            # self.installmentsCount += 1
+            # show_installment = str(curInstallmentNo) + ":  " + str(curInstallmentDate) + "   " + str(curInstallmentAmount)
+            # self.installmentList.addItem(show_installment)
+            # self.comboBox.removeItem(currentIndex)
+            # self.comboBox.setCurrentIndex(currentIndex)
+            # self.dateEdit.setDate(QDate.currentDate())
+            # self.lineEdit_3.setText("")
+            # elif self.finalComboVal==curInstallmentNo:   #checking if the installment total is equal to tot_amt
+            #     for x in self.installmentsArray:
+            #         self.sum += int(x[1])
+            #     self.sum += curInstallmentAmount
+            # print(self.sum)
+            if self.sum == int(total_amt):  # equal
+                self.flag = 0
                 installmentTuple = (curInstallmentNo, curInstallmentAmount, curInstallmentDate)
                 self.installmentsArray.append(installmentTuple)
                 self.installmentsCount += 1
-                show_installment = str(curInstallmentNo) + ":  " + str(curInstallmentDate) + "   " + str(curInstallmentAmount)
+                show_installment = str(curInstallmentNo) + ":  " + str(curInstallmentDate) + "   " + str(
+                    curInstallmentAmount)
                 self.installmentList.addItem(show_installment)
                 self.comboBox.removeItem(currentIndex)
                 self.comboBox.setCurrentIndex(currentIndex)
                 self.dateEdit.setDate(QDate.currentDate())
                 self.lineEdit_3.setText("")
-            elif self.finalComboVal==curInstallmentNo:   #checking if the installment total is equal to tot_amt
-                for x in self.installmentsArray:
-                    self.sum += int(x[1])
-                self.sum += curInstallmentAmount
-                #print(self.sum)
-                if self.sum == int(total_amt):  #equal
-                    self.flag = 0
-                    installmentTuple = (curInstallmentNo, curInstallmentAmount, curInstallmentDate)
-                    self.installmentsArray.append(installmentTuple)
-                    self.installmentsCount += 1
-                    show_installment = str(curInstallmentNo) + ":  " + str(curInstallmentDate) + "   " + str(curInstallmentAmount)
-                    self.installmentList.addItem(show_installment)
-                    self.comboBox.removeItem(currentIndex)
-                    self.comboBox.setCurrentIndex(currentIndex)
-                    self.dateEdit.setDate(QDate.currentDate())
-                    self.lineEdit_3.setText("")
-                elif self.sum > int(total_amt):  #more
-                    self.sum = 0
-                    #print(self.sum)
-                    msg = QtWidgets.QMessageBox()
-                    msg.setIcon(QtWidgets.QMessageBox.Warning)
-                    msg.setText("Instalment total sum is greater than the Total Amount")
-                    msg.setWindowTitle("Warning")
-                    msg.exec_()
-                else:            #less
-                    self.sum = 0
-                    #print(self.sum)
-                    msg = QtWidgets.QMessageBox()
-                    msg.setIcon(QtWidgets.QMessageBox.Warning)
-                    msg.setText("Instalment total sum is less than the Total Amount")
-                    msg.setWindowTitle("Warning")
-                    msg.exec_()
+            elif self.sum > int(total_amt):  # more
+                self.sum = 0
+                # print(self.sum)
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("Instalment total sum is greater than the Total Amount")
+                msg.setWindowTitle("Warning")
+                msg.exec_()
+            # else:  # less
+            #     self.sum = 0
+            #     # print(self.sum)
+            #     msg = QtWidgets.QMessageBox()
+            #     msg.setIcon(QtWidgets.QMessageBox.Warning)
+            #     msg.setText("Instalment total sum is less than the Total Amount")
+            #     msg.setWindowTitle("Warning")
+            #     msg.exec_()
+
         else:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -498,9 +506,7 @@ class Ui_InstallmentWindow(object):
             msg.exec_()
 
 
-
     def submit(self):
-
         cursor = mydb.cursor(buffered=True)
         stud_name = self.lineEdit.text()
         name = tuple(stud_name.split(" "))
@@ -512,55 +518,53 @@ class Ui_InstallmentWindow(object):
         for x, y, z in self.installmentsArray:
             if self.paymentCount == 0:
                 sql = "INSERT INTO payment_table (student_id, no_of_installments, total_amt) VALUES(%s,%s,%s)"
-                cursor.execute(sql, val)
-                mydb.commit()
-                sql = "SELECT payment_id FROM payment_table ORDER BY payment_id DESC"
-                cursor.execute(sql)
-                pay_id = cursor.fetchone()
-                self.payment_id = pay_id[0]
-                temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
-                sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
-                cursor.execute(sql, temp)
-                mydb.commit()
-                self.paymentCount += 1
-                if x==self.finalComboVal:
-                    if self.flag == 0:
-                        self.comboBox.clear()
-                        self.lineEdit.clear()
-                        self.lineEdit_2.clear()
-                        self.installmentList.clear()
-                        self.installmentsCount = 0
-                        self.noOfInstallment.clear()
-                        self.noOfInstallment.setValue(0)
-                        self.dateEdit.clearMinimumDate()
-                        msg = QtWidgets.QMessageBox()
-                        msg.setIcon(QtWidgets.QMessageBox.Information)
-                        msg.setText("All Installments Submitted for "+stud_name)
-                        msg.setWindowTitle("Successful")
-                        msg.exec_()
+            cursor.execute(sql, val)
+            mydb.commit()
+            sql = "SELECT payment_id FROM payment_table ORDER BY payment_id DESC"
+            cursor.execute(sql)
+            pay_id = cursor.fetchone()
+            self.payment_id = pay_id[0]
+            temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
+            sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
+            cursor.execute(sql, temp)
+            mydb.commit()
+            self.paymentCount += 1
+            if x == self.finalComboVal:
+                if self.flag == 0:
+                    self.comboBox.clear()
+                    self.lineEdit.clear()
+                    self.lineEdit_2.clear()
+                    self.installmentList.clear()
+                    self.installmentsCount = 0
+                    self.noOfInstallment.clear()
+                    self.noOfInstallment.setValue(0)
+                    self.dateEdit.clearMinimumDate()
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Information)
+                    msg.setText("All Installments Submitted for " + stud_name)
+                    msg.setWindowTitle("Successful")
+                    msg.exec_()
 
-            else:
-                temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
-                sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
-                cursor.execute(sql, temp)
-                mydb.commit()
-                if x==self.finalComboVal:
-                    if self.flag == 0:
-                        self.comboBox.clear()
-                        self.lineEdit.clear()
-                        self.lineEdit_2.clear()
-                        self.installmentList.clear()
-                        self.installmentsCount = 0
-                        self.noOfInstallment.clear()
-                        self.noOfInstallment.setValue(0)
-                        self.dateEdit.clearMinimumDate()
-                        msg = QtWidgets.QMessageBox()
-                        msg.setIcon(QtWidgets.QMessageBox.Information)
-                        msg.setText("All Installments Submitted for "+stud_name)
-                        msg.setWindowTitle("Successful")
-                        msg.exec_()
-
-
+        else:
+            temp = (student_id[0], self.payment_id, x, 'Not Paid', y, z)
+            sql = "INSERT INTO installments_table (student_id, payment_id, installment_no, status, installment_amt, installment_date) VALUES(%s,%s,%s,%s,%s,%s)"
+            cursor.execute(sql, temp)
+            mydb.commit()
+            if x == self.finalComboVal:
+                if self.flag == 0:
+                    self.comboBox.clear()
+                    self.lineEdit.clear()
+                    self.lineEdit_2.clear()
+                    self.installmentList.clear()
+                    self.installmentsCount = 0
+                    self.noOfInstallment.clear()
+                    self.noOfInstallment.setValue(0)
+                    self.dateEdit.clearMinimumDate()
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Information)
+                    msg.setText("All Installments Submitted for " + stud_name)
+                    msg.setWindowTitle("Successful")
+                    msg.exec_()
 
 
     def deleteAll(self):
@@ -598,16 +602,16 @@ class Ui_InstallmentWindow(object):
         self.cancelButton.setText(_translate("InstallmentWindow", "Back"))
         self.deleteAllButton.setText(_translate("InstallmentWindow", "Delete All"))
 
-    # INPUT VALIDATOR
-    # ----String----#
+        # INPUT VALIDATOR
+        # ----String----#
         self.myregex = QtCore.QRegExp("[A-Za-z]+")
         self.myregex3 = QtCore.QRegExp("[A-Za-z ]+")
         self.myregex2 = QtCore.QRegExp("[0-9A-Za-z, -]+")
         self.myregexph = QtCore.QRegExp("[0-9]+")
 
-    # validate name
+        # validate name
         self.lineEdit.textChanged.connect(self.validate_name)
-    # validate amount
+        # validate amount
         self.lineEdit_2.textChanged.connect(self.validate_amt_2)
         self.lineEdit_3.textChanged.connect(self.validate_amt_3)
 
