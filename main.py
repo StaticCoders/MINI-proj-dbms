@@ -10,10 +10,10 @@ from PyQt5.QtWidgets import QMessageBox
 from Registration import *
 from HomePage import *
 # For Company Drives
-from AddCompanyDrive_Final import *     # To actually add a drive
+from AddCompanyDrive_Final import *     # To add a drive
 from add_company import *               # To add a company
-from viewDrive import *
-from CompanyDriveMain import *          # The main window to show the options
+from viewDrive import *                 # To view the drive
+from CompanyDriveMain import *          # The main window to show the options for Company Drive
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -147,25 +147,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showMaximized()
         self.addcompanydrive.cancel_Button.clicked.connect(self.startCompanyDrives) # if he clicks cancel while adding Drive go back to CompanyDrive  main
 
-    def addCompany(self):
+    def addCompany(self):  #This show the dialog box to add Company Name to Company List
         self.addcompany  = Ui_AddCompany_Dailog()
         self.x = QtWidgets.QDialog()
         self.addcompany.setupUi(self.x)
         self.addcompany.cancelButton.clicked.connect(self.x.hide)
         self.x.show()
 
-    def viewDriveCall(self):
+    def viewDriveCall(self):   # This Shows all the existing Company Drives.
         self.viewdrive = Ui_ViewDrive()
         self.viewdrive.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.showMaximized()
         self.viewdrive.back_Button.clicked.connect(self.startCompanyDrives)
 
-    # FUNCTIONS IN SEARCH TAB
 
-    # FUNCTIONS IN BATCHES TAB
-    # FUNCTIONS IN UPDATE TAB
-    # FUNCTIONS IN PAYMENT TAB
 
 
 if __name__ == "__main__":
