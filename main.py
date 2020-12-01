@@ -31,6 +31,10 @@ mydb = mysql.connector.connect(
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+        self.viewdrive = Ui_ViewDrive()
+        self.addcompany  = Ui_AddCompany_Dailog()
+        self.addcompanydrive  = Ui_AddDrive()
+        self.companyDrive = Ui_ComanyDriveMain()
         self.batchAllotment = Ui_BatchAllotmentWindow()
         self.batches = Ui_BatchesWindow()
         self.newRegistration = Ui_NewRegistrationWindow()
@@ -83,7 +87,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showMaximized()
         self.batchAllotment.cancelButton.clicked.connect(self.startBatches)
     def startCompanyDrives(self):   # This is open the Window of Company Drive with the options
-        self.companyDrive = Ui_ComanyDriveMain()
         self.companyDrive.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Company Drives")
@@ -95,21 +98,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showMaximized()
 
     def addCompanyDrive(self):   # This will open the Add Drive Window
-        self.addcompanydrive  = Ui_AddDrive()
         self.addcompanydrive.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.showMaximized()
         self.addcompanydrive.cancel_Button.clicked.connect(self.startCompanyDrives) # if he clicks cancel while adding Drive go back to CompanyDrive  main
 
     def addCompany(self):  #This show the dialog box to add Company Name to Company List
-        self.addcompany  = Ui_AddCompany_Dailog()
         self.x = QtWidgets.QDialog()
         self.addcompany.setupUi(self.x)
         self.addcompany.cancelButton.clicked.connect(self.x.hide)
         self.x.show()
 
     def viewDriveCall(self):   # This Shows all the existing Company Drives.
-        self.viewdrive = Ui_ViewDrive()
         self.viewdrive.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.showMaximized()

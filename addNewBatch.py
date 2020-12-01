@@ -13,8 +13,8 @@ from datetime import date
 import mysql.connector
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
+    user="root",
+    password="amigobong",
     database="bitsfinal"
 )
 
