@@ -15,7 +15,7 @@ mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="amigobong",
-    database="db01"
+    database="bitsfinal"
 )
 
 class Ui_AddCompany_Dailog(object):
@@ -92,10 +92,10 @@ class Ui_AddCompany_Dailog(object):
             self.companyName_Label.clear()
             return
         cur = mydb.cursor()
-        sql = "select * from Company where Company_Name = %s"
+        sql = "select * from company_table where company_name = %s"
         cur.execute(sql,(c_name,))
         if len(cur.fetchall()) == 0: # If there is no company Present witht that name Add it.
-            sql_insert = "insert into Company(Company_Name) values(%s)"
+            sql_insert = "insert into company_table(company_name) values(%s)"
             cur.execute(sql_insert,(c_name,))
             mydb.commit()
             self.warningLabel.setText('{} added!'.format(c_name)) # Display Comany added in Green Color

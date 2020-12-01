@@ -19,7 +19,7 @@ import mysql.connector
 mydb = mysql.connector.connect(host="localhost",
     user="root",
     password="amigobong",
-    database="db01")
+    database="bitsfinal")
 
 ####### End of added Code ######
 
@@ -211,8 +211,8 @@ class Ui_ViewDrive(object):
 
         ################  Added Code ##############
         self.search_dateEdit.setDate(QDate.currentDate())
-        sql_company = 'select Company_Name from Company'
-        sql_name = 'select first_name, middle_name, last_name from Student_info;'
+        sql_company = 'select company_name from company_table'
+        sql_name = 'select first_name, middle_name, last_name from student_info_table;'
         cur = mydb.cursor()
         cur.execute(sql_company)
         self.company_names = [x[0] for x in cur.fetchall()]
@@ -242,7 +242,7 @@ class Ui_ViewDrive(object):
         self.text = self.search_LineEdit.text().strip()  # get the student name typed
         textTuple = tuple(self.text.split())
         cur = mydb.cursor()
-        sql = "select distinct(Drive_Id) from Placement as p, Student_info as s where s.first_Name = %s and s.middle_name = %s and s.last_name = %s and s.StudId = p.Stud_Id;"
+        sql = "select distinct(drive_id) from placement_drives_table as p, student_info_table as s where s.first_Name = %s and s.middle_name = %s and s.last_name = %s and s.student_id = p.student_id;"
         cur.execute(sql, textTuple)
         drive_id = cur.fetchall()  # Get the all the drive ids for the given Company
         if len(drive_id) != 0:
@@ -258,7 +258,7 @@ class Ui_ViewDrive(object):
         stud_name = self.text  # Makes the full name of the student entered.
         for id in drive_id:
             # All the data is cleaned and stored in the 'data' dictionary for each drive after for loop completes
-            sql = "select first_name,middle_name,last_name,Company_Name,p.Date FROM Student_info as s, Company as c, Placement as p where p.Drive_Id = %s and p.Stud_ID = s.StudID and p.Company_Id = c.Company_Id order by p.Date desc;"
+            sql = "select first_name,middle_name,last_name,company_name,p.drive_date FROM student_info_table as s, company_table as c, placement_drives_table as p where p.drive_id = %s and p.student_id = s.student_id and p.company_id = c.company_id order by p.drive_date desc;"
             cur.execute(sql, (id,))
             res = cur.fetchall()
             cname_lst.append(res[0][3])
@@ -280,7 +280,7 @@ class Ui_ViewDrive(object):
     def searchViaCompanyName(self):
         self.text = self.search_LineEdit.text().strip() #get the company name typed
         data = dict()       # The Dictionary where all the data from DB is stored
-        sql = "select distinct(Drive_Id) from Placement as p, Company as c where c.Company_Name = %s and c.Company_Id = p.Company_Id;"
+        sql = "select distinct(drive_id) from placement_drives_table as p, company_table as c where c.company_name = %s and c.company_id = p.company_id;"
         cur = mydb.cursor()
         cur.execute(sql, (self.text,))
         drive_id = cur.fetchall()  # Get the all the drive ids for the given Company
@@ -295,7 +295,7 @@ class Ui_ViewDrive(object):
 
         for id in drive_id:
             # All the data is cleaned and stored in the 'data' dictionary for each drive after for loop completes
-            sql = "select first_name,middle_name,last_name,Company_Name,p.Date FROM Student_info as s, Company as c, Placement as p where p.Drive_Id = %s and p.Stud_ID = s.StudID and p.Company_Id = c.Company_Id order by p.Date desc;"
+            sql = "select first_name,middle_name,last_name,company_name,p.drive_date FROM student_info_table as s, company_table as c, placement_drives_table as p where p.drive_id = %s and p.student_id = s.student_id and p.company_id = c.company_id order by p.drive_date desc;"
 
             cur.execute(sql, (id,))
             res = cur.fetchall()
@@ -322,7 +322,7 @@ class Ui_ViewDrive(object):
         date = str(datetime.date.today())       # Current Date in string 'yyyy-mm-dd'
         data = dict()
 
-        sql = "select Drive_Id from Placement where date_sub(curdate(), interval 30 day) <= Date order by Date desc;"
+        sql = "select drive_id from placement_drives_table where date_sub(curdate(), interval 30 day) <= drive_date order by drive_date desc;"
         # Takes all the records with date within the last 30 days.
         cur = mydb.cursor()
         cur.execute(sql)
@@ -337,7 +337,7 @@ class Ui_ViewDrive(object):
             return
         for id in drive_id:
             # All the data is cleaned and stored in the 'data' dictionary for each drive after for loop completes
-            sql = "SELECT first_name,middle_name,last_name,Company_Name,p.Date FROM Student_info as s, Company as c, Placement as p where p.Drive_Id = %s and p.Stud_ID = s.StudID and p.Company_Id = c.Company_Id;"
+            sql = "SELECT first_name,middle_name,last_name,company_name,p.drive_date FROM student_info_table as s, company_table as c, placement_drives_table as p where p.drive_id = %s and p.student_id = s.student_id and p.company_id = c.company_id;"
             cur.execute(sql, (id,))
             res = cur.fetchall()
             stud_names = [' '.join(x[:3]) for x in res] # Makes the full name of all students of that drive.
@@ -364,7 +364,7 @@ class Ui_ViewDrive(object):
         date = self.search_dateEdit.date().toString('yyyy-MM-dd') # Get the date into a string
         data = dict()         #Dictionary where all the data will be stored data = {'drive_id':{'date':yyyy-mm-dd, names : [...],Company_Name: cname}}
         # Getting all the drive_ids with the given date.
-        sql = "select distinct(Drive_Id) from Placement where Date = %s;"
+        sql = "select distinct(drive_id) from placement_drives_table where drive_date = %s;"
         cur = mydb.cursor()
         cur.execute(sql, (date,))
         drive_id = cur.fetchall()    # Get the all the drive ids created for that day
@@ -378,7 +378,7 @@ class Ui_ViewDrive(object):
             return
         for id in drive_id:
             # All the data is cleaned and stored in the 'data' dictionary for each drive after for loop completes
-            sql = "SELECT first_name,middle_name,last_name,Company_Name,p.Date FROM Student_info as s, Company as c, Placement as p where p.Drive_Id = %s and p.Stud_ID = s.StudID and p.Company_Id = c.Company_Id;"
+            sql = "SELECT first_name,middle_name,last_name,company_name,p.drive_date FROM student_info_table as s, company_table as c, placement_drive_table as p where p.drive_id = %s and p.stud_id = s.student_id and p.company_id = c.company_id;"
             cur.execute(sql, (id,))
             res = cur.fetchall()
             stud_names = [' '.join(x[:3]) for x in res] # Makes the full name of all students of that drive.

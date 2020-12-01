@@ -20,7 +20,7 @@ mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="amigobong",
-    database="db01"
+    database="bitsfinal"
 )
 
 
@@ -75,8 +75,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.registration.warningLabel.show()
         else:
             tdate = date.today()
-            sql = "INSERT INTO student_info (first_name,middle_name,last_name,date_of_admission,phone,address," \
-                  "education,experience,referral) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+            sql = "INSERT INTO student_info_table (first_name,middle_name,last_name,phone,whatsapp,email,date_of_admission,address," \
+                  "education,experience,referral) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
             val = (fname, mname, lname, tdate, phone, address, education, experience, referral)
             mycursor.execute(sql, val) # insert all the values taken to the database
             if mycursor.rowcount == 1:

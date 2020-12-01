@@ -19,7 +19,7 @@ mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="amigobong",
-    database="db01"
+    database="bitsfinal"
 )
 #####End of Added Code######
 
@@ -229,7 +229,7 @@ class Ui_AddDrive(object):
         # Adding a completer to the Company LineEdit Box
         cur = mydb.cursor()
         # Taking all the Comany_Names for QCompleter
-        sql = "select Company_Name from Company;"
+        sql = "select company_name from company_table;"
         cur.execute(sql)
         lst = cur.fetchall()  # lst will store the names of all the Companies
         if len(lst) != 0:
@@ -250,7 +250,7 @@ class Ui_AddDrive(object):
         c_name = self.comanyName_lineEdit.text().capitalize()
 
         cur = mydb.cursor()
-        sql = "select * from Company where Company_Name = %s"
+        sql = "select * from company_table where company_name = %s"
         cur.execute(sql, (c_name,))
         if len(cur.fetchall()) == 0:
             self.companyWarning_label.setText('Company Name Not Added!')
@@ -267,7 +267,7 @@ class Ui_AddDrive(object):
         stud_Name = self.studentName_lineEdit.text()
         cur = mydb.cursor()
         # The below sql quesry searches if the name matches either first, middle or last name
-        sql = "SELECT first_name,middle_name,last_name FROM Student_info WHERE first_name LIKE '%{}%' or middle_name LIKE  '%{}%' or last_name LIKE '%{}%'".format(
+        sql = "SELECT first_name,middle_name,last_name FROM student_info_table WHERE first_name LIKE '%{}%' or middle_name LIKE  '%{}%' or last_name LIKE '%{}%'".format(
             stud_Name, stud_Name, stud_Name)
         cur.execute(sql)
         lst = cur.fetchall()
@@ -305,9 +305,9 @@ class Ui_AddDrive(object):
             msg.setIcon(QMessageBox.Critical)
             msg.setText("No Company Name!")
             msg.exec_()
-        sql_cid = "select Company_Id from Company where Company_Name = %s"
-        sql_sid = "select StudId from Student_info where first_name = %s and middle_name = %s and last_name = %s"
-        sql_insert = "insert into Placement(StudID,Company_Id,Date) values(%s,%s,%s)"
+        sql_cid = "select company_id from company_table where company_name = %s"
+        sql_sid = "select student_id from student_info_table where first_name = %s and middle_name = %s and last_name = %s"
+        sql_insert = "insert into placement_drives_table(student_id,company_id,drive_date) values(%s,%s,%s)"
         cur = mydb.cursor()
         cur.execute(sql_cid, (c_name,))
         cid = cur.fetchone()[0]  # the company id corresponding to that name
