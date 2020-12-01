@@ -9,7 +9,17 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QCompleter
+from PyQt5.QtCore import QDate
 from main import *
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="127.0.0.1",
+    user="local",
+    password="",
+    database="mpdev"
+)
 
 
 class Ui_TransactionWindow(object):
@@ -17,107 +27,107 @@ class Ui_TransactionWindow(object):
         TransactionWindow.setObjectName("TransactionWindow")
         TransactionWindow.resize(1157, 851)
         TransactionWindow.setStyleSheet("QMainWindow{\n"
-"background-color: #212121;\n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"background-color: #212121;\n"
-"Color: #eeeeee;\n"
-"border-radius: 20px;\n"
-"}\n"
-"\n"
-"QPushButton#addButton{\n"
-"border: 2px solid #0d7377;\n"
-"}\n"
-"\n"
-"QPushButton#addButton:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"background-color: #0d7377;\n"
-"}\n"
-"\n"
-"QPushButton#submitButton{\n"
-"border: 2px solid #0d7377;\n"
-"border-radius: 25px;\n"
-"}\n"
-"\n"
-"QPushButton#submitButton:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"background-color: #0d7377;\n"
-"}\n"
-"\n"
-"QPushButton#cancelButton{\n"
-"color: #eeeeee;\n"
-"background-color: #212121;\n"
-"border: 2px solid #9a0002;\n"
-"border-radius: 25px;\n"
-"}\n"
-"\n"
-"QPushButton#cancelButton:hover{\n"
-"border: 3px solid rgb(255, 0, 0);\n"
-"background-color: #9a0002;\n"
-"}\n"
-"\n"
-"QLineEdit{\n"
-"padding-left: 6px;\n"
-"padding-right: 6px;\n"
-"border: 2px solid #0d7377;\n"
-"border-radius: 5px;\n"
-"}\n"
-"\n"
-"QLineEdit:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"}\n"
-"\n"
-"QTextEdit{\n"
-"border: 2px solid #0d7377;\n"
-"border-radius: 5px;\n"
-"}\n"
-"\n"
-"QTextEdit:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"}\n"
-"\n"
-"QListWidget{\n"
-"border: 2px solid #0d7377;\n"
-"border-radius: 5px;\n"
-"}\n"
-"\n"
-"QListWidget:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"}\n"
-"\n"
-"QSpinBox{\n"
-"border: 2px solid #0d7377;\n"
-"}\n"
-"\n"
-"QSpinBox:hover{\n"
-"border: 2px solid #32e0c4;\n"
-"}\n"
-"\n"
-"QLabel{\n"
-"color: #eeeeee;\n"
-"}\n"
-"\n"
-"QLabel#transactionLabel{\n"
-"color: #32e0c4;\n"
-"}\n"
-"\n"
-"QComboBox{\n"
-"border: 2px solid #0d7377;\n"
-"border-radius: 5px;\n"
-"padding-left: 4px;\n"
-"padding-right: 4px;\n"
-"}\n"
-"\n"
-"QComboBox:hover{\n"
-"border: 3px solid #32e0c4;\n"
-"}\n"
-"\n"
-"QComboBox QAbstractItemView {\n"
-"border: 2px solid #32e0c4;\n"
-"selection-background-color: #0d7377;\n"
-"}\n"
-"")
+                                        "background-color: #212121;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton{\n"
+                                        "background-color: #212121;\n"
+                                        "Color: #eeeeee;\n"
+                                        "border-radius: 20px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#addButton{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#addButton:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "background-color: #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#submitButton{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "border-radius: 25px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#submitButton:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "background-color: #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#cancelButton{\n"
+                                        "color: #eeeeee;\n"
+                                        "background-color: #212121;\n"
+                                        "border: 2px solid #9a0002;\n"
+                                        "border-radius: 25px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton#cancelButton:hover{\n"
+                                        "border: 3px solid rgb(255, 0, 0);\n"
+                                        "background-color: #9a0002;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLineEdit{\n"
+                                        "padding-left: 6px;\n"
+                                        "padding-right: 6px;\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "border-radius: 5px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLineEdit:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QTextEdit{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "border-radius: 5px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QTextEdit:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QListWidget{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "border-radius: 5px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QListWidget:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QSpinBox{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QSpinBox:hover{\n"
+                                        "border: 2px solid #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLabel{\n"
+                                        "color: #eeeeee;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QLabel#transactionLabel{\n"
+                                        "color: #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QComboBox{\n"
+                                        "border: 2px solid #0d7377;\n"
+                                        "border-radius: 5px;\n"
+                                        "padding-left: 4px;\n"
+                                        "padding-right: 4px;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QComboBox:hover{\n"
+                                        "border: 3px solid #32e0c4;\n"
+                                        "}\n"
+                                        "\n"
+                                        "QComboBox QAbstractItemView {\n"
+                                        "border: 2px solid #32e0c4;\n"
+                                        "selection-background-color: #0d7377;\n"
+                                        "}\n"
+                                        "")
         self.centralwidget = QtWidgets.QWidget(TransactionWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -177,7 +187,7 @@ class Ui_TransactionWindow(object):
         font.setFamily("Segoe UI")
         font.setPointSize(12)
         self.installmentNoLabel.setFont(font)
-        self.installmentNoLabel.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.installmentNoLabel.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.installmentNoLabel.setObjectName("installmentNoLabel")
         self.horizontalLayout.addWidget(self.installmentNoLabel)
         self.installmentNoInput = QtWidgets.QLineEdit(self.centralwidget)
@@ -264,6 +274,7 @@ class Ui_TransactionWindow(object):
         self.dateLabel.setObjectName("dateLabel")
         self.verticalLayout.addWidget(self.dateLabel)
         self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
+        self.dateEdit.setDisplayFormat("yyyy-MM-dd")
         self.dateEdit.setMinimumSize(QtCore.QSize(300, 40))
         self.dateEdit.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
@@ -273,6 +284,8 @@ class Ui_TransactionWindow(object):
         self.dateEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.dateEdit.setCalendarPopup(True)
         self.dateEdit.setObjectName("dateEdit")
+        self.dateEdit.setDate(QDate.currentDate())
+        self.dateEdit.setMinimumDate(QDate.currentDate())
         self.verticalLayout.addWidget(self.dateEdit)
         self.modeOfPaymentLabel = QtWidgets.QLabel(self.centralwidget)
         self.modeOfPaymentLabel.setMinimumSize(QtCore.QSize(300, 40))
@@ -396,9 +409,84 @@ class Ui_TransactionWindow(object):
         self.statusbar = QtWidgets.QStatusBar(TransactionWindow)
         self.statusbar.setObjectName("statusbar")
         TransactionWindow.setStatusBar(self.statusbar)
+        # Completer
+        cursor = mydb.cursor()
+        sql_name_query = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name FROM student_info s, payment_table p where s.student_id=p.student_id"
+        cursor.execute(sql_name_query)
+        lst = cursor.fetchall()
+        if len(lst) != 0:
+            lst = [' '.join(x) for x in lst]
+        else:
+            lst = []
+        completer = QCompleter(lst, self.nameInput)
+        completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        completer.setFilterMode(QtCore.Qt.MatchContains)
+        self.nameInput.setCompleter(completer)
 
         self.retranslateUi(TransactionWindow)
+
+        self.nameInput.textChanged.connect(self.setValues)
+        # submit button
+        self.submitButton.clicked.connect(self.submitTransaction)
+
         QtCore.QMetaObject.connectSlotsByName(TransactionWindow)
+
+    def setValues(self):
+        self.transactionsList.clear()
+        self.stud_name = self.nameInput.text()
+        cursor = mydb.cursor(buffered=True)
+        name_val = tuple(self.stud_name.split(" "))
+        if len(name_val)==3:
+                sql_name = "SELECT student_id FROM student_info WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
+                cursor.execute(sql_name, name_val)
+                self.stud_id = cursor.fetchone()  # got student id
+
+                sql_payment = "SELECT payment_id FROM payment_table WHERE student_id=" + str(self.stud_id[0]) + " ORDER BY payment_id DESC"
+                cursor.execute(sql_payment)
+                self.pay_id = cursor.fetchone()  # got payment id
+
+                sql = "SELECT installment_id FROM installments_table WHERE student_id=(%s) AND payment_id=(%s) AND status=%s ORDER BY installment_id "
+                install_val = (self.stud_id[0], self.pay_id[0],'Not Paid')
+                cursor.execute(sql, install_val)
+                self.installment_id = cursor.fetchone()  # got installment id
+
+                get_query = "SELECT installment_no,installment_amt FROM installments_table WHERE installment_id="+ str(self.installment_id[0])
+                cursor.execute(get_query)
+                self.display_installment_values = cursor.fetchone()  # got installment_no and installment_amt
+
+                #setting the real installment values
+                self.installmentNoInput.setText(str(self.display_installment_values[0]))
+                self.installmentAmtInput.setText(str(self.display_installment_values[1]))
+
+                #Adding previous payment list in listview
+
+                self.trans_amt = self.transactionAmtInput.text()
+                self.trans_date = self.dateEdit.date().toPyDate()
+                self.remark = self.remarkInput.toPlainText()
+                self.mode_of_payment = self.modeOfPaymentComboBox.currentText()
+
+                insert_prev_details_query = "SELECT installment_no,installment_amt,installment_date FROM installments_table WHERE student_id=(%s) AND payment_id=(%s) AND status=%s ORDER BY installment_id "
+                insert_prev_details_val = (self.stud_id[0], self.pay_id[0], 'Paid')
+                cursor.execute(insert_prev_details_query,insert_prev_details_val)
+                lst_of_prev_details = cursor.fetchall()   #got prev list of paid transactions of the student
+                if lst_of_prev_details:
+                        title = "No. "+"  Amount"+"    Date"
+                        self.transactionsList.addItem(title)
+                        for x in lst_of_prev_details:
+                                lst = str(x[0]) + ":     " + str(x[1]) + "            " + str(x[2])
+                                self.transactionsList.addItem(lst)
+                else:
+                        self.transactionsList.addItem("  No Installment Paid yet ! ")
+
+                #comparing payments
+
+
+
+    def submitTransaction(self):
+        print("submit")
+
+
+
 
     def retranslateUi(self, TransactionWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -421,3 +509,23 @@ class Ui_TransactionWindow(object):
         self.previousTransLabel.setText(_translate("TransactionWindow", "Previous Transactions"))
         self.submitButton.setText(_translate("TransactionWindow", "Submit"))
         self.cancelButton.setText(_translate("TransactionWindow", "Cancel"))
+
+        # INPUT VALIDATOR
+        # ----String----#
+        self.myregex = QtCore.QRegExp("[A-Za-z]+")
+        self.myregex3 = QtCore.QRegExp("[A-Za-z ]+")
+        self.myregex2 = QtCore.QRegExp("[0-9A-Za-z, -]+")
+        self.myregexph = QtCore.QRegExp("[0-9]+")
+
+        # validate name
+        self.nameInput.textChanged.connect(self.validate_name)
+        # validate amount
+        self.transactionAmtInput.textChanged.connect(self.validate_amt_2)
+
+    def validate_name(self):
+        my_validator = QtGui.QRegExpValidator(self.myregex3, self.nameInput)
+        self.nameInput.setValidator(my_validator)
+
+    def validate_amt_2(self):
+        my_validator = QtGui.QRegExpValidator(self.myregexph, self.transactionAmtInput)
+        self.transactionAmtInput.setValidator(my_validator)
