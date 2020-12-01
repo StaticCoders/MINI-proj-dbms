@@ -16,8 +16,8 @@ from PyQt5.QtWidgets import QCompleter
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
+    user="root",
+    password="amigobong",
     database="bitsfinal"
 )
 
@@ -38,10 +38,14 @@ class Ui_NewRegistrationWindow(object):
                                           "color: rgb(50, 224, 196);\n"
                                           "}\n"
                                           "QLabel{\n"
+                                          "font: 75 12pt \"Microsoft YaHei\";\n"
+                                          "font: 75 12pt \"Microsoft JhengHei UI\";\n"
+                                          "color: rgb(255, 255, 255);\n"
                                           "color: rgb(238, 238, 238);\n"
                                           "}\n"
                                           "\n"
                                           "QLineEdit{\n"
+                                          "background-color: rgb(238, 238, 238);\n"
                                           "padding: 5px;\n"
                                           "border:2px solid #0d7377;\n"
                                           "border-radius: 4px;\n"

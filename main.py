@@ -1,9 +1,31 @@
+# SECTIONS IN THIS FILE
+# FUNCTIONS IN REGISTRATION TAB
+# FUNCTIONS IN SEARCH TAB
+# FUNCTIONS IN BATCHES TAB
+# FUNCTIONS IN UPDATE TAB
+# FUNCTIONS IN PAYMENT TAB
+
 from PyQt5.QtWidgets import QMessageBox
+
+from Registration import *
 from HomePage import *
 from chooseInBatches import *
 from chooseInRegistration import *
 from batchAllotment import *
 from Registration import *
+# For Company Drives
+from AddCompanyDrive_Final import *     # To add a drive
+from add_company import *               # To add a company
+from viewDrive import *                 # To view the drive
+from CompanyDriveMain import *          # The main window to show the options for Company Drive
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
+)
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -23,6 +45,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Home")
         self.homescreen.registration.clicked.connect(self.startRegistration)
         self.homescreen.Batches.clicked.connect(self.startBatches)
+        self.homescreen.companydrives.clicked.connect(self.startCompanyDrives)
         self.hide()
         self.showMaximized()
 
@@ -34,7 +57,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.registration.newRegistrationButton.clicked.connect(self.startNewRegistration)
         self.registration.cancelButton.clicked.connect(self.startHome)
         self.hide()
-        self.showMaximized()
+        self.showMaximized()  # maxmizes the Window
 
     def startNewRegistration(self):
         self.newRegistration.setupUi(self)
@@ -59,6 +82,40 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
         self.batchAllotment.cancelButton.clicked.connect(self.startBatches)
+    def startCompanyDrives(self):   # This is open the Window of Company Drive with the options
+        self.companyDrive = Ui_ComanyDriveMain()
+        self.companyDrive.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("Company Drives")
+        self.companyDrive.addDrive_Button.clicked.connect(self.addCompanyDrive)
+        self.companyDrive.addCompany_Button.clicked.connect(self.addCompany)
+        self.companyDrive.viewDrive_Button.clicked.connect(self.viewDriveCall)
+        self.companyDrive.backHome_Button.clicked.connect(self.startHome)
+        self.hide()
+        self.showMaximized()
+
+    def addCompanyDrive(self):   # This will open the Add Drive Window
+        self.addcompanydrive  = Ui_AddDrive()
+        self.addcompanydrive.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.showMaximized()
+        self.addcompanydrive.cancel_Button.clicked.connect(self.startCompanyDrives) # if he clicks cancel while adding Drive go back to CompanyDrive  main
+
+    def addCompany(self):  #This show the dialog box to add Company Name to Company List
+        self.addcompany  = Ui_AddCompany_Dailog()
+        self.x = QtWidgets.QDialog()
+        self.addcompany.setupUi(self.x)
+        self.addcompany.cancelButton.clicked.connect(self.x.hide)
+        self.x.show()
+
+    def viewDriveCall(self):   # This Shows all the existing Company Drives.
+        self.viewdrive = Ui_ViewDrive()
+        self.viewdrive.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.showMaximized()
+        self.viewdrive.back_Button.clicked.connect(self.startCompanyDrives)
+
+
 
 
 if __name__ == "__main__":

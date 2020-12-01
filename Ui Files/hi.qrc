@@ -12,4 +12,5 @@
     <file>search.png</file>
     <file>update.png</file>
   </qresource>
+  <qresource/>
 </RCC>
