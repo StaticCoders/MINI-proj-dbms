@@ -208,7 +208,7 @@ class Ui_AddBatchDialog(object):
             print("Data inserted successfully!")
         else:
             print("Problem occurred while inserting data")
-        query = "CREATE TABLE IF NOT EXISTS bitsfinal."+batchName+"(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id), FOREIGN KEY (batch_id) REFERENCES batches_table(batch_id));"
+        query = "CREATE TABLE IF NOT EXISTS bitsfinal."+batchName+"(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL,batch_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id), FOREIGN KEY (batch_id) REFERENCES batches_table(batch_id));"
         mycursor.execute(query)
         mydb.commit()
 
@@ -233,7 +233,7 @@ class Ui_AddBatchDialog(object):
             return "SHARD"
         elif course == "Star Cloud":
             return "CLOUD"
-        elif course == "Star Devops":
+        elif course == "Star DevOps":
             return "DEVOPS"
 
     def retranslateUi(self, AddBatchDialog):
