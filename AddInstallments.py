@@ -19,7 +19,7 @@ mydb = mysql.connector.connect(
     host="127.0.0.1",
     user="local",
     password="",
-    database="bitsfinal"
+    database="mpdev"
 )
 
 
