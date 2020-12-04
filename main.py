@@ -11,7 +11,7 @@ from HomePage import *
 from chooseInPayment import *
 from AddInstallments import *
 from newTransaction import *
-
+from ListOfTrans import *
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -130,6 +130,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.payment.cancelButton.clicked.connect(self.startHome)
         self.payment.installmentButton.clicked.connect(self.addInstallment)
         self.payment.transactionButton.clicked.connect(self.newTransaction)
+        self.payment.listTransactionsButton.clicked.connect(self.newListTransaction)
         self.hide()
         self.showMaximized()
 
@@ -158,6 +159,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
 
+    #List Transaction button call
+    def newListTransaction(self):
+        self.listTransaction = Ui_ListMainWindow()
+        self.listTransaction.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("List Of Transactions")
+        self.listTransaction.backButton.clicked.connect(self.startPayment)
+        self.hide()
+        self.showMaximized()
 
 
 
