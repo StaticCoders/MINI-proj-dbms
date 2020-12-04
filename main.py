@@ -18,6 +18,7 @@ from AddCompanyDrive_Final import *     # To add a drive
 from add_company import *               # To add a company
 from viewDrive import *                 # To view the drive
 from CompanyDriveMain import *          # The main window to show the options for Company Drive
+from report import *                    # To show the report tab
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -31,6 +32,7 @@ mydb = mysql.connector.connect(
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+        self.report = Ui_report()
         self.viewdrive = Ui_ViewDrive()
         self.addcompany  = Ui_AddCompany_Dailog()
         self.addcompanydrive  = Ui_AddDrive()
@@ -50,6 +52,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.homescreen.registration.clicked.connect(self.startRegistration)
         self.homescreen.Batches.clicked.connect(self.startBatches)
         self.homescreen.companydrives.clicked.connect(self.startCompanyDrives)
+        self.homescreen.pushButton_5.clicked.connect(self.startReport)
         self.hide()
         self.showMaximized()
 
@@ -97,6 +100,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
 
+    # COMPANY DRIVES
+
     def addCompanyDrive(self):   # This will open the Add Drive Window
         self.addcompanydrive.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
@@ -115,7 +120,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showMaximized()
         self.viewdrive.back_Button.clicked.connect(self.startCompanyDrives)
 
+    # REPORT AND STATS
 
+    def startReport(self):
+        self.report.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.showMaximized()
+        self.report.backHome_Button.clicked.connect(self.startHome)
 
 
 if __name__ == "__main__":

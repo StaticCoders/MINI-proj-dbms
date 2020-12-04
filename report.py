@@ -205,8 +205,8 @@ class Ui_report(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.detail_tableWidget.sizePolicy().hasHeightForWidth())
         self.detail_tableWidget.setSizePolicy(sizePolicy)
-        self.detail_tableWidget.setMinimumSize(QtCore.QSize(381, 351))
-        self.detail_tableWidget.setMaximumSize(QtCore.QSize(381, 351))
+        self.detail_tableWidget.setMinimumSize(QtCore.QSize(571, 351))
+        self.detail_tableWidget.setMaximumSize(QtCore.QSize(571, 351))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.detail_tableWidget.setFont(font)
@@ -322,6 +322,8 @@ class Ui_report(object):
 
     def showDetailTable(self):
         self.detail_tableWidget.clear()
+        self.detail_tableWidget.setRowCount(0)
+        self.detail_tableWidget.setColumnCount(0)
         choice = self.choice_tableWidget.currentRow() # the index of the selected Row
         #choice = self.choice_tableWidget.item(row_index,0)
 
@@ -351,10 +353,10 @@ class Ui_report(object):
         data = cur.fetchall()
         print(data)
         if data == []:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("No Students Enrolled in this time period")
-            msg.exec_()
+            self.detail_tableWidget.setRowCount(1)
+            self.detail_tableWidget.setColumnCount(1)
+            self.detail_tableWidget.setHorizontalHeaderLabels(['Message'])
+            self.detail_tableWidget.setItem(0, 0, QTableWidgetItem('No Details avaliable.'))
             return
 
         ### Setting the Details of the selected Choice
@@ -375,10 +377,10 @@ class Ui_report(object):
         data = cur.fetchall()
 
         if not data:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("No Student Placed in this time period")
-            msg.exec_()
+            self.detail_tableWidget.setRowCount(1)
+            self.detail_tableWidget.setColumnCount(1)
+            self.detail_tableWidget.setHorizontalHeaderLabels(['Message'])
+            self.detail_tableWidget.setItem(0, 0, QTableWidgetItem('No Details avaliable.'))
             return
 
         ### Setting the Details of the selected Choice
@@ -394,17 +396,18 @@ class Ui_report(object):
             self.detail_tableWidget.setItem(i, 2, QTableWidgetItem(date))
 
     def totalExams(self):
-        sql = "select si.first_name, si.middle_name, si.last_name, c.course_name from student_course_batch as s, batches_table as b,student_info_table as si, courses_table as c where b.start_date between %s and %s and b.batch_id = s.batch_id and s.global_cert ='Yes'and s.course_id = c.course_id order by b.start_date asc;"
+        sql = "select si.first_name, si.middle_name, si.last_name, c.course_name from student_course_batch as s, batches_table as b, student_info_table as si, courses_table as c where b.batch_id = s.batch_id and s.course_id = c.course_id and si.student_id = s.student_id and s.global_cert ='Yes' and b.start_date between %s and %s order by b.start_date asc;"
         dates = (self.startDate, self.endDate)
         cur = mydb.cursor()
         cur.execute(sql, dates)
         data =  cur.fetchall()
         if not data:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("No Exam Enrollment in this time period")
-            msg.exec_()
+            self.detail_tableWidget.setRowCount(1)
+            self.detail_tableWidget.setColumnCount(1)
+            self.detail_tableWidget.setHorizontalHeaderLabels(['Message'])
+            self.detail_tableWidget.setItem(0, 0, QTableWidgetItem('No Details avaliable.'))
             return
+
         self.detail_tableWidget.setRowCount(len(data))
         self.detail_tableWidget.setColumnCount(2)
         self.detail_tableWidget.setHorizontalHeaderLabels(['Student Name', 'Course Name'])
@@ -421,10 +424,10 @@ class Ui_report(object):
         cur.execute(sql, dates)
         data = cur.fetchall()
         if not data:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("No Batches started in this time period")
-            msg.exec_()
+            self.detail_tableWidget.setRowCount(1)
+            self.detail_tableWidget.setColumnCount(1)
+            self.detail_tableWidget.setHorizontalHeaderLabels(['Message'])
+            self.detail_tableWidget.setItem(0, 0, QTableWidgetItem('No Details avaliable.'))
             return
         self.detail_tableWidget.setRowCount(len(data))
         self.detail_tableWidget.setColumnCount(3)
@@ -434,20 +437,20 @@ class Ui_report(object):
             date = record[1].strftime("%d-%m-%y")
             s_count = record[2]     # No. of students in that batch
             self.detail_tableWidget.setItem(i, 0, QTableWidgetItem(b_name))
-            self.detail_tableWidget.setItem(i, 1, QTableWidgetItem(s_count))
+            self.detail_tableWidget.setItem(i, 1, QTableWidgetItem(str(s_count)))
             self.detail_tableWidget.setItem(i, 2, QTableWidgetItem(date))
 
     def totalDrives(self):
-        sql = "select c.company_name, p.drive_date, count(p.drive_id)  from placement_drives_table as p, company_table as c where p.drive_date between %s and %s and p.company_id = c.company_id group by p.drive_id order by p.drive_date asc;"
+        sql = "select c.company_name, p.drive_date, count(p.drive_id) from placement_drives_table as p, company_table as c where p.drive_date between %s and %s and p.company_id = c.company_id group by p.drive_date,c.company_name order by p.drive_date asc;"
         cur = mydb.cursor()
         dates = (self.startDate, self.endDate)
         cur.execute(sql, dates)
         data = cur.fetchall()
         if not data:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("No Company Drives in this time period")
-            msg.exec_()
+            self.detail_tableWidget.setRowCount(1)
+            self.detail_tableWidget.setColumnCount(1)
+            self.detail_tableWidget.setHorizontalHeaderLabels(['Message'])
+            self.detail_tableWidget.setItem(0, 0, QTableWidgetItem('No Details avaliable.'))
             return
         self.detail_tableWidget.setRowCount(len(data))
         self.detail_tableWidget.setColumnCount(3)
@@ -457,7 +460,7 @@ class Ui_report(object):
             date = record[1].strftime("%d-%m-%y")
             s_count = record[2]  # No. of students in that batch
             self.detail_tableWidget.setItem(i, 0, QTableWidgetItem(d_name))
-            self.detail_tableWidget.setItem(i, 1, QTableWidgetItem(s_count))
+            self.detail_tableWidget.setItem(i, 1, QTableWidgetItem(str(s_count)))
             self.detail_tableWidget.setItem(i, 2, QTableWidgetItem(date))
 
     def totalInterviews(self):
@@ -467,10 +470,10 @@ class Ui_report(object):
         cur.execute(sql, dates)
         data =  cur.fetchall()
         if not data:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("No Interviews Conducted in this time period")
-            msg.exec_()
+            self.detail_tableWidget.setRowCount(1)
+            self.detail_tableWidget.setColumnCount(1)
+            self.detail_tableWidget.setHorizontalHeaderLabels(['Message'])
+            self.detail_tableWidget.setItem(0, 0, QTableWidgetItem('No Details avaliable.'))
             return
         self.detail_tableWidget.setRowCount(len(data))
         self.detail_tableWidget.setColumnCount(2)
@@ -479,7 +482,7 @@ class Ui_report(object):
             s_name = " ".join(record[0:3])      # Name Of Student
             i_count = record[3]                 # No. of interviews given by that student
             self.detail_tableWidget.setItem(i, 0, QTableWidgetItem(s_name))
-            self.detail_tableWidget.setItem(i, 1, QTableWidgetItem(i_count))
+            self.detail_tableWidget.setItem(i, 1, QTableWidgetItem(str(i_count)))
 
     ########## End of Added Code ########
 

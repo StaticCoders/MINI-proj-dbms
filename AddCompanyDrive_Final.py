@@ -237,13 +237,25 @@ class Ui_AddDrive(object):
         else:
             lst = []
         completer = QCompleter(lst, self.comanyName_lineEdit)
-        self.comanyName_lineEdit.setCompleter(completer)  # The Completer Set here
+        self.comanyName_lineEdit.setCompleter(completer)  # setting the completer to the line Edit here
         self.companyWarning_label.hide()
-        # editingFinished means when he deselects the box of hits enter key
+        # editingFinished means when he deselects the box or hits enter key
         self.comanyName_lineEdit.editingFinished.connect(self.companyCheck)
         self.studentName_lineEdit.textChanged.connect(self.showNameSuggestions)
         self.addDrive_Button.clicked.connect(self.addDrive)
 
+    def companyCompleter(self):
+        cur = mydb.cursor()
+        # Taking all the Comany_Names for QCompleter
+        sql = "select company_name from company_table;"
+        cur.execute(sql)
+        lst = cur.fetchall()  # lst will store the names of all the Companies
+        if len(lst) != 0:
+            lst = [x[0] for x in lst]  # Getting rid of the tuples in the list
+        else:
+            lst = []
+        completer = QCompleter(lst, self.comanyName_lineEdit)
+        self.comanyName_lineEdit.setCompleter(completer)  # setting the completer to the line Edit here
     def companyCheck(self):
         #Checks if the Company entered is added to the system or not
         # Capitalize() Capitalizes the First letter of the text.
@@ -262,7 +274,7 @@ class Ui_AddDrive(object):
         cur.close()
 
     def showNameSuggestions(self):
-        # Updates eveythime the user changes text in the Student Name LineEdit
+        # Updates everytime the user changes text in the Student Name LineEdit
         # Shows all suggestions for the name typed from the Database into the QlistView
         stud_Name = self.studentName_lineEdit.text()
         cur = mydb.cursor()
@@ -294,12 +306,12 @@ class Ui_AddDrive(object):
             msg.exec_()
             return
         else:
-            for i in range(self.nameAdded_list.count()-1):
+            for i in range(self.nameAdded_list.count()):
                 # all the items in AddedNames_list is in the List
                 names_lst.append(self.nameAdded_list.item(i).text())
             # Store them as list of name tuples as(First_Name, Middle_Name,Last_Name)
             names_lst = [tuple(name.split()) for name in names_lst]
-
+        names_lst = list(set(names_lst))
         if len(c_name) == 0:  # if no company was added and save was clicked
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
@@ -327,7 +339,7 @@ class Ui_AddDrive(object):
             drive_id = 1
 
         for stud_id in sid_lst:             # insert all the data into the Placement Table for every Student
-            cur.execute(sql_insert, (drive_id, cid, inp_date))
+            cur.execute(sql_insert, (drive_id,stud_id, cid, inp_date))
         mydb.commit()
         cur.close()
 

@@ -378,7 +378,7 @@ class Ui_ViewDrive(object):
             return
         for id in drive_id:
             # All the data is cleaned and stored in the 'data' dictionary for each drive after for loop completes
-            sql = "SELECT first_name,middle_name,last_name,company_name,p.drive_date FROM student_info_table as s, company_table as c, placement_drive_table as p where p.drive_id = %s and p.stud_id = s.student_id and p.company_id = c.company_id;"
+            sql = "SELECT s.first_name,s.middle_name,s.last_name,c.company_name,p.drive_date FROM student_info_table as s, company_table as c, placement_drives_table as p where p.drive_id = %s and p.student_id = s.student_id and p.company_id = c.company_id;"
             cur.execute(sql, (id,))
             res = cur.fetchall()
             stud_names = [' '.join(x[:3]) for x in res] # Makes the full name of all students of that drive.
