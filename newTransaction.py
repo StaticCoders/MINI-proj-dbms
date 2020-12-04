@@ -546,119 +546,130 @@ class Ui_TransactionWindow(object):
                     print(install_no)
                     diff=0
                     extra = 0
-                    diff = self.trans_amt - install_no[0][1] #found the extra amt
-                    extra = diff
-                    diff = install_no[1][1]-diff  #minus the extra from nxt installment
-                    print(diff)
-                    if diff>0:
-                    #updating the installment values and its payment status
-                        sql1 = "UPDATE installments_table SET installment_amt=%s,status=%s WHERE installment_no=%s AND payment_id=%s"
-                        val1 = (self.trans_amt,'Paid',install_no[0][0],self.pay_id[0])
-                        print(val1)
-                        cursor.execute(sql1,val1)
-                        mydb.commit()
-                        sql2 = "UPDATE installments_table SET installment_amt=%s WHERE installment_no=%s AND payment_id=%s"
-                        val2 = (diff, install_no[1][0],self.pay_id[0])
-                        cursor.execute(sql2, val2)
-                        mydb.commit()
-                    # insert in transaction table
-                        sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
-                                          "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
-                        sql_trans_val = (self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
-                        self.trans_amt, self.trans_date, self.mode_of_payment, self.remark)
-                        cursor.execute(sql_trans_table, sql_trans_val)
-                        mydb.commit()
-                    # update total_paid in payment table
-                        amt = 0
-                        sql = "SELECT total_paid FROM payment_table WHERE payment_id=" + str(self.pay_id[0])
-                        cursor.execute(sql)
-                        tot_amt = cursor.fetchone()
-                        amt = self.trans_amt + tot_amt[0]
-                        sql_update = "UPDATE payment_table SET total_paid=" + str(amt) + " WHERE payment_id=" + str(self.pay_id[0])
-                        cursor.execute(sql_update)
-                        mydb.commit()
+                    sum = install_no[0][1] + install_no[1][1]
+                    if self.trans_amt<= sum:
+                        diff = self.trans_amt - install_no[0][1] #found the extra amt
+                        extra = diff
+                        diff = install_no[1][1]-diff  #minus the extra from nxt installment
+                        print(diff)
+                        if diff>0:
+                        #updating the installment values and its payment status
+                            sql1 = "UPDATE installments_table SET installment_amt=%s,status=%s WHERE installment_no=%s AND payment_id=%s"
+                            val1 = (self.trans_amt,'Paid',install_no[0][0],self.pay_id[0])
+                            print(val1)
+                            cursor.execute(sql1,val1)
+                            mydb.commit()
+                            sql2 = "UPDATE installments_table SET installment_amt=%s WHERE installment_no=%s AND payment_id=%s"
+                            val2 = (diff, install_no[1][0],self.pay_id[0])
+                            cursor.execute(sql2, val2)
+                            mydb.commit()
+                        # insert in transaction table
+                            sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
+                                              "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+                            sql_trans_val = (self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
+                            self.trans_amt, self.trans_date, self.mode_of_payment, self.remark)
+                            cursor.execute(sql_trans_table, sql_trans_val)
+                            mydb.commit()
+                        # update total_paid in payment table
+                            amt = 0
+                            sql = "SELECT total_paid FROM payment_table WHERE payment_id=" + str(self.pay_id[0])
+                            cursor.execute(sql)
+                            tot_amt = cursor.fetchone()
+                            amt = self.trans_amt + tot_amt[0]
+                            sql_update = "UPDATE payment_table SET total_paid=" + str(amt) + " WHERE payment_id=" + str(self.pay_id[0])
+                            cursor.execute(sql_update)
+                            mydb.commit()
 
-                        msg = QtWidgets.QMessageBox()
-                        msg.setIcon(QtWidgets.QMessageBox.Information)
-                        msg.setText("Data Submitted Successfully and your extra payment of Rs."+str(extra)+" is deducted from your next "
-                                    "Installment.")
-                        msg.setWindowTitle("Successful")
-                        msg.exec_()
-                        self.nameInput.clear()
-                        self.installmentNoInput.clear()
-                        self.installmentNoInput.setText("xx")
-                        self.installmentAmtInput.clear()
-                        self.installmentAmtInput.setText("xxxxx")
-                        self.transactionAmtInput.clear()
-                        self.transactionsList.clear()
-                        self.remarkInput.clear()
-                        self.modeOfPaymentComboBox.setCurrentIndex(0)
-                        self.dateEdit.setDate(QDate.currentDate())
+                            msg = QtWidgets.QMessageBox()
+                            msg.setIcon(QtWidgets.QMessageBox.Information)
+                            msg.setText("Data Submitted Successfully and your extra payment of Rs."+str(extra)+" is deducted from your next "
+                                        "Installment.")
+                            msg.setWindowTitle("Successful")
+                            msg.exec_()
+                            self.nameInput.clear()
+                            self.installmentNoInput.clear()
+                            self.installmentNoInput.setText("xx")
+                            self.installmentAmtInput.clear()
+                            self.installmentAmtInput.setText("xxxxx")
+                            self.transactionAmtInput.clear()
+                            self.transactionsList.clear()
+                            self.remarkInput.clear()
+                            self.modeOfPaymentComboBox.setCurrentIndex(0)
+                            self.dateEdit.setDate(QDate.currentDate())
 
-                    elif diff<0:
+                        elif diff<0:
+                            msg = QtWidgets.QMessageBox()
+                            msg.setIcon(QtWidgets.QMessageBox.Warning)
+                            msg.setText("The amount you have entered is \nRs." + str(extra) + " extra."
+                                         "\nPlease re-enter correct Installment amount.")
+                            msg.setWindowTitle("Warning")
+                            msg.exec_()
+                            # else:
+                            #     #print the acc msg
 
+                        elif diff==0:
+                            #cursor = mydb.cursor(buffered=True)
+                            # updating the installment values and its payment status
+                            sql1 = "UPDATE installments_table SET installment_amt=(%s),status=(%s) WHERE installment_no=(%s) AND payment_id=%s"
+                            val1 = (self.trans_amt, 'Paid', install_no[0][0],self.pay_id[0])
+                            cursor.execute(sql1, val1)
+                            mydb.commit()
+
+                            sql2 = "UPDATE installments_table SET installment_amt=%s,status=%s WHERE installment_no=%s AND payment_id=%s"
+                            val2 = (0,'Paid', install_no[1][0], self.pay_id[0])
+                            cursor.execute(sql2, val2)
+                            mydb.commit()
+
+                            sql_inst_id = "SELECT installment_id FROM installments_table WHERE installment_no="+str(install_no[1][0])
+                            cursor.execute(sql_inst_id)
+                            inst_id = cursor.fetchone()
+
+                            # insert in transaction table
+                            sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
+                                              "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+                            sql_trans_val = (
+                            self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
+                            self.trans_amt, self.trans_date, self.mode_of_payment, self.remark)
+                            cursor.execute(sql_trans_table, sql_trans_val)
+                            mydb.commit()
+                            # update total_paid in payment table
+                            amt = 0
+                            sql = "SELECT total_paid FROM payment_table WHERE payment_id=" + str(self.pay_id[0])
+                            cursor.execute(sql)
+                            tot_amt = cursor.fetchone()
+                            amt = self.trans_amt + tot_amt[0]
+                            sql_update = "UPDATE payment_table SET no_of_installments="+str(install_no[0][0])+",total_paid=" + str(amt) + " WHERE payment_id=" + str(self.pay_id[0])
+                            cursor.execute(sql_update)
+                            mydb.commit()
+
+                            # sql = "DELETE FROM installments_table WHERE installment_id=(%s) AND payment_id=(%s)"
+                            # val = (inst_id[0], self.pay_id[0])
+                            # cursor.execute(sql, val)
+                            # mydb.commit()
+
+                            msg = QtWidgets.QMessageBox()
+                            msg.setIcon(QtWidgets.QMessageBox.Information)
+                            msg.setText("Data Submitted Successfully.")
+                            msg.setWindowTitle("Successful")
+                            msg.exec_()
+                            self.nameInput.clear()
+                            self.installmentNoInput.clear()
+                            self.installmentNoInput.setText("xx")
+                            self.installmentAmtInput.clear()
+                            self.installmentAmtInput.setText("xxxxx")
+                            self.transactionAmtInput.clear()
+                            self.transactionsList.clear()
+                            self.remarkInput.clear()
+                            self.modeOfPaymentComboBox.setCurrentIndex(0)
+                            self.dateEdit.setDate(QDate.currentDate())
+
+                    else:
                         msg = QtWidgets.QMessageBox()
                         msg.setIcon(QtWidgets.QMessageBox.Warning)
-                        msg.setText("You are on your 2nd last Installment and the amount you have entered is \nRs." + str(extra) + " extra."
+                        msg.setText("You can enter amount up-to Rs."+str(sum)+" at a time."
                                      "\nPlease re-enter correct Installment amount.")
                         msg.setWindowTitle("Warning")
                         msg.exec_()
-
-                    elif diff==0:
-                        #cursor = mydb.cursor(buffered=True)
-                        # updating the installment values and its payment status
-                        sql1 = "UPDATE installments_table SET installment_amt=(%s),status=(%s) WHERE installment_no=(%s) AND payment_id=%s"
-                        val1 = (self.trans_amt, 'Paid', install_no[0][0],self.pay_id[0])
-                        cursor.execute(sql1, val1)
-                        mydb.commit()
-
-                        sql2 = "UPDATE installments_table SET installment_amt=%s,status=%s WHERE installment_no=%s AND payment_id=%s"
-                        val2 = (0,'Paid', install_no[1][0], self.pay_id[0])
-                        cursor.execute(sql2, val2)
-                        mydb.commit()
-
-                        sql_inst_id = "SELECT installment_id FROM installments_table WHERE installment_no="+str(install_no[1][0])
-                        cursor.execute(sql_inst_id)
-                        inst_id = cursor.fetchone()
-
-                        # insert in transaction table
-                        sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
-                                          "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
-                        sql_trans_val = (
-                        self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
-                        self.trans_amt, self.trans_date, self.mode_of_payment, self.remark)
-                        cursor.execute(sql_trans_table, sql_trans_val)
-                        mydb.commit()
-                        # update total_paid in payment table
-                        amt = 0
-                        sql = "SELECT total_paid FROM payment_table WHERE payment_id=" + str(self.pay_id[0])
-                        cursor.execute(sql)
-                        tot_amt = cursor.fetchone()
-                        amt = self.trans_amt + tot_amt[0]
-                        sql_update = "UPDATE payment_table SET no_of_installments="+str(install_no[0][0])+",total_paid=" + str(amt) + " WHERE payment_id=" + str(self.pay_id[0])
-                        cursor.execute(sql_update)
-                        mydb.commit()
-
-                        # sql = "DELETE FROM installments_table WHERE installment_id=(%s) AND payment_id=(%s)"
-                        # val = (inst_id[0], self.pay_id[0])
-                        # cursor.execute(sql, val)
-                        # mydb.commit()
-
-                        msg = QtWidgets.QMessageBox()
-                        msg.setIcon(QtWidgets.QMessageBox.Information)
-                        msg.setText("Data Submitted Successfully.\nYou have NO due installments left.")
-                        msg.setWindowTitle("Successful")
-                        msg.exec_()
-                        self.nameInput.clear()
-                        self.installmentNoInput.clear()
-                        self.installmentNoInput.setText("xx")
-                        self.installmentAmtInput.clear()
-                        self.installmentAmtInput.setText("xxxxx")
-                        self.transactionAmtInput.clear()
-                        self.transactionsList.clear()
-                        self.remarkInput.clear()
-                        self.modeOfPaymentComboBox.setCurrentIndex(0)
-                        self.dateEdit.setDate(QDate.currentDate())
                 elif len(count)==1:
                     sql_get = "SELECT installment_no,installment_amt FROM installments_table WHERE status=%s AND payment_id=%s "
                     get_val = ('Not Paid', self.pay_id[0])
@@ -667,12 +678,12 @@ class Ui_TransactionWindow(object):
                     print(install_no)
                     diff = 0
                     extra = 0
-                    diff = self.trans_amt - install_no[0][1]  # found the extra amt
+                    diff = self.trans_amt - install_no[1]  # found the extra amt
                     extra = diff
                     msg = QtWidgets.QMessageBox()
                     msg.setIcon(QtWidgets.QMessageBox.Warning)
                     msg.setText("You are on your last Installment and the amount you have entered is Rs." + str(extra) + " extra."
-                                "\nPlease re-enter correct Installment amount.")
+                                    "\nPlease re-enter correct Installment amount.")
                     msg.setWindowTitle("Warning")
                     msg.exec_()
 

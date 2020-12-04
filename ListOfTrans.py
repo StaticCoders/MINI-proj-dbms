@@ -77,6 +77,7 @@ class Ui_ListMainWindow(object):
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setMinimumSize(QtCore.QSize(1000, 0))
         self.tableWidget.setMaximumSize(QtCore.QSize(1000, 16777215))
+        self.tableWidget.verticalHeader().setVisible(False)
         self.tableWidget.setStyleSheet("border: 3px solid #0d7377;\n"
 "border-radius: 10px;\n"
 "background-color: rgb(238, 238, 238);")

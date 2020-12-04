@@ -398,7 +398,7 @@ class Ui_InstallmentWindow(object):
         self.statusbar.setObjectName("statusbar")
         InstallmentWindow.setStatusBar(self.statusbar)
         cursor = mydb.cursor()
-        sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info_table"
+        sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info"
         cursor.execute(sql_name_query)
         lst = cursor.fetchall()
         if len(lst) != 0:
@@ -571,15 +571,15 @@ class Ui_InstallmentWindow(object):
         cursor = mydb.cursor(buffered=True)
         stud_name = self.lineEdit.text()
         name = tuple(self.name.split(" "))
-        sql = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
+        sql = "SELECT student_id FROM student_info WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
         cursor.execute(sql, name)
         student_id = cursor.fetchone()
-        val = (student_id[0], self.installmentList.count(), self.totalamount)
+        val = (student_id[0], self.installmentList.count(), self.totalamount,0)
         c = 0
         for x in sorted(self.installmentsArray):
             y = self.installmentsArray.get(x)
             if self.paymentCount == 0:
-                sql = "INSERT INTO payment_table (student_id, no_of_installments, total_amt) VALUES(%s,%s,%s)"
+                sql = "INSERT INTO payment_table (student_id, no_of_installments, total_amt,total_paid) VALUES(%s,%s,%s,%s)"
                 cursor.execute(sql, val)
                 mydb.commit()
                 sql = "SELECT payment_id FROM payment_table ORDER BY payment_id DESC"
@@ -680,8 +680,7 @@ class Ui_InstallmentWindow(object):
         self.submitButton.setText(_translate("InstallmentWindow", "Submit"))
         self.cancelButton.setText(_translate("InstallmentWindow", "Back"))
         self.deleteAllButton.setText(_translate("InstallmentWindow", "Delete All"))
-        self.validate_name()
-        self.validate_amt()
+
 
         # INPUT VALIDATOR
         # ----String----#
@@ -689,6 +688,8 @@ class Ui_InstallmentWindow(object):
         self.myregex3 = QtCore.QRegExp("[A-Za-z ]+")
         self.myregex2 = QtCore.QRegExp("[0-9A-Za-z, -]+")
         self.myregexph = QtCore.QRegExp("[0-9]+")
+        self.validate_name()
+        self.validate_amt()
 
         # validate name
     def validate_name(self):
