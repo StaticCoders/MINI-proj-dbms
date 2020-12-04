@@ -285,8 +285,7 @@ class Ui_AddDrive(object):
     def addDrive(self):
         # Adds the data collected to the database
         c_name = self.comanyName_lineEdit.text().strip()  # Name of the Company
-        inp_date = self.dateEdit.date().toString(
-            'yyyy-MM-dd')  # has the date(yyyy-mm-dd)
+        inp_date = self.dateEdit.date().toString('yyyy-MM-dd')  # has the date(yyyy-mm-dd)
         names_lst = []  # will store the names of all the added Students
         if self.nameAdded_list.count() == 0:
             msg = QMessageBox()
