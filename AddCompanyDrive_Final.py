@@ -300,27 +300,38 @@ class Ui_AddDrive(object):
                 names_lst.append(self.nameAdded_list.item(i).text())
             # Store them as list of name tuples as(First_Name, Middle_Name,Last_Name)
             names_lst = [tuple(name.split()) for name in names_lst]
+
         if len(c_name) == 0:  # if no company was added and save was clicked
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
             msg.setText("No Company Name!")
             msg.exec_()
+
         sql_cid = "select company_id from company_table where company_name = %s"
         sql_sid = "select student_id from student_info_table where first_name = %s and middle_name = %s and last_name = %s"
-        sql_insert = "insert into placement_drives_table(student_id,company_id,drive_date) values(%s,%s,%s)"
+        sql_insert = "insert into placement_drives_table(drive_id, student_id,company_id,drive_date) values(%s,%s,%s,%s)"
+        sql_driveid = "select max(drive_id) from placement_drives_table;"
+
         cur = mydb.cursor()
         cur.execute(sql_cid, (c_name,))
-        cid = cur.fetchone()[0]  # the company id corresponding to that name
-        sid_lst = []  # all the StudId will be stored in this list
-        for name in names_lst:  # go through all the names and fetch their StudIds
+        cid = cur.fetchone()[0]            # the company id corresponding to that name
+        sid_lst = []                       # all the StudId will be stored in this list
+        for name in names_lst:             # go through all the names and fetch their StudIds
             cur.execute(sql_sid, name)
             sid_lst.append(cur.fetchone()[0])
-        #print(names_lst)
-        #print(sid_lst)
-        for stud_id in sid_lst:  # insert all the data into the Placement Table for every Student
-            cur.execute(sql_insert, (stud_id, cid, inp_date))
+
+        cur.execute(sql_driveid)           # To get the drive_id and generate one for current drive
+        x = cur.fetchall()
+        if x[0][0] != None:
+            drive_id = x[0][0] + 1
+        else:
+            drive_id = 1
+
+        for stud_id in sid_lst:             # insert all the data into the Placement Table for every Student
+            cur.execute(sql_insert, (drive_id, cid, inp_date))
         mydb.commit()
         cur.close()
+
         # to display all the data was added to the DataBases Succesfully.
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
