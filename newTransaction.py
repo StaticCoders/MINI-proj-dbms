@@ -423,7 +423,8 @@ class Ui_TransactionWindow(object):
         completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
         completer.setFilterMode(QtCore.Qt.MatchContains)
         self.nameInput.setCompleter(completer)
-
+        self.final_name=None
+        self.display_installment_values=None
         self.retranslateUi(TransactionWindow)
         #when a name is being entered
         self.nameInput.textChanged.connect(self.setValues)
@@ -441,6 +442,7 @@ class Ui_TransactionWindow(object):
         name_val = tuple(self.stud_name.split(" "))
         #taking in inputs until the length of the tuple is 3 for fname,mname,lname
         if len(name_val)==3:
+            self.final_name = self.stud_name
             if name_val[0]!="" and name_val[1]!="" and name_val[2]!="":
                 sql_name = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
                 cursor.execute(sql_name, name_val)
@@ -500,7 +502,7 @@ class Ui_TransactionWindow(object):
         self.trans_date = self.dateEdit.date().toPyDate()
         self.remark = self.remarkInput.toPlainText()
         self.mode_of_payment = self.modeOfPaymentComboBox.currentText()
-        if self.trans_amt != "" and self.trans_date != "":  #the date and amt section should no be empty
+        if self.trans_amt != "" and self.trans_date != "" and self.final_name!="" :  #the date and amt section should no be empty
             self.trans_amt = int(self.trans_amt) #converting str to int
         # comparing payments
             #if the amount entered is equal to the amount to be paid
