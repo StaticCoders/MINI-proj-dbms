@@ -9,6 +9,10 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtWidgets
 from Registration import *
 from HomePage import *
+from chooseInPayment import *
+from AddInstallments import *
+from newTransaction import *
+from ListOfTrans import *
 from chooseInBatches import *
 from chooseInRegistration import *
 from batchAllotment import *
@@ -53,6 +57,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.homescreen.Batches.clicked.connect(self.startBatches)
         self.homescreen.companydrives.clicked.connect(self.startCompanyDrives)
         self.homescreen.pushButton_5.clicked.connect(self.startReport)
+        self.homescreen.Payment.clicked.connect(self.startPayment)
         self.hide()
         self.showMaximized()
 
@@ -127,6 +132,57 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.showMaximized()
         self.report.backHome_Button.clicked.connect(self.startHome)
+    # FUNCTIONS IN SEARCH TAB
+    # FUNCTIONS IN BATCHES TAB
+    # FUNCTIONS IN UPDATE TAB
+    # FUNCTIONS IN PAYMENT TAB
+    def startPayment(self):
+        self.payment = Ui_PaymentWindow()
+        self.payment.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("Payment")
+        self.payment.cancelButton.clicked.connect(self.startHome)
+        self.payment.installmentButton.clicked.connect(self.addInstallment)
+        self.payment.transactionButton.clicked.connect(self.newTransaction)
+        self.payment.listTransactionsButton.clicked.connect(self.newListTransaction)
+        self.hide()
+        self.showMaximized()
+
+    # Add Installment Tab
+    def addInstallment(self):
+        self.newinstallment = Ui_InstallmentWindow()
+        self.newinstallment.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("Add Installments")
+        # self.newinstallment.addButton.clicked.connect(self.addingInstallment)
+        # self.newinstallment.submitButton.clicked.connect(self.submitInstallment)
+        self.newinstallment.cancelButton.clicked.connect(self.startPayment)
+        self.hide()
+        self.showMaximized()
+
+
+
+    # New transaction tab
+    def newTransaction(self):
+        self.newtransaction = Ui_TransactionWindow()
+        self.newtransaction.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("New Transaction")
+        self.newtransaction.cancelButton.clicked.connect(self.startPayment)
+        # add functions
+        self.hide()
+        self.showMaximized()
+
+    #List Transaction button call
+    def newListTransaction(self):
+        self.listTransaction = Ui_ListMainWindow()
+        self.listTransaction.setupUi(self)
+        self.setWindowState(QtCore.Qt.WindowMaximized)
+        self.setWindowTitle("List Of Transactions")
+        self.listTransaction.backButton.clicked.connect(self.startPayment)
+        self.hide()
+        self.showMaximized()
+
 
 
 if __name__ == "__main__":
