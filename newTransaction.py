@@ -16,9 +16,9 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
 )
 
 
@@ -411,7 +411,7 @@ class Ui_TransactionWindow(object):
         self.installment_id=None
         # Completer
         cursor = mydb.cursor()
-        sql_name_query = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name FROM student_info s, payment_table p where s.student_id=p.student_id"
+        sql_name_query = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name FROM student_info_table s, payment_table p where s.student_id=p.student_id"
         cursor.execute(sql_name_query)
         lst = cursor.fetchall()
         if len(lst) != 0:
@@ -438,7 +438,7 @@ class Ui_TransactionWindow(object):
         cursor = mydb.cursor(buffered=True)
         name_val = tuple(self.stud_name.split(" "))
         if len(name_val)==3:
-            sql_name = "SELECT student_id FROM student_info WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
+            sql_name = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
             cursor.execute(sql_name, name_val)
             self.stud_id = cursor.fetchone()  # got student id
 
@@ -464,7 +464,7 @@ class Ui_TransactionWindow(object):
                 self.installmentAmtInput.setText(str(installment_amt))
 
             #Adding previous payment list in listview
-            insert_prev_details_query = "SELECT installment_no,transaction_amt,transaction_date FROM transaction_table WHERE student_id=(%s) AND payment_id=(%s)  ORDER BY installment_id "
+            insert_prev_details_query = "SELECT installment_no,transaction_amt,transaction_date FROM transactions_table WHERE student_id=(%s) AND payment_id=(%s)  ORDER BY installment_id "
             insert_prev_details_val = (self.stud_id[0], self.pay_id[0])
             cursor.execute(insert_prev_details_query,insert_prev_details_val)
             lst_of_prev_details = cursor.fetchall()   #got prev list of paid transactions of the student
@@ -497,7 +497,7 @@ class Ui_TransactionWindow(object):
                 cursor.execute(sql_submit_installments_table, sql_submit_installments_val)
                 mydb.commit()
             # insert in transaction table
-                sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
+                sql_trans_table = "INSERT INTO transactions_table(student_id,payment_id,installment_id,installment_no," \
                                   "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
                 sql_trans_val = (self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
                                  self.trans_amt,self.trans_date,self.mode_of_payment, self.remark)
@@ -564,7 +564,7 @@ class Ui_TransactionWindow(object):
                             cursor.execute(sql2, val2)
                             mydb.commit()
                         # insert in transaction table
-                            sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
+                            sql_trans_table = "INSERT INTO transactions_table(student_id,payment_id,installment_id,installment_no," \
                                               "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
                             sql_trans_val = (self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
                             self.trans_amt, self.trans_date, self.mode_of_payment, self.remark)
@@ -625,7 +625,7 @@ class Ui_TransactionWindow(object):
                             inst_id = cursor.fetchone()
 
                             # insert in transaction table
-                            sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
+                            sql_trans_table = "INSERT INTO transactions_table(student_id,payment_id,installment_id,installment_no," \
                                               "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
                             sql_trans_val = (
                             self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
@@ -720,7 +720,7 @@ class Ui_TransactionWindow(object):
                     cursor.execute(sql2, val2)
                     mydb.commit()
                     # insert in transaction table
-                    sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
+                    sql_trans_table = "INSERT INTO transactions_table(student_id,payment_id,installment_id,installment_no," \
                                       "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
                     sql_trans_val = (
                     self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
@@ -783,7 +783,7 @@ class Ui_TransactionWindow(object):
                     inst_id = cursor.fetchone()
 
                     # insert in transaction table
-                    sql_trans_table = "INSERT INTO transaction_table(student_id,payment_id,installment_id,installment_no," \
+                    sql_trans_table = "INSERT INTO transactions_table(student_id,payment_id,installment_id,installment_no," \
                                       "transaction_amt,transaction_date,mode_of_payment,remarks)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
                     sql_trans_val = (
                         self.stud_id[0], self.pay_id[0], self.installment_id, self.display_installment_values[0],
@@ -821,7 +821,12 @@ class Ui_TransactionWindow(object):
                     self.modeOfPaymentComboBox.setCurrentIndex(0)
                     self.dateEdit.setDate(QDate.currentDate())
 
-        print("submit")
+        else:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("A data Field has been left Empty!")
+            msg.setWindowTitle("Abort")
+            msg.exec_()
 
 
 

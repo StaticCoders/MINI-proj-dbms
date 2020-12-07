@@ -7,6 +7,7 @@
 
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 from Registration import *
 from HomePage import *
 from chooseInPayment import *
@@ -36,6 +37,10 @@ mydb = mysql.connector.connect(
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+        self.listTransaction = Ui_ListMainWindow()
+        self.newtransaction = Ui_TransactionWindow()
+        self.newinstallment = Ui_InstallmentWindow()
+        self.payment = Ui_PaymentWindow()
         self.report = Ui_report()
         self.viewdrive = Ui_ViewDrive()
         self.addcompany  = Ui_AddCompany_Dailog()
@@ -137,7 +142,6 @@ class MainWindow(QtWidgets.QMainWindow):
     # FUNCTIONS IN UPDATE TAB
     # FUNCTIONS IN PAYMENT TAB
     def startPayment(self):
-        self.payment = Ui_PaymentWindow()
         self.payment.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Payment")
@@ -150,7 +154,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Add Installment Tab
     def addInstallment(self):
-        self.newinstallment = Ui_InstallmentWindow()
         self.newinstallment.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("Add Installments")
@@ -164,7 +167,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # New transaction tab
     def newTransaction(self):
-        self.newtransaction = Ui_TransactionWindow()
         self.newtransaction.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("New Transaction")
@@ -175,7 +177,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     #List Transaction button call
     def newListTransaction(self):
-        self.listTransaction = Ui_ListMainWindow()
         self.listTransaction.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle("List Of Transactions")

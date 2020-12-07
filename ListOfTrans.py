@@ -8,15 +8,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QDate
 import mysql.connector
 from datetime import date
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
 )
 
 class Ui_ListMainWindow(object):
@@ -160,13 +161,20 @@ class Ui_ListMainWindow(object):
     def recentMonTrans(self):
         print("r")
         cursor = mydb.cursor(buffered=True)
-        sql1 = "SELECT transaction_date FROM transaction_table ORDER BY transaction_date DESC LIMIT 1"
+        sql1 = "SELECT transaction_date FROM transactions_table ORDER BY transaction_date DESC LIMIT 1"
         cursor.execute(sql1)
         day = cursor.fetchone()
         i = str(day)
         month = i[21:23]
+        if not month:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("This month has no Transactions")
+            msg.setWindowTitle("Message")
+            msg.exec_()
+            return
         sql = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name,t.installment_no,t.transaction_amt,t.mode_of_payment,t.transaction_date " \
-              "FROM student_info s,transaction_table t WHERE t.student_id = s.student_id AND MONTH(transaction_date)="+str(month)+" " \
+              "FROM student_info_table s,transactions_table t WHERE t.student_id = s.student_id AND MONTH(transaction_date)="+str(month)+" " \
               "ORDER BY t.transaction_date "
         cursor.execute(sql)
         recent_values = cursor.fetchall()
@@ -197,7 +205,7 @@ class Ui_ListMainWindow(object):
         print(date)
         cursor = mydb.cursor(buffered=True)
         sql = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name,t.installment_no,t.transaction_amt,t.mode_of_payment,t.transaction_date " \
-              "FROM student_info s,transaction_table t WHERE t.student_id = s.student_id AND t.transaction_date=(%s) ORDER BY t.transaction_date"
+              "FROM student_info_table s,transactions_table t WHERE t.student_id = s.student_id AND t.transaction_date=(%s) ORDER BY t.transaction_date"
 
         cursor.execute(sql,(tdate,))
         recent_values = cursor.fetchall()

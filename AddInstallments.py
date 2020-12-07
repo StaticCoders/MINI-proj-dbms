@@ -12,14 +12,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QCompleter
 from PyQt5.QtCore import QDate
 from main import *
+from datetime import date
 # from chooseInPayment import *
 import mysql.connector
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
 )
 
 
@@ -398,7 +399,7 @@ class Ui_InstallmentWindow(object):
         self.statusbar.setObjectName("statusbar")
         InstallmentWindow.setStatusBar(self.statusbar)
         cursor = mydb.cursor()
-        sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info"
+        sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info_table"
         cursor.execute(sql_name_query)
         lst = cursor.fetchall()
         if len(lst) != 0:
@@ -570,8 +571,15 @@ class Ui_InstallmentWindow(object):
     def submit(self):
         cursor = mydb.cursor(buffered=True)
         stud_name = self.lineEdit.text()
+        if not stud_name:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("Name Not Entered!")
+            msg.setWindowTitle("Message")
+            msg.exec_()
+            return
         name = tuple(self.name.split(" "))
-        sql = "SELECT student_id FROM student_info WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
+        sql = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
         cursor.execute(sql, name)
         student_id = cursor.fetchone()
         val = (student_id[0], self.installmentList.count(), self.totalamount,0)
