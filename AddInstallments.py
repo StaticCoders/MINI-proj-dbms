@@ -398,7 +398,7 @@ class Ui_InstallmentWindow(object):
         self.statusbar.setObjectName("statusbar")
         InstallmentWindow.setStatusBar(self.statusbar)
         cursor = mydb.cursor()
-        sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info"
+        sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info_table"
         cursor.execute(sql_name_query)
         lst = cursor.fetchall()
         if len(lst) != 0:
@@ -434,14 +434,15 @@ class Ui_InstallmentWindow(object):
         # take name & amt check its not null and check if its 1st payment and enter in payment table and
         currentVal = self.noOfInstallment.value()
         if currentVal < len(self.installmentsArray):
-            self.noOfInstallment.setValue(len(self.installmentsArray))
-            self.comboBox.clear()
-            for x in range(len(self.installmentsArray)):
-                self.comboBox.addItem(str(x + 1))
+             self.noOfInstallment.setValue(len(self.installmentsArray))
+             self.comboBox.clear()
+             for x in range(len(self.installmentsArray)):
+                 self.comboBox.addItem(str(x + 1))
         else:
             self.comboBox.clear()
             for x in range(currentVal):
                 self.comboBox.addItem(str(x + 1))
+
         # self.finalComboVal = currentVal
         # if self.installmentsCount != 0:
         #     for x in range(0, self.installmentsCount):
@@ -463,10 +464,54 @@ class Ui_InstallmentWindow(object):
 
     def addInstallment(self):
         if len(self.installmentsArray) == 0:
-            self.totalamount = int(self.lineEdit_2.text())
+            #taking name input
             self.name = self.lineEdit.text()
+            #checking if it is null
+            if not self.name:
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("Name is not entered.")
+                msg.setWindowTitle("Warning")
+                msg.exec_()
+                return
+            #taking total amt input
+            amt = self.lineEdit_2.text()
+            #checking if total amt is null
+            if not amt:
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("Total amount is not entered.")
+                msg.setWindowTitle("Warning")
+                msg.exec_()
+                return
+            self.totalamount = int(self.lineEdit_2.text())  #converting str to int
+
+        #taking current installment number input
+        cur_in_no = self.comboBox.currentText()
+        #checking if the number is 0
+        if not cur_in_no:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Installment number not entered.")
+            msg.setWindowTitle("Warning")
+            msg.exec_()
+            return
+        #using the current installment number
         curInstallmentNo = int(self.comboBox.currentText())
+
+        #taking installment amt input
+        in_amt = self.lineEdit_3.text()
+        #checking if it is empty
+        if not in_amt:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Installment amount not entered.")
+            msg.setWindowTitle("Warning")
+            msg.exec_()
+            return
+        #using the installment amt
         InstallmentAmt = int(self.lineEdit_3.text())
+
         curInstallmentDate = self.dateEdit.date().toPyDate()
         tempInstallmentAmt = 0
         tempInstallmentAmt = self.totalofinstallmentAmt + InstallmentAmt
@@ -571,7 +616,7 @@ class Ui_InstallmentWindow(object):
         cursor = mydb.cursor(buffered=True)
         stud_name = self.lineEdit.text()
         name = tuple(self.name.split(" "))
-        sql = "SELECT student_id FROM student_info WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
+        sql = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
         cursor.execute(sql, name)
         student_id = cursor.fetchone()
         val = (student_id[0], self.installmentList.count(), self.totalamount,0)
