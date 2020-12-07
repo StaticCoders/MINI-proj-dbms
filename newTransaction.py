@@ -497,7 +497,7 @@ class Ui_TransactionWindow(object):
 
 
     def submitTransaction(self):
-        if not self.final_name:
+        if not self.final_name:  #checking if name is entered
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.setText("Name field is empty")
