@@ -11,7 +11,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from datetime import date
-
 from PyQt5.QtWidgets import QCompleter
 
 mydb = mysql.connector.connect(
@@ -24,8 +23,8 @@ mydb = mysql.connector.connect(
 class Ui_NewRegistrationWindow(object):
     def setupUi(self, RegisterationWindow):
         RegisterationWindow.setObjectName("RegisterationWindow")
-        RegisterationWindow.resize(1416, 834)
-        RegisterationWindow.setMinimumSize(QtCore.QSize(1111, 0))
+        # RegisterationWindow.resize(1416, 834)
+        # RegisterationWindow.setMinimumSize(QtCore.QSize(1111, 0))
         RegisterationWindow.setStyleSheet("QMainWindow{\n"
                                           "background-color: #212121;\n"
                                           "}\n"
@@ -241,6 +240,27 @@ class Ui_NewRegistrationWindow(object):
         self.verticalLayout_2.addWidget(self.phoneIp)
         spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout_2.addItem(spacerItem8)
+        self.whatsappLabel = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.whatsappLabel.setFont(font)
+        self.whatsappLabel.setObjectName("whatsappLabel")
+        self.verticalLayout_2.addWidget(self.whatsappLabel)
+        self.whatsappInput = QtWidgets.QLineEdit(self.centralwidget)
+        self.whatsappInput.setMinimumSize(QtCore.QSize(300, 40))
+        self.whatsappInput.setMaximumSize(QtCore.QSize(300, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.whatsappInput.setFont(font)
+        self.whatsappInput.setClearButtonEnabled(True)
+        self.whatsappInput.setObjectName("whatsappInput")
+        self.verticalLayout_2.addWidget(self.whatsappInput)
+        spacerItem9 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem9)
         self.educationLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
@@ -260,8 +280,8 @@ class Ui_NewRegistrationWindow(object):
         self.educationIp.setClearButtonEnabled(True)
         self.educationIp.setObjectName("educationIp")
         self.verticalLayout_2.addWidget(self.educationIp)
-        spacerItem9 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_2.addItem(spacerItem9)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_2.addItem(spacerItem10)
         self.experienceLabel = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
@@ -281,27 +301,6 @@ class Ui_NewRegistrationWindow(object):
         self.experienceIp.setClearButtonEnabled(True)
         self.experienceIp.setObjectName("experienceIp")
         self.verticalLayout_2.addWidget(self.experienceIp)
-        spacerItem10 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_2.addItem(spacerItem10)
-        self.referralLabel = QtWidgets.QLabel(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.referralLabel.setFont(font)
-        self.referralLabel.setObjectName("referralLabel")
-        self.verticalLayout_2.addWidget(self.referralLabel)
-        self.referralIp = QtWidgets.QLineEdit(self.centralwidget)
-        self.referralIp.setMinimumSize(QtCore.QSize(300, 40))
-        self.referralIp.setMaximumSize(QtCore.QSize(300, 40))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.referralIp.setFont(font)
-        self.referralIp.setClearButtonEnabled(True)
-        self.referralIp.setObjectName("referralIp")
-        self.verticalLayout_2.addWidget(self.referralIp)
         spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem11)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
@@ -321,7 +320,7 @@ class Ui_NewRegistrationWindow(object):
         self.emailInput.setMinimumSize(QtCore.QSize(300, 40))
         self.emailInput.setMaximumSize(QtCore.QSize(300, 40))
         font = QtGui.QFont()
-        font.setFamily("Segoe UI")
+        # font.setFamily("Segoe UI")
         font.setPointSize(12)
         self.emailInput.setFont(font)
         self.emailInput.setClearButtonEnabled(True)
@@ -329,6 +328,24 @@ class Ui_NewRegistrationWindow(object):
         self.verticalLayout_3.addWidget(self.emailInput)
         spacerItem13 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout_3.addItem(spacerItem13)
+        self.referralLabel = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(12)
+        self.referralLabel.setFont(font)
+        self.referralLabel.setObjectName("referralLabel")
+        self.verticalLayout_3.addWidget(self.referralLabel)
+        self.referralIp = QtWidgets.QLineEdit(self.centralwidget)
+        self.referralIp.setMinimumSize(QtCore.QSize(300, 40))
+        self.referralIp.setMaximumSize(QtCore.QSize(300, 40))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.referralIp.setFont(font)
+        self.referralIp.setClearButtonEnabled(True)
+        self.referralIp.setObjectName("referralIp")
+        self.verticalLayout_3.addWidget(self.referralIp)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_3.addItem(spacerItem14)
         self.label_10 = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
@@ -411,6 +428,7 @@ class Ui_NewRegistrationWindow(object):
         self.verticalLayout_4.addWidget(self.warningLabel)
         self.warningLabel.setStyleSheet("QLabel#warningLabel{color: red;}")
         self.warningLabel.hide()
+        self.courseChecked = []
 
         # INPUT VALIDATOR
         # ----String----#
@@ -418,14 +436,13 @@ class Ui_NewRegistrationWindow(object):
         self.myregex3 = QtCore.QRegExp("[A-Za-z ]+")
         self.myregex2 = QtCore.QRegExp("[0-9A-Za-z, -]+")
         self.myregexph = QtCore.QRegExp("[0-9]+")
-
-        self.fNameIp.textChanged.connect(self.validate_inputf)
-        self.mNameIp.textChanged.connect(self.validate_inputm)
-        self.lNameIp.textChanged.connect(self.validate_inputl)
-        self.educationIp.textChanged.connect(self.validate_inputed)
-        self.experienceIp.textChanged.connect(self.validate_inputex)
-        self.referralIp.textChanged.connect(self.validate_inputre)
-        self.phoneIp.textChanged.connect(self.validate_inputph)
+        self.myregexemail = QtCore.QRegExp("^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$")
+        self.validate_inputf()
+        self.validate_inputed()
+        self.validate_inputex()
+        self.validate_inputre()
+        self.validate_inputph()
+        self.validate_inputemail()
 
         # ----Phone Number----#
         self.onlyInt = QtGui.QIntValidator()
@@ -451,6 +468,8 @@ class Ui_NewRegistrationWindow(object):
         else:
             lst = []
         completer = QCompleter(lst, self.referralIp)
+        completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        completer.setFilterMode(QtCore.Qt.MatchContains)
         self.referralIp.setCompleter(completer)
         mycursor.close()
 
@@ -467,30 +486,35 @@ class Ui_NewRegistrationWindow(object):
     def validate_inputf(self):
         my_validator = QtGui.QRegExpValidator(self.myregex, self.fNameIp)
         self.fNameIp.setValidator(my_validator)
-
-    def validate_inputm(self):
         my_validator = QtGui.QRegExpValidator(self.myregex, self.mNameIp)
         self.mNameIp.setValidator(my_validator)
-
-    def validate_inputl(self):
         my_validator = QtGui.QRegExpValidator(self.myregex, self.lNameIp)
         self.lNameIp.setValidator(my_validator)
+
+    def validate_inputemail(self):
+        my_validator = QtGui.QRegExpValidator(self.myregexemail, self.emailInput)
+        self.emailInput.setValidator(my_validator)
 
     def validate_inputed(self):
         my_validator = QtGui.QRegExpValidator(self.myregex2, self.educationIp)
         self.educationIp.setValidator(my_validator)
-
-    def validate_inputex(self):
-        my_validator = QtGui.QRegExpValidator(self.myregex2, self.experienceIp)
-        self.experienceIp.setValidator(my_validator)
+        # my_validator = QtGui.QRegExpValidator(self.myregex2, self.addressIp)
+        # self.addressIp.setValidator(my_validator)
+        # self.addressIp
 
     def validate_inputre(self):
         my_validator = QtGui.QRegExpValidator(self.myregex3, self.referralIp)
         self.referralIp.setValidator(my_validator)
 
+    def validate_inputex(self):
+        my_validator = QtGui.QRegExpValidator(self.myregex2, self.experienceIp)
+        self.experienceIp.setValidator(my_validator)
+
     def validate_inputph(self):
         my_validator = QtGui.QRegExpValidator(self.myregexph, self.phoneIp)
         self.phoneIp.setValidator(my_validator)
+        my_validator = QtGui.QRegExpValidator(self.myregexph, self.whatsappInput)
+        self.whatsappInput.setValidator(my_validator)
 
 
     def registerStudent(self):
@@ -498,6 +522,7 @@ class Ui_NewRegistrationWindow(object):
         mname = self.mNameIp.text()
         lname = self.lNameIp.text()
         phone = self.phoneIp.text()
+        whatsapp = self.whatsappInput.text()
         address = self.addressIp.toPlainText()
         education = self.educationIp.text()
         experience = self.experienceIp.text()
@@ -505,13 +530,12 @@ class Ui_NewRegistrationWindow(object):
         email = self.emailInput.text()
         i = 0
         mycursor = mydb.cursor(buffered=True)
-        if fname == "" or mname == "" or lname == "" or phone == "" or address == "" or education == "":
+        if fname == "" or mname == "" or lname == "" or phone == "" or whatsapp == "" or address == "" or education == "":
             self.warningLabel.show()
         else:
             tdate = date.today()
-            sql = "INSERT INTO student_info_table(first_name,middle_name,last_name,phone,email,date_of_admission,address,education,experience,referrals) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-            val = (fname, mname, lname, phone, email, tdate, address, education, experience, referral)
-            print(val)
+            sql = "INSERT INTO student_info_table(first_name,middle_name,last_name,phone,whatsapp,email,date_of_admission,address,education,experience,referrals) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            val = (fname, mname, lname, phone, whatsapp, email, tdate, address, education, experience, referral)
             mycursor.execute(sql, val)
             if mycursor.rowcount == 1:
                 msg = QtWidgets.QMessageBox()
@@ -519,26 +543,36 @@ class Ui_NewRegistrationWindow(object):
                 msg.setText("Registration Successful!")
                 msg.setWindowTitle("Successful!!")
                 msg.exec_()
-
-            mydb.commit()
-            getid = "select student_id from student_info_table order by student_id desc limit 1;"
-            mycursor.execute(getid)
-            result = mycursor.fetchone()
-            courseChecked = []
-            while self.model.item(i):
-                if self.model.item(i).checkState():
-                    courseChecked.append(self.model.item(i).text())
-                i += 1
-            i = 0
-            for x in courseChecked:
-                sql = "SELECT course_id FROM courses_table WHERE course_name = \"" + x + "\""
-                mycursor.execute(sql)
-                courseid = mycursor.fetchone()
-                sql = "INSERT INTO student_course_batch(student_id, course_id) VALUES(%s,%s)"
-                val = (result[0], courseid[0])
-                mycursor.execute(sql, val)
                 mydb.commit()
-
+                getid = "select student_id from student_info_table order by student_id desc limit 1;"
+                mycursor.execute(getid)
+                result = mycursor.fetchone()
+                while self.model.item(i):
+                    if self.model.item(i).checkState():
+                        self.courseChecked.append(self.model.item(i).text())
+                        self.model.item(i).setCheckState(QtCore.Qt.Unchecked)
+                    i += 1
+                i = 0
+                for x in self.courseChecked:
+                    sql = "SELECT course_id FROM courses_table WHERE course_name = \"" + x + "\""
+                    mycursor.execute(sql)
+                    courseid = mycursor.fetchone()
+                    sql = "INSERT INTO student_course_batch(student_id, course_id) VALUES(%s,%s)"
+                    val = (result[0], courseid[0])
+                    mycursor.execute(sql, val)
+                    mydb.commit()
+                self.fNameIp.clear()
+                self.mNameIp.clear()
+                self.lNameIp.clear()
+                self.phoneIp.clear()
+                self.whatsappInput.clear()
+                self.addressIp.clear()
+                self.educationIp.clear()
+                self.referralIp.clear()
+                self.emailInput.clear()
+                self.courseChecked.clear()
+                self.experienceIp.clear()
+                mycursor.close()
 
     def retranslateUi(self, RegisterationWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -549,6 +583,7 @@ class Ui_NewRegistrationWindow(object):
         self.lnameLabel.setText(_translate("RegisterationWindow", "Last Name:"))
         self.addressLabel.setText(_translate("RegisterationWindow", "Address:"))
         self.phoneLabel.setText(_translate("RegisterationWindow", "Phone:"))
+        self.whatsappLabel.setText(_translate("RegisterationWindow", "WhatsApp Number:"))
         self.educationLabel.setText(_translate("RegisterationWindow", "Education:"))
         self.experienceLabel.setText(_translate("RegisterationWindow", "Experience(Optional):"))
         self.referralLabel.setText(_translate("RegisterationWindow", "Referral(Optional):"))
@@ -557,12 +592,3 @@ class Ui_NewRegistrationWindow(object):
         self.registerButton.setText(_translate("RegisterationWindow", "Register"))
         self.cancelButton.setText(_translate("RegisterationWindow", "Cancel"))
         self.warningLabel.setText(_translate("RegistrationWindow", "Fill all the necessary Fields*"))
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_NewRegistrationWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.showMaximized()
-    sys.exit(app.exec_())

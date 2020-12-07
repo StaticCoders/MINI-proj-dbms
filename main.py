@@ -1,9 +1,15 @@
-from PyQt5.QtWidgets import QMessageBox
+# from PyQt5.QtWidgets import QMessageBox
 from HomePage import *
 from chooseInBatches import *
 from chooseInRegistration import *
 from batchAllotment import *
 from Registration import *
+from chooseInSearch import *
+from searchInStudent import *
+from updateStudentInfo import *
+from updateInBatch import *
+from chooseInUpdate import *
+from UpdateCourse import *
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -13,19 +19,27 @@ class MainWindow(QtWidgets.QMainWindow):
         self.batches = Ui_BatchesWindow()
         self.newRegistration = Ui_NewRegistrationWindow()
         self.registration = Ui_RegistrationWindow()
-        self.homescreen = Ui_MainWindow()
+        self.homeScreen = Ui_MainWindow()
+        self.searchSection = Ui_SearchWindow()
+        self.studentsSection = Ui_StudentsSectionWindow()
+        self.update = Ui_UpdateWindow()
+        self.updateStudentInfo = Ui_UpdateStudentInfo()
+        self.updateBatch = Ui_UpdateBatchWindow()
+        self.updateCourse = Ui_UpdateCourseWindow()
         self.startHome()
 
     # HOME
 
     def startHome(self):
-        self.homescreen.setupUi(self)
+        self.homeScreen.setupUi(self)
         self.setWindowTitle("Home")
-        self.homescreen.registration.clicked.connect(self.startRegistration)
-        self.homescreen.Batches.clicked.connect(self.startBatches)
+        self.homeScreen.registration.clicked.connect(self.startRegistration)
+        self.homeScreen.Batches.clicked.connect(self.startBatches)
+        self.homeScreen.Search.clicked.connect(self.startSearch)
+        self.homeScreen.Update.clicked.connect(self.startUpdate)
         self.hide()
         self.showMaximized()
-
+        # self.showFullScreen()
     # REGISTRATION
 
     def startRegistration(self):
@@ -34,6 +48,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.registration.newRegistrationButton.clicked.connect(self.startNewRegistration)
         self.registration.cancelButton.clicked.connect(self.startHome)
         self.hide()
+        # self.showFullScreen()
         self.showMaximized()
 
     def startNewRegistration(self):
@@ -42,7 +57,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.newRegistration.cancelButton.clicked.connect(self.startRegistration)
         self.hide()
         self.showMaximized()
-
+        # self.showFullScreen()
     # BATCHES
 
     def startBatches(self):
@@ -59,6 +74,59 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
         self.batchAllotment.cancelButton.clicked.connect(self.startBatches)
+
+    # SEARCH
+
+    def startSearch(self):
+        self.searchSection.setupUi(self)
+        self.setWindowTitle("Search")
+        self.hide()
+        self.showMaximized()
+        self.searchSection.backButton.clicked.connect(self.startHome)
+        self.searchSection.studentButton.clicked.connect(self.startSearchInStudents)
+
+    def startSearchInStudents(self):
+        self.studentsSection.setupUi(self)
+        self.setWindowTitle("Students Section")
+        self.hide()
+        self.showMaximized()
+        self.studentsSection.cancelButton.clicked.connect(self.startSearch)
+
+    # UPDATE
+
+    def startUpdate(self):
+        self.update.setupUi(self)
+        self.setWindowTitle("Update Section")
+        self.hide()
+        self.showMaximized()
+        self.update.studentButton.clicked.connect(self.startUpdateStudentInfo)
+        self.update.batchButton.clicked.connect(self.startUpdateInBatch)
+        self.update.courseButton.clicked.connect(self.startUpdateInCourse)
+        self.update.backButton.clicked.connect(self.startHome)
+
+    def startUpdateStudentInfo(self):
+        self.updateStudentInfo.setupUi(self)
+        self.setWindowTitle("Update Student Info")
+        self.hide()
+        self.showMaximized()
+        self.updateStudentInfo.backButton.clicked.connect(self.startUpdate)
+
+    def startUpdateInCourse(self):
+        self.updateCourse.setupUi(self)
+        self.setWindowTitle("Update in Courses")
+        self.hide()
+        self.showMaximized()
+        self.updateCourse.backButton.clicked.connect(self.startUpdate)
+        self.updateCourse.backButton_2.clicked.connect(self.startUpdate)
+
+    def startUpdateInBatch(self):
+        self.updateBatch.setupUi(self)
+        self.setWindowTitle("Update In Batch")
+        self.hide()
+        self.showMaximized()
+        self.updateBatch.backButton_2.clicked.connect(self.startUpdate)
+        self.updateBatch.backButton_3.clicked.connect(self.startUpdate)
+        self.updateBatch.backButton_4.clicked.connect(self.startUpdate)
 
 
 if __name__ == "__main__":
