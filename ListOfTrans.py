@@ -160,17 +160,27 @@ class Ui_ListMainWindow(object):
     def recentMonTrans(self):
         print("r")
         cursor = mydb.cursor(buffered=True)
-        sql1 = "SELECT transaction_date FROM transaction_table ORDER BY transaction_date DESC LIMIT 1"
+        #getting the current date to fetch the recent month
+        sql1 = "SELECT transaction_date FROM transactions_table ORDER BY transaction_date DESC LIMIT 1"
         cursor.execute(sql1)
         day = cursor.fetchone()
         i = str(day)
+        #extracting the month from the date
         month = i[21:23]
+        #if there is no transaction done in the current month
+        if not month:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("No Transactions done this month")
+            msg.setWindowTitle("Warning")
+            msg.exec_()
+            return
         sql = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name,t.installment_no,t.transaction_amt,t.mode_of_payment,t.transaction_date " \
-              "FROM student_info s,transaction_table t WHERE t.student_id = s.student_id AND MONTH(transaction_date)="+str(month)+" " \
+              "FROM student_info_table s,transactions_table t WHERE t.student_id = s.student_id AND MONTH(transaction_date)="+str(month)+" " \
               "ORDER BY t.transaction_date "
         cursor.execute(sql)
-        recent_values = cursor.fetchall()
-
+        recent_values = cursor.fetchall() #tuple list of all values to be displayed
+        #adding name, installment_no, transaction_amt, modeOfPayment and transaction_date to the tree widget display
         row = 0
         self.tableWidget.setRowCount(cursor.rowcount)
         for x in recent_values:
@@ -178,8 +188,6 @@ class Ui_ListMainWindow(object):
             mname = x[1]
             lname = x[2]
             name = fname+" "+mname+" "+lname
-            # lst = name+"::    "+str(x[3])+":   "+str(x[4])+"   "+str(x[5])+"   "+str(x[6])
-            #self.tableWidget.setItem(row, 0, x)
             self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(name))
             self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(str(x[3])))
             self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(x[4])))
@@ -192,16 +200,17 @@ class Ui_ListMainWindow(object):
 
     def dailyTrans(self):
         print("d")
-        #date = QDate.currentDate().toPyDate()
+        #getting today's date
         tdate= date.today()
         print(date)
         cursor = mydb.cursor(buffered=True)
+        #query to get today's transactions
         sql = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name,t.installment_no,t.transaction_amt,t.mode_of_payment,t.transaction_date " \
-              "FROM student_info s,transaction_table t WHERE t.student_id = s.student_id AND t.transaction_date=(%s) ORDER BY t.transaction_date"
+              "FROM student_info_table s,transactions_table t WHERE t.student_id = s.student_id AND t.transaction_date=(%s) ORDER BY t.transaction_date"
 
         cursor.execute(sql,(tdate,))
         recent_values = cursor.fetchall()
-
+        # adding name, installment_no, transaction_amt, modeOfPayment and transaction_date to the tree widget display
         row = 0
         self.tableWidget.setRowCount(cursor.rowcount)
         for x in recent_values:
@@ -209,8 +218,6 @@ class Ui_ListMainWindow(object):
             mname = x[1]
             lname = x[2]
             name = fname + " " + mname + " " + lname
-            # lst = name+"::    "+str(x[3])+":   "+str(x[4])+"   "+str(x[5])+"   "+str(x[6])
-            # self.tableWidget.setItem(row, 0, x)
             self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(name))
             self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(str(x[3])))
             self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(x[4])))
