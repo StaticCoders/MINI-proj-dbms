@@ -6,7 +6,7 @@
 # FUNCTIONS IN PAYMENT TAB
 
 from PyQt5.QtWidgets import QMessageBox
-
+from PyQt5 import QtWidgets
 from Registration import *
 from HomePage import *
 from chooseInBatches import *

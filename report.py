@@ -289,7 +289,7 @@ class Ui_report(object):
         sqls.append("select count(*) from student_info_table where date_of_admission between %s and %s;")                                 # 1. Total Students enrolled
         sqls.append("select Count(*) from placement_drives_table where drive_date between %s and %s and placement_status='Placed';")       # Total Students Placed
         sqls.append("select count(*) from student_course_batch as s, batches_table as b where b.start_date between %s and %s and b.batch_id = s.batch_id and s.global_cert ='Yes'")     # Total Exams Enrollement
-        sqls.append( "select count(*) from batches_table where start_date between %s and %s;")                                             # 2. Total Batches Added
+        sqls.append( "select count(distinct(b.batch_id)) from batches_table as b,student_course_batch as s where b.start_date between %s and %s and b.batch_id = s.batch_id;")                                             # 2. Total Batches Added
         sqls.append( "select count(distinct(drive_id)) from placement_drives_table where drive_date between %s and %s;")                   # Total Company Drives
         sqls.append( "select count(*) from placement_drives_table where drive_date between %s and %s;")                                    # Total Interviews Conducted
         sqls.append("select sum(transaction_amt) from transactions_table where transaction_date between %s and %s")                         # Total Income  # Next one is Total Billed
