@@ -173,6 +173,7 @@ class Ui_TransactionWindow(object):
         font.setPointSize(12)
         self.nameInput.setFont(font)
         self.nameInput.setText("")
+        self.nameInput.setPlaceholderText("Enter Full Name")
         self.nameInput.setClearButtonEnabled(True)
         self.nameInput.setObjectName("nameInput")
         self.verticalLayout_2.addWidget(self.nameInput)
