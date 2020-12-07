@@ -497,7 +497,13 @@ class Ui_TransactionWindow(object):
 
 
     def submitTransaction(self):
-
+        if not self.final_name:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("Name field is empty")
+            msg.setWindowTitle("Abort")
+            msg.exec_()
+            return
         self.trans_amt = self.transactionAmtInput.text()
         self.trans_date = self.dateEdit.date().toPyDate()
         self.remark = self.remarkInput.toPlainText()
