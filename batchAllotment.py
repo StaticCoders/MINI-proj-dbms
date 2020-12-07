@@ -381,7 +381,7 @@ class Ui_BatchAllotmentWindow(object):
         QtCore.QMetaObject.connectSlotsByName(BatchAllotmentWindow)
 
     def addToBatch(self):
-        mycursor = mydb.cursor()
+        mycursor = mydb.cursor(buffered=True)
         curBatch = self.batchComboBox.currentText()
         curCourse = self.courseComboBox.currentText()
         items = []
@@ -435,11 +435,12 @@ class Ui_BatchAllotmentWindow(object):
             self.studentList.clear()
             self.studentsAddedList.clear()
         mydb.commit()
+        mycursor.close()
 
     def loadBatches(self):
         self.batchComboBox.clear()
         if self.courseComboBox.currentIndex() != -1:
-            mycursor = mydb.cursor()
+            mycursor = mydb.cursor(buffered=True)
             curCourse = self.courseComboBox.currentText()
             sql = "SELECT course_id FROM courses_table WHERE course_name = '" + curCourse + "'"
             mycursor.execute(sql)
@@ -449,6 +450,7 @@ class Ui_BatchAllotmentWindow(object):
             result = mycursor.fetchall()
             for x in result:
                 self.batchComboBox.addItem(x[0])
+            mycursor.close()
             self.loadNames()
 
     def searchInNames(self):
@@ -456,7 +458,7 @@ class Ui_BatchAllotmentWindow(object):
         searchString = self.nameInput.text()
         curBatch = self.batchComboBox.currentText()
         self.studentList.clear()
-        mycursor = mydb.cursor()
+        mycursor = mydb.cursor(buffered=True)
         curCourse = self.courseComboBox.currentText()
         sql = "SELECT course_id FROM courses_table WHERE course_name = '" + curCourse + "'"
         mycursor.execute(sql)
@@ -477,7 +479,7 @@ class Ui_BatchAllotmentWindow(object):
     def loadNames(self):
         curBatch = self.batchComboBox.currentText()
         self.studentList.clear()
-        mycursor = mydb.cursor()
+        mycursor = mydb.cursor(buffered=True)
         curCourse = self.courseComboBox.currentText()
         sql = "SELECT course_id FROM courses_table WHERE course_name = '" + curCourse + "'"
         mycursor.execute(sql)

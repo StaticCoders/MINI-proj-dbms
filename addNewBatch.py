@@ -193,48 +193,30 @@ class Ui_AddBatchDialog(object):
         mycursor = mydb.cursor()
         selectedDate = self.dateEdit.date().toPyDate()
         selectedCourse = self.courseComboBox.currentText()
-        selectedCourseAbb = self.Abbreviation(selectedCourse)
         mnth = selectedDate.strftime("%b").upper()
         yr = str(selectedDate.year)
-        batchName = selectedCourseAbb + mnth + yr
-        sql = "SELECT course_id FROM courses_table WHERE course_name = '" + selectedCourse + "'"
+        sql = "SELECT course_id, abbreviation FROM courses_table WHERE course_name = '" + selectedCourse + "'"
         mycursor.execute(sql)
         result = mycursor.fetchone()
+        batchName = result[1] + mnth + yr
         print(result[0])
         query = "INSERT INTO batches_table (course_id, batch_name, start_date) VALUES(%s,%s,%s)"
         val = (result[0], batchName, selectedDate)
         mycursor.execute(query, val)
+        c = mycursor.rowcount
         if mycursor.rowcount == 1:
             print("Data inserted successfully!")
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("Successfully created a new batch " + batchName)
+            msg.setWindowTitle("New Batch")
+            msg.exec_()
+            query = "CREATE TABLE IF NOT EXISTS bitsfinal." + batchName + "(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id))"
+            mycursor.execute(query)
+            mydb.commit()
         else:
             print("Problem occurred while inserting data")
-        query = "CREATE TABLE IF NOT EXISTS bitsfinal."+batchName+"(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL,batch_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id), FOREIGN KEY (batch_id) REFERENCES batches_table(batch_id));"
-        mycursor.execute(query)
-        mydb.commit()
 
-    def Abbreviation(self, course):
-        if course == "RHEL7 Linux (SA1 + SA2 + SA3)":
-            return "RHEL7"
-        elif course == "RHEL8 Linux (SA1 + SA2)":
-            return "RHEL8"
-        elif course == "Shell Scripting":
-            return "SHELL"
-        elif course == "Linux Preparatory":
-            return "LPREP"
-        elif course == "Containers(DO180)":
-            return "CONT"
-        elif course == "OpenShift Administration (DO280)":
-            return "OSADMIN"
-        elif course == "Ansible (RHEL8 SA3)":
-            return "ANSI"
-        elif course == "Python":
-            return "PYTHON"
-        elif course == "Server Hardening":
-            return "SHARD"
-        elif course == "Star Cloud":
-            return "CLOUD"
-        elif course == "Star DevOps":
-            return "DEVOPS"
 
     def retranslateUi(self, AddBatchDialog):
         _translate = QtCore.QCoreApplication.translate

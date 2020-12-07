@@ -31,8 +31,8 @@ class Ui_MainWindow(object):
                                  "width: 220px;\n"
                                  "height: 220px;\n"
                                  "border-radius: 80px;\n"
-                                 "background-color: #0d7377;\n"
-                                 "border: 3px solid #32e0c4;\n"
+                                 "background-color: #343434;\n"
+                                 "border: 3px solid #747474;\n"
                                  "}\n"
                                  "\n"
                                  "QPushButton:Hover{\n"
@@ -58,6 +58,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(40)
+        font.setBold(True)
         self.label_10.setFont(font)
         self.label_10.setMouseTracking(True)
         self.label_10.setStyleSheet("color: rgb(50, 224, 196);\n"
@@ -184,19 +185,19 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addItem(spacerItem6)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
+        self.Search = QtWidgets.QPushButton(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.pushButton_8.setFont(font)
-        self.pushButton_8.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_8.setStyleSheet("")
-        self.pushButton_8.setText("")
+        self.Search.setFont(font)
+        self.Search.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.Search.setStyleSheet("")
+        self.Search.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/img/search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_8.setIcon(icon4)
-        self.pushButton_8.setIconSize(QtCore.QSize(80, 80))
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.verticalLayout_5.addWidget(self.pushButton_8)
+        self.Search.setIcon(icon4)
+        self.Search.setIconSize(QtCore.QSize(80, 80))
+        self.Search.setObjectName("Search")
+        self.verticalLayout_5.addWidget(self.Search)
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -296,14 +297,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    # def registrationButton(self):
-    #     self.Registration = QtWidgets.QMainWindow()
-    #     self.ui = Ui_RegistrationWindow()
-    #     self.ui.setupUi(self.Registration)
-    #     self.Registration.setWindowState(QtCore.Qt.WindowMaximized)
-    #     self.Registration.setWindowTitle("Registration")
-    #     self.Registration.show()
-    #     MainWindow.hide()
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

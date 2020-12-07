@@ -208,7 +208,7 @@ background-color: #9a0002;
                   </font>
                  </property>
                  <property name="text">
-                  <string>Students</string>
+                  <string>Students Section</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -284,7 +284,7 @@ background-color: #9a0002;
                   </font>
                  </property>
                  <property name="text">
-                  <string>Batches</string>
+                  <string>Batches Section</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>

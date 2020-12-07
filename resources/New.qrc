@@ -1,0 +1,13 @@
+<RCC>
+  <qresource>
+    <file>add.png</file>
+    <file>batch.png</file>
+    <file>export.png</file>
+    <file>job.png</file>
+    <file>payment.png</file>
+    <file>report.png</file>
+    <file>search.png</file>
+    <file>update.png</file>
+    <file>search.png</file>
+  </qresource>
+</RCC>
