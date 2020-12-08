@@ -410,6 +410,7 @@ class Ui_TransactionWindow(object):
         self.statusbar.setObjectName("statusbar")
         TransactionWindow.setStatusBar(self.statusbar)
         self.installment_id=None
+
         # Completer which will display the names of students who have payments issued
         cursor = mydb.cursor()
         sql_name_query = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name FROM student_info_table s, payment_table p where s.student_id=p.student_id"
@@ -447,7 +448,13 @@ class Ui_TransactionWindow(object):
                 sql_name = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
                 cursor.execute(sql_name, name_val)
                 self.stud_id = cursor.fetchone()  # got student id for the selected VALID student name
-
+                if not self.stud_id:
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Warning)
+                    msg.setText("Student Does not have a installment Plan!")
+                    msg.setWindowTitle("Warning")
+                    msg.exec_()
+                    return
                 sql_payment = "SELECT payment_id FROM payment_table WHERE student_id=" + str(self.stud_id[0]) + " ORDER BY payment_id DESC"
                 cursor.execute(sql_payment)
                 self.pay_id = cursor.fetchone()  # got payment id of the selected VALID student name

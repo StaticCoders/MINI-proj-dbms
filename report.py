@@ -292,8 +292,8 @@ class Ui_report(object):
         sqls.append( "select count(distinct(b.batch_id)) from batches_table as b,student_course_batch as s where b.start_date between %s and %s and b.batch_id = s.batch_id;")                                             # 2. Total Batches Added
         sqls.append( "select count(distinct(drive_id)) from placement_drives_table where drive_date between %s and %s;")                   # Total Company Drives
         sqls.append( "select count(*) from placement_drives_table where drive_date between %s and %s;")                                    # Total Interviews Conducted
-        sqls.append("select sum(transaction_amt) from transactions_table where transaction_date between %s and %s")                         # Total Income  # Next one is Total Billed
-        sqls.append("select sum(total_paid) from payment_table where billing_date between %s and %s")
+        sqls.append("select sum(transaction_amt) from transactions_table where transaction_date between %s and %s")                         # Total Income
+        sqls.append("select sum(total_amt) from payment_table where billing_date between %s and %s")   #Total Billed
 
         # Running all the sql Queries and gathering all the output
         cur = mydb.cursor()

@@ -633,12 +633,13 @@ class Ui_InstallmentWindow(object):
         sql = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
         cursor.execute(sql, name)
         student_id = cursor.fetchone()
-        val = (student_id[0], self.installmentList.count(), self.totalamount,0)
+        today_date = QDate.currentDate().toString('yyyy-MM-dd')
+        val = (student_id[0], self.installmentList.count(), self.totalamount,0,today_date)
         c = 0
         for x in sorted(self.installmentsArray):
             y = self.installmentsArray.get(x)
             if self.paymentCount == 0:
-                sql = "INSERT INTO payment_table (student_id, no_of_installments, total_amt,total_paid) VALUES(%s,%s,%s,%s)"
+                sql = "INSERT INTO payment_table (student_id, no_of_installments, total_amt,total_paid, billing_date) VALUES(%s,%s,%s,%s,%s)"
                 cursor.execute(sql, val)
                 mydb.commit()
                 sql = "SELECT payment_id FROM payment_table ORDER BY payment_id DESC"

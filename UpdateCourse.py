@@ -691,7 +691,7 @@ class Ui_UpdateCourseWindow(object):
                 courseDuration) and courseAbb != "":
             mycursor = mydb.cursor(buffered=True)
             val = (courseName, int(courseFee), int(courseDuration), courseAbb, int(courseId))
-            sql = "UPDATE courses_table SET course_name = %s, course_fees = %s, course_duration = %s, " \
+            sql = "UPDATE courses_table SET course_name = %s, course_fees = %s, course_duration(months) = %s, " \
                   "abbreviation = %s WHERE course_id = %s"
             mycursor.execute(sql, val)
             if mycursor.rowcount == 1:
