@@ -39,7 +39,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.homeScreen.Update.clicked.connect(self.startUpdate)
         self.hide()
         self.showMaximized()
-        # self.showFullScreen()
     # REGISTRATION
 
     def startRegistration(self):
@@ -48,7 +47,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.registration.newRegistrationButton.clicked.connect(self.startNewRegistration)
         self.registration.cancelButton.clicked.connect(self.startHome)
         self.hide()
-        # self.showFullScreen()
         self.showMaximized()
 
     def startNewRegistration(self):
@@ -57,7 +55,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.newRegistration.cancelButton.clicked.connect(self.startRegistration)
         self.hide()
         self.showMaximized()
-        # self.showFullScreen()
     # BATCHES
 
     def startBatches(self):

@@ -463,9 +463,9 @@ class Ui_UpdateStudentInfo(object):
         curRow = self.searchDataTable.currentRow()
         id = self.searchDataTable.item(curRow, 0).text()
         fullname = self.searchDataTable.item(curRow, 1).text()
-        temp = fullname.split(" ")
+        temp1 = fullname.split(" ") # temp changed to temp1
         name = ""
-        for x in temp:
+        for x in temp1:# temp changed to temp1
             name = name + x
         fullname = fullname.split(" ")
         phone = self.searchDataTable.item(curRow, 2).text()
@@ -484,7 +484,7 @@ class Ui_UpdateStudentInfo(object):
             temp.append(self.searchDataTable.item(curRow, 3).text())
             temp.append(self.searchDataTable.item(curRow, 4).text())
             temp.append(self.searchDataTable.item(curRow, 5).text())
-            temp.append(self.searchDataTable.item(curRow, 6).text())
+            # temp.append(self.searchDataTable.item(curRow, 6).text())
             temp.append(self.searchDataTable.item(curRow, 7).text())
             temp.append(self.searchDataTable.item(curRow, 8).text())
             temp.append(self.searchDataTable.item(curRow, 9).text())
@@ -492,8 +492,8 @@ class Ui_UpdateStudentInfo(object):
             temp = tuple(temp)
             print(temp)
             sql = "UPDATE student_info_table SET first_name = (%s), middle_name = (%s), last_name = (%s), phone = (%s), " \
-                  "whatsapp = (%s), address = (%s), email = (%s), date_of_admission = (%s), education = (%s), experience " \
-                  "= (%s), referrals = (%s) WHERE student_id = (%s) "
+                  "whatsapp = (%s), address = (%s), email = (%s), education = (%s), experience " \
+                  "= (%s), referrals = (%s) WHERE student_id = (%s)"
             mycursor.execute(sql, temp)
             if mycursor.rowcount != 0:
                 msg = QtWidgets.QMessageBox()
