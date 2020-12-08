@@ -173,6 +173,7 @@ class Ui_TransactionWindow(object):
         font.setPointSize(12)
         self.nameInput.setFont(font)
         self.nameInput.setText("")
+        self.nameInput.setPlaceholderText("Enter Full Name")
         self.nameInput.setClearButtonEnabled(True)
         self.nameInput.setObjectName("nameInput")
         self.verticalLayout_2.addWidget(self.nameInput)
@@ -409,7 +410,7 @@ class Ui_TransactionWindow(object):
         self.statusbar.setObjectName("statusbar")
         TransactionWindow.setStatusBar(self.statusbar)
         self.installment_id=None
-        # Completer
+        # Completer which will display the names of students who have payments issued
         cursor = mydb.cursor()
         sql_name_query = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name FROM student_info_table s, payment_table p where s.student_id=p.student_id"
         cursor.execute(sql_name_query)
@@ -422,9 +423,10 @@ class Ui_TransactionWindow(object):
         completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
         completer.setFilterMode(QtCore.Qt.MatchContains)
         self.nameInput.setCompleter(completer)
-
+        self.final_name=None
+        self.display_installment_values=None
         self.retranslateUi(TransactionWindow)
-
+        #when a name is being entered
         self.nameInput.textChanged.connect(self.setValues)
         # submit button
         self.submitButton.clicked.connect(self.submitTransaction)
@@ -432,61 +434,84 @@ class Ui_TransactionWindow(object):
         QtCore.QMetaObject.connectSlotsByName(TransactionWindow)
 
     def setValues(self):
+        #clearing the list before switching to other name
         self.transactionsList.clear()
-
+        #taking name input
         self.stud_name = self.nameInput.text()
         cursor = mydb.cursor(buffered=True)
         name_val = tuple(self.stud_name.split(" "))
+        #taking in inputs until the length of the tuple is 3 for fname,mname,lname
         if len(name_val)==3:
-            sql_name = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
-            cursor.execute(sql_name, name_val)
-            self.stud_id = cursor.fetchone()  # got student id
+            self.final_name = self.stud_name
+            if name_val[0]!="" and name_val[1]!="" and name_val[2]!="":
+                sql_name = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
+                cursor.execute(sql_name, name_val)
+                self.stud_id = cursor.fetchone()  # got student id for the selected VALID student name
 
-            sql_payment = "SELECT payment_id FROM payment_table WHERE student_id=" + str(self.stud_id[0]) + " ORDER BY payment_id DESC"
-            cursor.execute(sql_payment)
-            self.pay_id = cursor.fetchone()  # got payment id
+                sql_payment = "SELECT payment_id FROM payment_table WHERE student_id=" + str(self.stud_id[0]) + " ORDER BY payment_id DESC"
+                cursor.execute(sql_payment)
+                self.pay_id = cursor.fetchone()  # got payment id of the selected VALID student name
 
-            sql = "SELECT installment_no,installment_amt,installment_id FROM installments_table WHERE student_id=(%s) AND payment_id=(%s) AND status=(%s) ORDER BY payment_id DESC"
-            install_val = (self.stud_id[0],self.pay_id[0],'Not Paid')
-            cursor.execute(sql, install_val)
-            # self.installment_id = cursor.fetchone()  # got installment id
-            # get_query = "SELECT installment_no,installment_amt FROM installments_table WHERE installment_id="+ str(self.installment_id[0])
-            # cursor.execute(get_query)
-            temp =cursor.fetchone()
-            if cursor.rowcount!=0:
-                self.display_installment_values = temp  # got installment_no and installment_amt
-                print(self.display_installment_values)
-                installment_no = temp[0]
-                installment_amt = temp[1]
-                self.installment_id=temp[2]
-                #setting the real installment values
-                self.installmentNoInput.setText(str(installment_no))
-                self.installmentAmtInput.setText(str(installment_amt))
+                sql = "SELECT installment_no,installment_amt,installment_id FROM installments_table WHERE student_id=(%s) AND payment_id=(%s) AND status=(%s) ORDER BY payment_id DESC"
+                install_val = (self.stud_id[0],self.pay_id[0],'Not Paid')
+                cursor.execute(sql, install_val)
+                # got installment id of the selected VALID student name
 
-            #Adding previous payment list in listview
-            insert_prev_details_query = "SELECT installment_no,transaction_amt,transaction_date FROM transactions_table WHERE student_id=(%s) AND payment_id=(%s)  ORDER BY installment_id "
-            insert_prev_details_val = (self.stud_id[0], self.pay_id[0])
-            cursor.execute(insert_prev_details_query,insert_prev_details_val)
-            lst_of_prev_details = cursor.fetchall()   #got prev list of paid transactions of the student
-            if lst_of_prev_details:
-                    title = "No. "+"  Amount"+"    Date"
-                    self.transactionsList.addItem(title)
-                    for x in lst_of_prev_details:
-                            lst = str(x[0]) + ":     " + str(x[1]) + "            " + str(x[2])
-                            self.transactionsList.addItem(lst)
+                temp =cursor.fetchone()
+                if cursor.rowcount!=0:
+                    self.display_installment_values = temp  # got installment_no and installment_amt
+                    print(self.display_installment_values)
+                    installment_no = temp[0]
+                    installment_amt = temp[1]
+                    self.installment_id=temp[2]
+                    #setting the real installment values in the non editable text section
+                    #so that the user can see their on going installment no. and amt to be paid
+                    self.installmentNoInput.setText(str(installment_no))
+                    self.installmentAmtInput.setText(str(installment_amt))
+
+                #Adding previous payment list in listview
+                insert_prev_details_query = "SELECT installment_no,transaction_amt,transaction_date FROM transactions_table WHERE student_id=(%s) AND payment_id=(%s)  ORDER BY installment_id "
+                insert_prev_details_val = (self.stud_id[0], self.pay_id[0])
+                cursor.execute(insert_prev_details_query,insert_prev_details_val)
+                lst_of_prev_details = cursor.fetchall()   #got previous list of paid transactions of the student
+                if lst_of_prev_details:
+                        title = "No. "+"  Amount"+"    Date"
+                        self.transactionsList.addItem(title)
+                        for x in lst_of_prev_details:
+                                lst = str(x[0]) + ":     " + str(x[1]) + "            " + str(x[2])
+                                self.transactionsList.addItem(lst)
+                else:
+                    #if this is the first installment being paid by the student then there's no previous data
+                        self.transactionsList.addItem("  No Installment Paid yet ! ")
             else:
-                    self.transactionsList.addItem("  No Installment Paid yet ! ")
+                    #if the input is not given in proper form of fname, mname and lname
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("We need full name of the student for making transaction.\n"
+                                "Enter correct name or keywords of the name to choose from the drop down name-list.")
+                msg.setWindowTitle("Warning")
+                msg.exec_()
+                self.nameInput.clear()
+                return
+
 
 
     def submitTransaction(self):
-        #cursor = mydb.cursor(buffered=True)
+        if not self.final_name:  #checking if name is entered
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("Wrong entry in Name feild")
+            msg.setWindowTitle("Abort")
+            msg.exec_()
+            return
         self.trans_amt = self.transactionAmtInput.text()
         self.trans_date = self.dateEdit.date().toPyDate()
         self.remark = self.remarkInput.toPlainText()
         self.mode_of_payment = self.modeOfPaymentComboBox.currentText()
-        if self.trans_amt != "" and self.trans_date != "":
-            self.trans_amt = int(self.trans_amt)
+        if self.trans_amt != "" and self.trans_date != "" and self.final_name!="" :  #the date and amt section should no be empty
+            self.trans_amt = int(self.trans_amt) #converting str to int
         # comparing payments
+            #if the amount entered is equal to the amount to be paid
             if self.trans_amt == self.display_installment_values[1]:
                 cursor = mydb.cursor(buffered=True)
                 print("valenter")
@@ -505,21 +530,24 @@ class Ui_TransactionWindow(object):
                 mydb.commit()
             #update total_paid in payment table
                 amt =0
-                #cursor = mydb.cursor()
+                #getting total_paid amt until now from payment_table
                 sql = "SELECT total_paid FROM payment_table WHERE payment_id="+str(self.pay_id[0])
                 cursor.execute(sql)
                 tot_amt = cursor.fetchone()
+                #adding the current paid amount to total_paid amt
                 amt = self.trans_amt + tot_amt[0]
+                #updating the total_paid amount
                 sql_update = "UPDATE payment_table SET total_paid=" + str(amt)+" WHERE payment_id="+str(self.pay_id[0])
                 cursor.execute(sql_update)
                 mydb.commit()
 
-
+                #message of payment done successfully
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Information)
                 msg.setText("DataSubmitted")
                 msg.setWindowTitle("Successful")
                 msg.exec_()
+                #clearing all the input feilds for new entry
                 self.nameInput.clear()
                 self.installmentNoInput.clear()
                 self.installmentNoInput.setText("xx")
@@ -530,13 +558,14 @@ class Ui_TransactionWindow(object):
                 self.remarkInput.clear()
                 self.modeOfPaymentComboBox.setCurrentIndex(0)
                 self.dateEdit.setDate(QDate.currentDate())
+            #if the amount entered is greater than the amount to be paid
             elif self.trans_amt > self.display_installment_values[1]:
                 cursor = mydb.cursor(buffered=True)
                 print("more")
                 sql = "SELECT installment_no FROM installments_table WHERE status=%s AND payment_id=%s"
                 sql_val = ('Not Paid',self.pay_id[0])
                 cursor.execute(sql,sql_val)
-                count = cursor.fetchall()
+                count = cursor.fetchall() #no. of installments not-paid
             #if the installment lies in middle
                 if len(count)>1:
                     sql_get = "SELECT installment_no,installment_amt FROM installments_table WHERE status=%s AND payment_id=%s LIMIT 2"
@@ -604,11 +633,10 @@ class Ui_TransactionWindow(object):
                                          "\nPlease re-enter correct Installment amount.")
                             msg.setWindowTitle("Warning")
                             msg.exec_()
-                            # else:
-                            #     #print the acc msg
+
 
                         elif diff==0:
-                            #cursor = mydb.cursor(buffered=True)
+
                             # updating the installment values and its payment status
                             sql1 = "UPDATE installments_table SET installment_amt=(%s),status=(%s) WHERE installment_no=(%s) AND payment_id=%s"
                             val1 = (self.trans_amt, 'Paid', install_no[0][0],self.pay_id[0])
@@ -642,10 +670,6 @@ class Ui_TransactionWindow(object):
                             cursor.execute(sql_update)
                             mydb.commit()
 
-                            # sql = "DELETE FROM installments_table WHERE installment_id=(%s) AND payment_id=(%s)"
-                            # val = (inst_id[0], self.pay_id[0])
-                            # cursor.execute(sql, val)
-                            # mydb.commit()
 
                             msg = QtWidgets.QMessageBox()
                             msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -800,10 +824,6 @@ class Ui_TransactionWindow(object):
                     cursor.execute(sql_update)
                     mydb.commit()
 
-                    # sql = "DELETE FROM installments_table WHERE installment_id=(%s) AND payment_id=(%s)"
-                    # val = (inst_id[0], self.pay_id[0])
-                    # cursor.execute(sql, val)
-                    # mydb.commit()
 
                     msg = QtWidgets.QMessageBox()
                     msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -820,13 +840,14 @@ class Ui_TransactionWindow(object):
                     self.remarkInput.clear()
                     self.modeOfPaymentComboBox.setCurrentIndex(0)
                     self.dateEdit.setDate(QDate.currentDate())
-
         else:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
-            msg.setText("A data Field has been left Empty!")
+            msg.setText("Data field is empty")
             msg.setWindowTitle("Abort")
             msg.exec_()
+
+        print("submit")
 
 
 
