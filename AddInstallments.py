@@ -615,7 +615,21 @@ class Ui_InstallmentWindow(object):
     def submit(self):
         cursor = mydb.cursor(buffered=True)
         stud_name = self.lineEdit.text()
-        name = tuple(self.name.split(" "))
+        if not stud_name:  #checking if name is entered
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("No entry in Name field")
+            msg.setWindowTitle("Abort")
+            msg.exec_()
+            return
+        name = tuple(stud_name.split(" "))
+        if len(name)!=3:  #checking if name is entered
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setText("Wrong entry in Name field")
+            msg.setWindowTitle("Abort")
+            msg.exec_()
+            return
         sql = "SELECT student_id FROM student_info_table WHERE first_name =(%s) AND middle_name =(%s) AND last_name =(%s)"
         cursor.execute(sql, name)
         student_id = cursor.fetchone()
