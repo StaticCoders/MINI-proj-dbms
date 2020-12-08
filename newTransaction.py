@@ -484,11 +484,11 @@ class Ui_TransactionWindow(object):
                     #if this is the first installment being paid by the student then there's no previous data
                         self.transactionsList.addItem("  No Installment Paid yet ! ")
             else:
-                #if the input is not given in proper form of fname, mname and lname
+                    #if the input is not given in proper form of fname, mname and lname
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Warning)
                 msg.setText("We need full name of the student for making transaction.\n"
-                            "Enter correct name or keywords of the name to choose from the drop down name-list.")
+                                "Enter correct name or keywords of the name to choose from the drop down name-list.")
                 msg.setWindowTitle("Warning")
                 msg.exec_()
                 self.nameInput.clear()
@@ -500,7 +500,7 @@ class Ui_TransactionWindow(object):
         if not self.final_name:  #checking if name is entered
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
-            msg.setText("Name field is empty")
+            msg.setText("Wrong entry in Name feild")
             msg.setWindowTitle("Abort")
             msg.exec_()
             return
