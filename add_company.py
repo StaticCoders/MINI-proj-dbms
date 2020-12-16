@@ -12,10 +12,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="amigobong",
-    database="bitsfinal"
+    host="127.0.0.1",
+    user="local",
+    password="",
+    database="mpdev"
 )
 
 class Ui_AddCompany_Dailog(object):

@@ -21,11 +21,12 @@ from inflect import engine # used to Pluralize words(strings)
 from PyQt5.QtWidgets import QMessageBox, QTreeWidgetItem
 from PyQt5.QtCore import QDate
 import mysql.connector
-mydb = mysql.connector.connect(host="localhost",
-    user="root",
-    password="amigobong",
-    database="bitsfinal")
-
+mydb = mysql.connector.connect(
+    host="127.0.0.1",
+    user="local",
+    password="",
+    database="mpdev"
+)
 ####### End of added Code ######
 class Ui_ViewDrive(object):
     def setupUi(self, ViewDrive):
