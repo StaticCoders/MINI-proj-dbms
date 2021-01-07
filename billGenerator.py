@@ -1,4 +1,4 @@
-
+from pathlib import Path
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 import os
@@ -24,14 +24,20 @@ class BillGenerator:
         self.c.drawString(330,48,text = data['total_paid'])      # Total Paid
         self.c.drawString(600,48,text = data['next_idate'])      # Next Installment Date
         self.c.save()
-        if 'Bill Reciepts' not in list(os.listdir()): # Create a folder for the reciepts to be in.
-            os.mkdir('Bill Reciepts')
-        path = 'Bill\ Reciepts/'+'Invoice_'+data['Tid']+'_'+data['Date']+'.pdf' # The name of each bill reciepts
+
+        home = str(Path.home())+'/'                         # Gets the home directory of the system
+        path = os.path.join(home,'Desktop')                 # We are creating the Folder in Desktop
+
+        if 'Bill Reciepts' not in list(os.listdir(path)):   # Create a folder for the receipts to be in.
+            os.mkdir(path+'/Bill Reciepts')                 # this adds a folder
+
+        path = path + '/Bill Reciepts/' + 'Invoice_' + data['Tid'] + '_' + data['Date'] + '.pdf' # The name of each bill reciepts
+
         #Use the path variable to set the path where the invoice will be set
         self.packet.seek(0)
         new_pdf = PdfFileReader(self.packet)
         # read your existing PDF
-        existing_pdf = PdfFileReader(open("invoice.pdf", "rb")) #This is the Template for the Reciept.
+        existing_pdf = PdfFileReader(open("invoice.pdf", "rb"))      #This is the Template for the Reciept.
         output = PdfFileWriter()
         page = existing_pdf.getPage(0)
         page.mergePage(new_pdf.getPage(0))
