@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from Registration import *
-# from PyQt5.QtWidgets import QMessageBox
+#from PyQt5.QtWidgets import QMessageBox
 from HomePage import *
 from chooseInPayment import *
 from AddInstallments import *
