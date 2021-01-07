@@ -390,7 +390,7 @@ class Ui_BatchAllotmentWindow(object):
             items.append(self.studentsAddedList.item(i))
             if self.studentsAddedList.item(i).checkState():
                 globalcert.append(self.studentsAddedList.item(i))
-
+        c = 0
         for x in items:
             name = tuple(x.text().split(" "))
             sql = "SELECT batch_id FROM batches_table WHERE batch_name = '" + curBatch + "'"
@@ -403,27 +403,29 @@ class Ui_BatchAllotmentWindow(object):
                   "last_name = (%s) "
             mycursor.execute(sql, name)
             getStudentId = mycursor.fetchone()
-            query = "CREATE TABLE IF NOT EXISTS bitsfinal." + curBatch + "(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id));"
-            mycursor.execute(query)
+            # query = "CREATE TABLE IF NOT EXISTS bitsfinal." + curBatch + "(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id));"
+            # mycursor.execute(query)
             if x in globalcert:
                 sql = "UPDATE student_course_batch SET batch_id = (%s), global_cert = 'Yes' WHERE student_id = (%s) " \
                       "AND course_id = (%s)"
                 val = (getBatchId[0], getStudentId[0], courseid[0])
                 mycursor.execute(sql, val)
-                sql = "INSERT INTO " + curBatch + " (student_id,course_id, global_cert) VALUES(%s,%s,%s)"
-                val = (getStudentId[0], courseid[0], 'Yes')
-                mycursor.execute(sql, val)
+                # sql = "INSERT INTO " + curBatch + " (student_id,course_id, global_cert) VALUES(%s,%s,%s)"
+                # val = (getStudentId[0], courseid[0], 'Yes')
+                # mycursor.execute(sql, val)
+                c+=1
             else:
                 sql = "UPDATE student_course_batch SET batch_id = (%s), global_cert = 'No' WHERE student_id = (%s) " \
                       "AND course_id = (%s)"
                 val = (getBatchId[0], getStudentId[0], courseid[0])
                 mycursor.execute(sql, val)
-                sql = "INSERT INTO "+curBatch+" (student_id,course_id, global_cert) VALUES(%s,%s,%s)"
-                val = (getStudentId[0], courseid[0], 'No')
-                mycursor.execute(sql, val)
+                # sql = "INSERT INTO "+curBatch+" (student_id,course_id, global_cert) VALUES(%s,%s,%s)"
+                # val = (getStudentId[0], courseid[0], 'No')
+                # mycursor.execute(sql, val)
+                c+=1
             mydb.commit()
 
-        if mycursor.rowcount == len(items):
+        if c == len(items):
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.setText("Batch Allotted to selected students")

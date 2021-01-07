@@ -213,8 +213,8 @@ class Ui_AddBatchDialog(object):
             msg.setText("Successfully created a new batch " + batchName)
             msg.setWindowTitle("New Batch")
             msg.exec_()
-            query = "CREATE TABLE IF NOT EXISTS bitsfinal." + batchName + "(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id))"
-            mycursor.execute(query)
+            # query = "CREATE TABLE IF NOT EXISTS bitsfinal." + batchName + "(id INT NOT NULL AUTO_INCREMENT, student_id INT NULL, course_id INT NULL, global_cert ENUM('Yes', 'No') NULL, PRIMARY KEY (`id`), FOREIGN KEY (student_id) REFERENCES student_info_table(student_id), FOREIGN KEY (course_id) REFERENCES courses_table(course_id))"
+            # mycursor.execute(query)
             mydb.commit()
         else:
             print("Problem occurred while inserting data")
