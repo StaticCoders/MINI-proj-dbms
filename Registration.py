@@ -15,9 +15,9 @@ from PyQt5.QtWidgets import QCompleter
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
 )
 class Ui_NewRegistrationWindow(object):
     def setupUi(self, RegisterationWindow):

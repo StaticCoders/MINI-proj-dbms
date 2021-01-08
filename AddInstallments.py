@@ -17,9 +17,9 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
 )
 
 class Ui_InstallmentWindow(object):
@@ -396,6 +396,9 @@ class Ui_InstallmentWindow(object):
         self.statusbar = QtWidgets.QStatusBar(InstallmentWindow)
         self.statusbar.setObjectName("statusbar")
         InstallmentWindow.setStatusBar(self.statusbar)
+
+        ###### Added Code ########
+
         cursor = mydb.cursor()
         sql_name_query = "SELECT first_name,middle_name,last_name FROM student_info_table"
         cursor.execute(sql_name_query)
