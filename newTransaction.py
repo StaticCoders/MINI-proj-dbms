@@ -13,12 +13,13 @@ from PyQt5.QtWidgets import QCompleter
 from PyQt5.QtCore import QDate
 from datetime import timedelta
 import mysql.connector
+from billGenerator import *
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="root",
-    password="amigobong",
-    database="bitsfinal"
+    user="local",
+    password="",
+    database="mpdev"
 )
 
 
@@ -471,6 +472,7 @@ class Ui_TransactionWindow(object):
                     installment_no = temp[0]
                     installment_amt = temp[1]
                     self.installment_id=temp[2]
+                    self.install_no = installment_no
                     #setting the real installment values in the non editable text section
                     #so that the user can see their on going installment no. and amt to be paid
                     self.installmentNoInput.setText(str(installment_no))
@@ -565,6 +567,16 @@ class Ui_TransactionWindow(object):
                 self.remarkInput.clear()
                 self.modeOfPaymentComboBox.setCurrentIndex(0)
                 self.dateEdit.setDate(QDate.currentDate())
+                #print a bill
+                self.bill()
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Information)
+                msg.setText("Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                        "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
+                            self.trans_date) + "\nMode : " + str(self.mode_of_payment))
+                msg.setWindowTitle("Billing Data Preview")
+                msg.exec_()
+
             #if the amount entered is greater than the amount to be paid
             elif self.trans_amt > self.display_installment_values[1]:
                 cursor = mydb.cursor(buffered=True)
@@ -632,6 +644,16 @@ class Ui_TransactionWindow(object):
                             self.remarkInput.clear()
                             self.modeOfPaymentComboBox.setCurrentIndex(0)
                             self.dateEdit.setDate(QDate.currentDate())
+                            #print bill
+                            self.bill()
+                            msg = QtWidgets.QMessageBox()
+                            msg.setIcon(QtWidgets.QMessageBox.Information)
+                            msg.setText(
+                                "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                        "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
+                            self.trans_date) + "\nMode : " + str(self.mode_of_payment))
+                            msg.setWindowTitle("Billing Data Preview")
+                            msg.exec_()
 
                         elif diff<0:
                             msg = QtWidgets.QMessageBox()
@@ -693,6 +715,16 @@ class Ui_TransactionWindow(object):
                             self.remarkInput.clear()
                             self.modeOfPaymentComboBox.setCurrentIndex(0)
                             self.dateEdit.setDate(QDate.currentDate())
+                            # print bill
+                            self.bill()
+                            msg = QtWidgets.QMessageBox()
+                            msg.setIcon(QtWidgets.QMessageBox.Information)
+                            msg.setText(
+                                "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                        "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
+                            self.trans_date) + "\nMode : " + str(self.mode_of_payment))
+                            msg.setWindowTitle("Billing Data Preview")
+                            msg.exec_()
 
                     else:
                         msg = QtWidgets.QMessageBox()
@@ -785,6 +817,18 @@ class Ui_TransactionWindow(object):
                     self.remarkInput.clear()
                     self.modeOfPaymentComboBox.setCurrentIndex(0)
                     self.dateEdit.setDate(QDate.currentDate())
+                    # print bill
+                    self.bill()
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Information)
+                    msg.setText(
+                        "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                        "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
+                            self.trans_date) + "\nMode : " + str(self.mode_of_payment))
+                    msg.setWindowTitle("Billing Data Preview")
+                    msg.exec_()
+
+
 
                 elif len(count)==1:
                     sql_get = "SELECT installment_no,installment_amt FROM installments_table WHERE status=%s AND payment_id=%s "
@@ -847,6 +891,16 @@ class Ui_TransactionWindow(object):
                     self.remarkInput.clear()
                     self.modeOfPaymentComboBox.setCurrentIndex(0)
                     self.dateEdit.setDate(QDate.currentDate())
+                    # print bill
+                    self.bill()
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Information)
+                    msg.setText(
+                        "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                        "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
+                            self.trans_date) + "\nMode : " + str(self.mode_of_payment))
+                    msg.setWindowTitle("Billing Data Preview")
+                    msg.exec_()
         else:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -857,6 +911,65 @@ class Ui_TransactionWindow(object):
         print("submit")
 
 
+
+
+    def bill(self):
+        #get phone number
+        cursor = mydb.cursor(buffered=True)
+        sql = "SELECT phone FROM student_info_table WHERE student_id = "+str(self.stud_id[0])
+        cursor.execute(sql)
+        self.phone = cursor.fetchone()
+
+        #get batch name
+        sql1 = "SELECT b.batch_name FROM batches as b WHERE b.batch_id = (SELECT batch_id FROM student_batch_course WHERE " \
+               "student_id ="+str(self.stud_id[0])+")"
+        cursor.execute(sql1)
+        self.batch_name = cursor.fetchone()
+
+        #get course name
+        sql2 = "SELECT b.course_name FROM batches as b WHERE b.course_id = (SELECT course_id FROM student_batch_course WHERE " \
+               "student_id ="+str(self.stud_id[0])+")"
+        cursor.execute(sql2)
+        self.course_name = cursor.fetchone()
+
+        #get transaction id to calculate the pending and total paid
+        sql3 = "SELECT transaction_id FROM transactions_table WHERE installment_no=%s AND installment_id=%s AND student_id=%s"
+        val3 = (self.install_no,self.installment_id,self.stud_id[0])
+        cursor.execute(sql3,val3)
+        self.trans_id = cursor.fetchone()
+
+        sql4 = "SELECT total_amt,total_paid FROM payment_table WHERE student_id=%s AND payment_id=%s"
+        val4 = (self.stud_id[0],self.pay_id[0])
+        cursor.execute(sql4,val4)
+        paid = cursor.fetchone()
+        self.total_amt = paid[0]
+        self.total_paid= paid[1]
+        self.total_pending = self.trans_amt-self.total_paid
+
+        #get next installment date
+        sql5 = "SELECT installment_date FROM installments_table WHERE student_id=%s AND payment_id=%s AND status=%s"
+        val5 = (self.stud_id[0],self.pay_id[0],'Not Paid')
+        cursor.execute(sql5,val5)
+        self.date = cursor.fetchone()
+        if self.date == "":  #if there is no next date
+            self.date="-"
+
+        data = {'Name': str(self.final_name),  # self.final_name
+                'Phone': str(self.phone),  # stud id ...phone no
+                'Batch': str(self.batch_name),  # stud id ...batch id...batch name
+                'Date': str(self.trans_date),  # trans_date
+                'Tid': str(self.trans_id),  # install id...stud id...trans_id
+                'Iid': str(self.installment_id),  # self.installment_id
+                'Ino': str(self.install_no),  # installment_no
+                'Cname': str(self.course_name),  # stud id ...course id...course name
+                'mode': str(self.mode_of_payment),  # self.mode_of_payment
+                'amount_paid': str(self.trans_amt),  # self.trans_amt
+                'total_pending': str(self.total_pending),  # total_amt - total_paid
+                'total_paid': str(self.total_paid),  # total_paid
+                'next_idate': str(self.date) }  # installment table...payment_id ...fetchone ..not paid ...install_date
+
+        bill = BillGenerator()  # Creating a instance of BillGenerator
+        bill.billGen(data)  # Passing the dictionary to billGen Function
 
 
 

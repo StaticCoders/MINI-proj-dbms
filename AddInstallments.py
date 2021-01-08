@@ -17,11 +17,10 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="root",
-    password="amigobong",
-    database="bitsfinal"
+    user="local",
+    password="",
+    database="mpdev"
 )
-
 
 class Ui_InstallmentWindow(object):
     def setupUi(self, InstallmentWindow):

@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from Registration import *
-# from PyQt5.QtWidgets import QMessageBox
+#from PyQt5.QtWidgets import QMessageBox
 from HomePage import *
 from chooseInPayment import *
 from AddInstallments import *
@@ -34,12 +34,11 @@ from report import *                    # To show the report tab
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="amigobong",
-    database="bitsfinal"
+    host="127.0.0.1",
+    user="local",
+    password="",
+    database="mpdev"
 )
-
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):

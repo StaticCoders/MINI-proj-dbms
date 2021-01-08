@@ -22,10 +22,10 @@ from PyQt5.QtCore import QDate  # used for the DateWidget
 from PyQt5.QtWidgets import QCompleter, QMessageBox
 import mysql.connector
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="amigobong",
-    database="bitsfinal"
+    host="127.0.0.1",
+    user="local",
+    password="",
+    database="mpdev"
 )
 #####End of Added Code######
 
