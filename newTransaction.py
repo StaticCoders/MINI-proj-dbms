@@ -414,7 +414,7 @@ class Ui_TransactionWindow(object):
 
         # Completer which will display the names of students who have payments issued
         cursor = mydb.cursor()
-        sql_name_query = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name FROM student_info_table s, payment_table p where s.student_id=p.student_id"
+        sql_name_query = "SELECT DISTINCT s.first_name,s.middle_name,s.last_name FROM student_info_table s, payment_table p where s.student_id=p.student_id AND p.total_amt<>p.total_paid"
         cursor.execute(sql_name_query)
         lst = cursor.fetchall()
         if len(lst) != 0:
