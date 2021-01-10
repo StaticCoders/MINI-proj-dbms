@@ -921,13 +921,13 @@ class Ui_TransactionWindow(object):
         self.phone = cursor.fetchone()
 
         #get batch name
-        sql1 = "SELECT b.batch_name FROM batches as b WHERE b.batch_id = (SELECT batch_id FROM student_batch_course WHERE " \
+        sql1 = "SELECT b.batch_name FROM batches_table as b WHERE b.batch_id = (SELECT batch_id FROM student_course_batch WHERE " \
                "student_id ="+str(self.stud_id[0])+")"
         cursor.execute(sql1)
         self.batch_name = cursor.fetchone()
 
         #get course name
-        sql2 = "SELECT b.course_name FROM batches as b WHERE b.course_id = (SELECT course_id FROM student_batch_course WHERE " \
+        sql2 = "SELECT b.course_name FROM batches_table as b WHERE b.course_id = (SELECT course_id FROM student_course_batch WHERE " \
                "student_id ="+str(self.stud_id[0])+")"
         cursor.execute(sql2)
         self.course_name = cursor.fetchone()
