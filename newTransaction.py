@@ -921,12 +921,14 @@ class Ui_TransactionWindow(object):
         self.phone = cursor.fetchone()
 
         #get batch name
+        # TODO : Correct the sql Query. The error appears when the student is in more than one batch. As the subquery can return more than one result
         sql1 = "SELECT b.batch_name FROM batches_table as b WHERE b.batch_id = (SELECT batch_id FROM student_course_batch WHERE " \
                "student_id ="+str(self.stud_id[0])+")"
         cursor.execute(sql1)
         self.batch_name = cursor.fetchone()
 
         #get course name
+        #TODO : Correct the sql Query. The error appears when the student has enrolled in more than one course.
         sql2 = "SELECT b.course_name FROM batches_table as b WHERE b.course_id = (SELECT course_id FROM student_course_batch WHERE " \
                "student_id ="+str(self.stud_id[0])+")"
         cursor.execute(sql2)
