@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="registration">
+    <file>addStudent.png</file>
+    <file>enroll.png</file>
+  </qresource>
+</RCC>

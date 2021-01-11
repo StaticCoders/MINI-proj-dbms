@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="paymentIcons">
+    <file>rupeeinstallment.png</file>
+    <file>payment.png</file>
+    <file>list.png</file>
+  </qresource>
+</RCC>
