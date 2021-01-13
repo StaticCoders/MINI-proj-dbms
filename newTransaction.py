@@ -928,7 +928,7 @@ class Ui_TransactionWindow(object):
 
         #get course name
         sql2 = "SELECT b.course_name FROM batches as b WHERE b.course_id = (SELECT course_id FROM student_batch_course WHERE " \
-               "student_id ="+str(self.stud_id[0])+")"
+               "student_id ="+str(self.stud_id[0])+") ORDER BY b.start_date DESC "
         cursor.execute(sql2)
         self.course_name = cursor.fetchone()
 
