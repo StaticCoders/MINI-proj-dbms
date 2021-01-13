@@ -11,6 +11,7 @@ from PyQt5 import QtCore
 from Registration import *
 #from PyQt5.QtWidgets import QMessageBox
 from HomePage import *
+from Login import *
 from chooseInPayment import *
 from AddInstallments import *
 from newTransaction import *
@@ -63,9 +64,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.updateStudentInfo = Ui_UpdateStudentInfo()
         self.updateBatch = Ui_UpdateBatchWindow()
         self.updateCourse = Ui_UpdateCourseWindow()
-        self.startHome()
+        self.loginpage = Ui_LoginPage()
+        self.startLogin()
 
     # HOME
+
+    def startLogin(self):
+        self.loginpage.setupUi(self)
+        self.setWindowTitle("Login Page")
+        self.loginpage.login_Button.clicked.connect(self.Login)
+        self.hide()
+        self.showMaximized()
+
 
     def startHome(self):
         self.homeScreen.setupUi(self)
@@ -115,6 +125,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hide()
         self.showMaximized()
         self.batchAllotment.cancelButton.clicked.connect(self.startBatches)
+
     def startCompanyDrives(self):   # This is open the Window of Company Drive with the options
         self.companyDrive.setupUi(self)
         self.setWindowState(QtCore.Qt.WindowMaximized)
@@ -125,6 +136,38 @@ class MainWindow(QtWidgets.QMainWindow):
         self.companyDrive.backHome_Button.clicked.connect(self.startHome)
         self.hide()
         self.showMaximized()
+
+
+    # Login Vetting
+    def Login(self):
+        username = self.loginpage.username_lineEdit.text().strip()
+        password = self.loginpage.password_lineEdit.text()
+
+        if not username or not password:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Username or Password cannot be empty!")
+            msg.exec_()
+            return
+
+        if username != 'bits_pune' :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Incorrect Username")
+            msg.exec_()
+            self.loginpage.username_lineEdit.clear()
+            self.loginpage.password_lineEdit.clear()
+
+        elif password !='golden@202bits':
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Incorrect Password")
+            msg.exec_()
+            self.loginpage.password_lineEdit.clear()
+
+        elif username =='bits_pune' and password =='golden@202bits':
+            self.startHome()
+
 
     # COMPANY DRIVES
 

@@ -1,32 +1,31 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Login.ui'
+# Form implementation generated from reading ui file 'Ui/Login.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from HomePage import Ui_MainWindow
 
 class Ui_LoginPage(object):
-    def openWindow(self):
-        self.window = QtWidgets.QMainWindow()  # create an object of the window we want to connect
-        self.ui = Ui_MainWindow()  # get all ui elements in the ui_object from the class of another file
-        self.ui.setupUi(self.window)  # assign ui to object
-        LoginPage.hide() # hides the login window n opens home page
-        self.window.show()
-
     def setupUi(self, LoginPage):
         LoginPage.setObjectName("LoginPage")
-        LoginPage.resize(1920, 1080)
+        LoginPage.resize(800, 600)
         LoginPage.setStyleSheet("background-color: qconicalgradient(cx:0.818, cy:0, angle:0, stop:0.568182 rgba(0, 160, 187, 255), stop:0.954545 rgba(255, 0, 75, 255));")
-        LoginPage.setSizeGripEnabled(False)
-        self.gridLayout = QtWidgets.QGridLayout(LoginPage)
+        self.centralwidget = QtWidgets.QWidget(LoginPage)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        self.frame = QtWidgets.QFrame(LoginPage)
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy)
+        self.frame.setMinimumSize(QtCore.QSize(431, 401))
         self.frame.setMaximumSize(QtCore.QSize(431, 401))
         self.frame.setStyleSheet("QToolButton{\n"
 "background:#11f0f0;\n"
@@ -64,42 +63,55 @@ class Ui_LoginPage(object):
         self.toolButton.setIconSize(QtCore.QSize(120, 126))
         self.toolButton.setAutoRaise(False)
         self.toolButton.setObjectName("toolButton")
-        self.lineEdit = QtWidgets.QLineEdit(self.frame)
-        self.lineEdit.setGeometry(QtCore.QRect(60, 210, 311, 41))
-        self.lineEdit.setStyleSheet("")
-        self.lineEdit.setText("")
-        self.lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
-        self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.frame)
-        self.lineEdit_2.setGeometry(QtCore.QRect(60, 280, 311, 31))
-        self.lineEdit_2.setText("")
-        self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.pushButton = QtWidgets.QPushButton(self.frame)
-        self.pushButton.setGeometry(QtCore.QRect(160, 350, 111, 41))
-        self.pushButton.setObjectName("pushButton")
-
-        self.pushButton.clicked.connect(self.openWindow) # connect to the window when we click this button
-
-        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        self.username_lineEdit = QtWidgets.QLineEdit(self.frame)
+        self.username_lineEdit.setGeometry(QtCore.QRect(60, 210, 311, 41))
+        self.username_lineEdit.setStyleSheet("")
+        self.username_lineEdit.setText("")
+        self.username_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.username_lineEdit.setObjectName("username_lineEdit")
+        self.password_lineEdit = QtWidgets.QLineEdit(self.frame)
+        self.password_lineEdit.setGeometry(QtCore.QRect(60, 280, 311, 31))
+        self.password_lineEdit.setInputMask("")
+        self.password_lineEdit.setText("")
+        self.password_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.password_lineEdit.setObjectName("password_lineEdit")
+        self.login_Button = QtWidgets.QPushButton(self.frame)
+        self.login_Button.setGeometry(QtCore.QRect(160, 350, 111, 41))
+        self.login_Button.setObjectName("login_Button")
+        self.gridLayout.addWidget(self.frame, 1, 1, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 1, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem1, 2, 1, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem2, 0, 1, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem3, 1, 2, 1, 1)
+        LoginPage.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(LoginPage)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 24))
+        self.menubar.setObjectName("menubar")
+        LoginPage.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(LoginPage)
+        self.statusbar.setObjectName("statusbar")
+        LoginPage.setStatusBar(self.statusbar)
 
         self.retranslateUi(LoginPage)
         QtCore.QMetaObject.connectSlotsByName(LoginPage)
 
     def retranslateUi(self, LoginPage):
         _translate = QtCore.QCoreApplication.translate
-        LoginPage.setWindowTitle(_translate("LoginPage", "Dialog"))
+        LoginPage.setWindowTitle(_translate("LoginPage", "MainWindow"))
         self.label.setText(_translate("LoginPage", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:600; color:#ffffff;\">LOGIN HERE</span></p></body></html>"))
-        self.lineEdit.setPlaceholderText(_translate("LoginPage", "Username"))
-        self.lineEdit_2.setPlaceholderText(_translate("LoginPage", "Password"))
-        self.pushButton.setText(_translate("LoginPage", "ENTER"))
-import icon
+        self.username_lineEdit.setPlaceholderText(_translate("LoginPage", "Username"))
+        self.password_lineEdit.setPlaceholderText(_translate("LoginPage", "Password"))
+        self.login_Button.setText(_translate("LoginPage", "ENTER"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    LoginPage = QtWidgets.QDialog()
+    LoginPage = QtWidgets.QMainWindow()
     ui = Ui_LoginPage()
     ui.setupUi(LoginPage)
     LoginPage.show()
