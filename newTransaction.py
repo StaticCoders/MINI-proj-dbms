@@ -11,17 +11,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QCompleter
 from PyQt5.QtCore import QDate
-from datetime import timedelta
+from datetime import timedelta, datetime
 import mysql.connector
 from billGenerator import *
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="root",
-    password="amigobong",
-    database="bitsfinal"
+    user="local",
+    password="",
+    database="mpdev"
 )
-
 
 class Ui_TransactionWindow(object):
     def setupUi(self, TransactionWindow):
@@ -571,7 +570,7 @@ class Ui_TransactionWindow(object):
                 self.bill()
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Information)
-                msg.setText("Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                msg.setText("Bill Printed for : \nName : " + self.final_name + "\nAmount : " + str(self.trans_amt) +
                         "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
                             self.trans_date) + "\nMode : " + str(self.mode_of_payment))
                 msg.setWindowTitle("Billing Data Preview")
@@ -649,7 +648,7 @@ class Ui_TransactionWindow(object):
                             msg = QtWidgets.QMessageBox()
                             msg.setIcon(QtWidgets.QMessageBox.Information)
                             msg.setText(
-                                "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                                "Bill Printed for : \nName : " + self.final_name + "\nAmount : " + str(self.trans_amt) +
                         "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
                             self.trans_date) + "\nMode : " + str(self.mode_of_payment))
                             msg.setWindowTitle("Billing Data Preview")
@@ -720,7 +719,7 @@ class Ui_TransactionWindow(object):
                             msg = QtWidgets.QMessageBox()
                             msg.setIcon(QtWidgets.QMessageBox.Information)
                             msg.setText(
-                                "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                                "Bill Printed for : \nName : " + self.final_name + "\nAmount : " + str(self.trans_amt) +
                         "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
                             self.trans_date) + "\nMode : " + str(self.mode_of_payment))
                             msg.setWindowTitle("Billing Data Preview")
@@ -822,7 +821,7 @@ class Ui_TransactionWindow(object):
                     msg = QtWidgets.QMessageBox()
                     msg.setIcon(QtWidgets.QMessageBox.Information)
                     msg.setText(
-                        "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                        "Bill Printed for : \nName : " + self.final_name + "\nAmount : " + str(self.trans_amt) +
                         "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
                             self.trans_date) + "\nMode : " + str(self.mode_of_payment))
                     msg.setWindowTitle("Billing Data Preview")
@@ -896,7 +895,7 @@ class Ui_TransactionWindow(object):
                     msg = QtWidgets.QMessageBox()
                     msg.setIcon(QtWidgets.QMessageBox.Information)
                     msg.setText(
-                        "Bill Printed for : \nName : " + str(self.stud_name) + "\nAmount : " + str(self.trans_amt) +
+                        "Bill Printed for : \nName : " + self.final_name + "\nAmount : " + str(self.trans_amt) +
                         "\nInstallment No. : " + str(self.install_no) + "\nDate : " + str(
                             self.trans_date) + "\nMode : " + str(self.mode_of_payment))
                     msg.setWindowTitle("Billing Data Preview")
@@ -920,15 +919,17 @@ class Ui_TransactionWindow(object):
         cursor.execute(sql)
         self.phone = cursor.fetchone()
 
+        SQL = "SELECT batch_id,course_id FROM student_course_batch WHERE student_id ="+str(self.stud_id[0])+" ORDER BY batch_id DESC LIMIT 1"
+        cursor.execute(SQL)
+        self.batch_course = cursor.fetchone()
+
         #get batch name
-        sql1 = "SELECT b.batch_name FROM batches_table as b WHERE b.batch_id = (SELECT batch_id FROM student_course_batch WHERE " \
-               "student_id ="+str(self.stud_id[0])+" limit 1)"
+        sql1 = "SELECT batch_name FROM batches_table WHERE batch_id = "+str(self.batch_course[0])
         cursor.execute(sql1)
         self.batch_name = cursor.fetchone()
 
         #get course name
-        sql2 = "SELECT b.course_name FROM batches_table as b WHERE b.course_id = (SELECT course_id FROM student_course_batch WHERE " \
-               "student_id ="+str(self.stud_id[0])+" limit 1) ORDER BY b.start_date DESC LIMIT 1"
+        sql2 = "SELECT course_name FROM courses_table WHERE course_id = "+str(self.batch_course[1])
         cursor.execute(sql2)
         self.course_name = cursor.fetchone()
 
@@ -944,21 +945,29 @@ class Ui_TransactionWindow(object):
         paid = cursor.fetchone()
         self.total_amt = paid[0]
         self.total_paid= paid[1]
-        self.total_pending = self.trans_amt-self.total_paid
+        self.total_pending = self.total_amt-self.total_paid
 
         #get next installment date
         sql5 = "SELECT installment_date FROM installments_table WHERE student_id=%s AND payment_id=%s AND status=%s"
         val5 = (self.stud_id[0],self.pay_id[0],'Not Paid')
         cursor.execute(sql5,val5)
         self.date = cursor.fetchone()
+        f = '%Y-%m-%d'
         if self.date == "":  #if there is no next date
             self.date="-"
+        else:
+            date = str(self.date)
+            print(date)
+            y = date[15:19]
+            m = date[20:22]
+            d = date[23:26]
+            self.final_date = d+"-"+m+"-"+y
 
         data = {'Name': str(self.final_name),  # self.final_name
                 'Phone': str(self.phone),  # stud id ...phone no
                 'Batch': str(self.batch_name),  # stud id ...batch id...batch name
                 'Date': str(self.trans_date),  # trans_date
-                'Tid': str(self.trans_id),  # install id...stud id...trans_id
+                'Tid': str(self.trans_id[0]),  # install id...stud id...trans_id
                 'Iid': str(self.installment_id),  # self.installment_id
                 'Ino': str(self.install_no),  # installment_no
                 'Cname': str(self.course_name),  # stud id ...course id...course name
@@ -966,7 +975,7 @@ class Ui_TransactionWindow(object):
                 'amount_paid': str(self.trans_amt),  # self.trans_amt
                 'total_pending': str(self.total_pending),  # total_amt - total_paid
                 'total_paid': str(self.total_paid),  # total_paid
-                'next_idate': str(self.date) }  # installment table...payment_id ...fetchone ..not paid ...install_date
+                'next_idate': str(self.final_date) }  # installment table...payment_id ...fetchone ..not paid ...install_date
 
         bill = BillGenerator()  # Creating a instance of BillGenerator
         bill.billGen(data)  # Passing the dictionary to billGen Function

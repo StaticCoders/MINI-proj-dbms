@@ -3,6 +3,7 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 import os
 from reportlab.pdfgen import canvas
+import webbrowser as wb
 
 class BillGenerator:
     def __init__(self):
@@ -48,4 +49,4 @@ class BillGenerator:
         output.write(outputStream)
         outputStream.close()
         #if we want to directly open the pdf in compter do the following code below:
-        #wb.open(path)
+        wb.open(path)

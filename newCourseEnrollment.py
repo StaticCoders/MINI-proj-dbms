@@ -14,9 +14,9 @@ from PyQt5.QtWidgets import QCompleter
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="root",
-    password="amigobong",
-    database="bitsfinal"
+    user="local",
+    password="",
+    database="mpdev"
 )
 
 
