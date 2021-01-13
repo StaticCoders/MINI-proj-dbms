@@ -9,7 +9,7 @@ data = { 'Name': 'Jack Sparrow', #self.final_name
          'Tid': '21',            #install id...stud id...trans_id
          'Iid':'321',            #self.installment_id
          'Ino': '3',             #installment_no
-         'Cname':'Linux RHEL 7', #stud id ...course id...course name
+         'Cname':'OpenShift Administrator (DO280)', #stud id ...course id...course name
          'mode': 'Cash',         #self.mode_of_payment
          'amount_paid': '15000', #self.trans_amt
          'total_pending': '35000',#total_amt - total_paid

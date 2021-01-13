@@ -17,9 +17,9 @@ from billGenerator import *
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
 )
 
 class Ui_TransactionWindow(object):
@@ -952,7 +952,7 @@ class Ui_TransactionWindow(object):
         val5 = (self.stud_id[0],self.pay_id[0],'Not Paid')
         cursor.execute(sql5,val5)
         self.date = cursor.fetchone()
-        f = '%Y-%m-%d'
+        f = '%d-%m-%Y'
         if self.date == "":  #if there is no next date
             self.date="-"
         else:
@@ -963,19 +963,19 @@ class Ui_TransactionWindow(object):
             d = date[23:26]
             self.final_date = d+"-"+m+"-"+y
 
-        data = {'Name': str(self.final_name),  # self.final_name
-                'Phone': str(self.phone),  # stud id ...phone no
-                'Batch': str(self.batch_name),  # stud id ...batch id...batch name
-                'Date': str(self.trans_date),  # trans_date
-                'Tid': str(self.trans_id[0]),  # install id...stud id...trans_id
-                'Iid': str(self.installment_id),  # self.installment_id
-                'Ino': str(self.install_no),  # installment_no
-                'Cname': str(self.course_name),  # stud id ...course id...course name
-                'mode': str(self.mode_of_payment),  # self.mode_of_payment
-                'amount_paid': str(self.trans_amt),  # self.trans_amt
-                'total_pending': str(self.total_pending),  # total_amt - total_paid
-                'total_paid': str(self.total_paid),  # total_paid
-                'next_idate': str(self.final_date) }  # installment table...payment_id ...fetchone ..not paid ...install_date
+        data = {'Name': str(self.final_name),                   # self.final_name
+                'Phone': str(self.phone[0]),                    # stud id ...phone no
+                'Batch': str(self.batch_name[0]),               # stud id ...batch id...batch name
+                'Date': str(self.trans_date.strftime("%d-%m-%Y")),  # trans_date
+                'Tid': str(self.trans_id[0]),                    # install id...stud id...trans_id
+                'Iid': str(self.installment_id),                # self.installment_id
+                'Ino': str(self.install_no),                    # installment_no
+                'Cname': str(self.course_name[0]),              # stud id ...course id...course name
+                'mode': str(self.mode_of_payment),              # self.mode_of_payment
+                'amount_paid': str(self.trans_amt),             # self.trans_amt
+                'total_pending': str(self.total_pending),       # total_amt - total_paid
+                'total_paid': str(self.total_paid),             # total_paid
+                'next_idate': str(self.final_date) }            # installment table...payment_id ...fetchone ..not paid ...install_date
 
         bill = BillGenerator()  # Creating a instance of BillGenerator
         bill.billGen(data)  # Passing the dictionary to billGen Function

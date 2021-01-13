@@ -19,7 +19,14 @@ class BillGenerator:
         self.c.drawString(647,245,text = data['Tid'])       # Transaction Id
         self.c.drawString(642,228,text = data['Iid'])       # Installment ID
         self.c.drawString(110,110,text = data['Ino'])       # Installment Number
-        self.c.drawString(240,110,text = data['Cname'])     # Course Name
+        if len(data['Cname'])>=20:
+            x,y = ' '.join(data['Cname'].split()[0:2]), ''.join(data['Cname'].split()[2:])
+            self.c.drawString(215, 110, text=x)
+            self.c.drawString(225, 94, text=y)
+        elif len(data['Cname'])>10:
+            self.c.drawString(215,110,text = data['Cname'])     # Course Name
+        else:
+            self.c.drawString(240,110,text = data['Cname'])     # Course Name
         self.c.drawString(420,110,text = data['mode'])      # Mode of payment
         self.c.drawString(570,110,text = data['amount_paid'])    # Amount Paid
         self.c.drawString(115,48,text = data['total_pending'])   # Total Pending

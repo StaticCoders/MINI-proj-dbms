@@ -15,9 +15,9 @@ from PyQt5.QtWidgets import QTableWidgetItem,QMessageBox
 import mysql.connector
 mydb = mysql.connector.connect(
     host="127.0.0.1",
-    user="local",
-    password="",
-    database="mpdev"
+    user="root",
+    password="amigobong",
+    database="bitsfinal"
 )
 ########### End of Added Code #######
 
